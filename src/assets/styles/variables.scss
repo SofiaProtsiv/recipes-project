@@ -1,0 +1,35 @@
+:root {
+  /* Colors */
+  --body-bg: #ffffff;
+  --white-color: #ffffff;
+  --primary-text-color: #050505;
+  --secondary-text-color: #05050580;
+  --subtitle-text-color: #05050580;
+  --subtitle-white-color: #ffffff80;
+  --light-text-color: #05050560;
+  --border-color-dark: #050505;
+  --border-color-light: #05050512;
+  --button-disable-bg: #05050520;
+  --button-bg: #05050590;
+  --pagination-border-color: #05050510;
+  --breadcrum-home: #05050540;
+  /* Breakpoints */
+  --mobile: 375px;
+  --mobile-max: 767.98px;
+  --tablet: 768px;
+  --table-max: 1439.98px;
+  --desktop: 1440px;
+
+  /* Transition properties */
+  --transition-time: 250ms;
+  --transition-effect: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Backdrop */
+  --background-color: rgba(18, 20, 23, 0.4);
+
+  /* Backdrop */
+  --base-font: 'Mulish', sans-serif;
+}
+
+body.dark {
+}
