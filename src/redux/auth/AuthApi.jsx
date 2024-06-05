@@ -19,7 +19,7 @@ export const authApi = createApi({
   endpoints: builder => ({
     register: builder.mutation({
       query: values => ({
-        url: '/users/signup',
+        url: '/users/register',
         method: 'POST',
         body: values,
       }),
@@ -43,13 +43,21 @@ export const authApi = createApi({
       invalidatesTags: ['User'],
     }),
 
+    updateAvatar: builder.mutation({
+      query: ({ data }) => ({
+        url: `/avatar`,
+        method: 'PATCH',
+        body: data,
+      }),
+      invalidatesTags: ['User'],
+    }),
+
     fetchCurrentUser: builder.query({
       query: () => ({
         url: '/users/current',
       }),
       providesTags: ['User'],
     }),
-
   }),
 });
 
@@ -58,4 +66,5 @@ export const {
   useLogInMutation,
   useLogOutMutation,
   useFetchCurrentUserQuery,
+  useUpdateAvatarMutation
 } = authApi;
