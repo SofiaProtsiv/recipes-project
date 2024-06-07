@@ -13,40 +13,49 @@ export const recipesApi = createApi({
     },
   }),
   tagTypes: ['Recipe'],
+  // public endpoints
   endpoints: builder => ({
     getRecipes: builder.query({
       query: () => '/recipes',
       providesTags: ['Recipe'],
     }),
+    getPopularRecipes: builder.query({
+      query: () => '/recipes/popular/list',
+      providesTags: ['Recipe'],
+    }),
+    getRecipeById: builder.query({
+      query: id => `/recipes/${id}`,
+      providesTags: ['Recipe'],
+    }),
+    //private endpoints
     addRecipe: builder.mutation({
       query: value => ({
-        url: '/recipes',
+        url: '/personal',
         method: 'POST',
         body: value,
       }),
       invalidatesTags: ['Recipe'],
     }),
-    removeRecipe: builder.mutation({
-      query: id => ({
-        url: `/recipes/${id}`,
-        method: 'DELETE',
-      }),
-      invalidatesTags: ['Recipe'],
-    }),
-    updateRecipe: builder.mutation({
-      query: ({ id, ...data }) => ({
-        url: `/recipes/${id}`,
-        method: 'PATCH',
-        body: data,
-      }),
-      invalidatesTags: ['Recipe'],
-    }),
+    // removeRecipe: builder.mutation({
+    //   query: id => ({
+    //     url: `/recipes/${id}`,
+    //     method: 'DELETE',
+    //   }),
+    //   invalidatesTags: ['Recipe'],
+    // }),
+    // updateRecipe: builder.mutation({
+    //   query: ({ id, ...data }) => ({
+    //     url: `/recipes/${id}`,
+    //     method: 'PATCH',
+    //     body: data,
+    //   }),
+    //   invalidatesTags: ['Recipe'],
+    // }),
   }),
 });
 
 export const {
   useGetRecipesQuery,
-  useAddRecipeMutation,
-  useRemoveRecipeMutation,
-  useUpdateRecipeMutation,
+  useGetPopularRecipesQuery,
+  useGetRecipeByIdQuery,
 } = recipesApi;
