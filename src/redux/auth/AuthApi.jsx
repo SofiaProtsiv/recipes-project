@@ -1,7 +1,8 @@
+// File: AuthApi.jsx
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 const baseUrl = 'https://project-ssback01.onrender.com';
-// waiting for the back
+
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
@@ -14,7 +15,6 @@ export const authApi = createApi({
       return headers;
     },
   }),
-
   tagTypes: ['User'],
   endpoints: builder => ({
     register: builder.mutation({
@@ -25,7 +25,6 @@ export const authApi = createApi({
       }),
       invalidatesTags: ['User'],
     }),
-
     logIn: builder.mutation({
       query: values => ({
         url: '/users/login',
@@ -34,7 +33,6 @@ export const authApi = createApi({
       }),
       invalidatesTags: ['User'],
     }),
-
     logOut: builder.mutation({
       query: () => ({
         url: '/users/logout',
@@ -42,16 +40,19 @@ export const authApi = createApi({
       }),
       invalidatesTags: ['User'],
     }),
-
     updateAvatar: builder.mutation({
-      query: ({ data }) => ({
-        url: `/avatar`,
-        method: 'PATCH',
-        body: data,
-      }),
+      query: avatar => {
+        const formData = new FormData();
+        formData.append('avatar', avatar);
+
+        return {
+          url: '/users/avatar',
+          method: 'PATCH',
+          body: formData,
+        };
+      },
       invalidatesTags: ['User'],
     }),
-
     fetchCurrentUser: builder.query({
       query: () => ({
         url: '/users/current',
@@ -66,5 +67,7 @@ export const {
   useLogInMutation,
   useLogOutMutation,
   useFetchCurrentUserQuery,
-  useUpdateAvatarMutation
+  useUpdateAvatarMutation,
 } = authApi;
+
+export default authApi;

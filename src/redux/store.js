@@ -14,17 +14,18 @@ import storage from 'redux-persist/lib/storage';
 import { testimonialsApi } from './testimonials/testimonialsApi';
 import { ingredientsApi } from './ingredients/ingredientsApi';
 import { areasApi } from './areas/areasApi';
-// import other slices here
-// import exampleReducer from './example/slice'
+import { authSlice } from './auth/AuthSlice';
+import { authApi } from './auth/AuthApi';
 
 const persistConfig = {
-  key: 'root',
+  key: 'authSlice',
   storage,
+  whitelist: ['token'],
 };
 
 const rootReducer = combineReducers({
-  // Add your other reducers here
-  // example: exampleReducer,
+  authSlice: authSlice.reducer,
+  [authApi.reducerPath]: authApi.reducer,
   [testimonialsApi.reducerPath]: testimonialsApi.reducer,
   [ingredientsApi.reducerPath]: ingredientsApi.reducer,
   [areasApi.reducerPath]: areasApi.reducer,
@@ -36,6 +37,7 @@ const apiMiddlewares = [
   testimonialsApi.middleware,
   ingredientsApi.middleware,
   areasApi.middleware,
+  authApi.middleware,
 ];
 
 const middleware = getDefaultMiddleware =>
