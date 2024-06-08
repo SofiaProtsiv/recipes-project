@@ -20,7 +20,7 @@ import { recipesApi } from './recipes/recipesApi';
 const persistConfig = {
   key: 'authSlice',
   storage,
-  whitelist: ['token'],
+  whitelist: [authSlice.reducerPath],
 };
 
 const rootReducer = combineReducers({

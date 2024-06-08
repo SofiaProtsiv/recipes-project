@@ -59,6 +59,53 @@ export const authApi = createApi({
       }),
       providesTags: ['User'],
     }),
+    getUserById: builder.query({
+      query: id => ({
+        url: `/users/${id}`,
+      }),
+      providesTags: ['User'],
+    }),
+    getFollowings: builder.query({
+      query: () => ({
+        url: `/users/followings`,
+      }),
+      providesTags: ['User'],
+    }),
+    getFollowers: builder.query({
+      query: () => ({
+        url: `/users/followers`,
+      }),
+      providesTags: ['User'],
+    }),
+    addUserToFollowingList: builder.mutation({
+      query: id => ({
+        url: `/users/followings/${id}`,
+        method: 'PATCH',
+      }),
+      invalidatesTags: ['User'],
+    }),
+    removeUserFromFollowingList: builder.mutation({
+      query: id => ({
+        url: `/users/followings/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['User'],
+    }),
+
+    addRecipeToFavoritesList: builder.mutation({
+      query: id => ({
+        url: `/users/recipes/favorite/${id}`,
+        method: 'PATCH',
+      }),
+      invalidatesTags: ['User'],
+    }),
+    removeRecipeFromFavoritesList: builder.mutation({
+      query: id => ({
+        url: `/users/recipes/favorite/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['User'],
+    }),
   }),
 });
 
@@ -68,6 +115,13 @@ export const {
   useLogOutMutation,
   useFetchCurrentUserQuery,
   useUpdateAvatarMutation,
+  useGetUserByIdQuery,
+  useGetFollowersQuery,
+  useGetFollowingsQuery,
+  useAddUserToFollowingListMutation,
+  useRemoveUserFromFollowingListMutation,
+  useAddRecipeToFavoritesListMutation,
+  useRemoveRecipeFromFavoritesListMutation,
 } = authApi;
 
 export default authApi;
