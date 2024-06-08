@@ -106,6 +106,13 @@ export const authApi = createApi({
       }),
       invalidatesTags: ['User'],
     }),
+    // should work if backend change logic for that router.
+    getFavoriteRecipesList: builder.query({
+      query: () => ({
+        url: `/recipes/favorite`,
+      }),
+      providesTags: ['User'],
+    }),
   }),
 });
 
@@ -122,6 +129,7 @@ export const {
   useRemoveUserFromFollowingListMutation,
   useAddRecipeToFavoritesListMutation,
   useRemoveRecipeFromFavoritesListMutation,
+  useGetFavoriteRecipesListQuery,
 } = authApi;
 
 export default authApi;

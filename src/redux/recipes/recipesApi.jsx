@@ -29,28 +29,44 @@ export const recipesApi = createApi({
     }),
     //private endpoints
     addRecipe: builder.mutation({
-      query: value => ({
-        url: '/personal',
-        method: 'POST',
-        body: value,
+      query: ({
+        time,
+        title,
+        category,
+        area,
+        description,
+        ingredients,
+        instructions,
+        recipe,
+      }) => {
+        const formData = new FormData();
+        formData.append('time', time);
+        formData.append('title', title);
+        formData.append('category', category);
+        formData.append('area', area);
+        formData.append('description', description);
+        ingredients.forEach((ingredient, index) => {
+          formData.append(`ingredients[${index}][id]`, ingredient.id);
+          formData.append(`ingredients[${index}][measure]`, ingredient.measure);
+        });
+        formData.append('instructions', instructions);
+        formData.append('recipe', recipe);
+        return { url: '/recipes/personal', method: 'POST', body: formData };
+      },
+      invalidatesTags: ['Recipe'],
+    }),
+    getOwnRecipes: builder.query({
+      query: () => '/recipes/personal/data',
+      providesTags: ['Recipe'],
+    }),
+
+    removeRecipe: builder.mutation({
+      query: id => ({
+        url: `/recipes/${id}`,
+        method: 'DELETE',
       }),
       invalidatesTags: ['Recipe'],
     }),
-    // removeRecipe: builder.mutation({
-    //   query: id => ({
-    //     url: `/recipes/${id}`,
-    //     method: 'DELETE',
-    //   }),
-    //   invalidatesTags: ['Recipe'],
-    // }),
-    // updateRecipe: builder.mutation({
-    //   query: ({ id, ...data }) => ({
-    //     url: `/recipes/${id}`,
-    //     method: 'PATCH',
-    //     body: data,
-    //   }),
-    //   invalidatesTags: ['Recipe'],
-    // }),
   }),
 });
 
@@ -58,4 +74,7 @@ export const {
   useGetRecipesQuery,
   useGetPopularRecipesQuery,
   useGetRecipeByIdQuery,
+  useAddRecipeMutation,
+  useGetOwnRecipesQuery,
+  useRemoveRecipeMutation,
 } = recipesApi;
