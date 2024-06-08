@@ -18,4 +18,8 @@
   font-weight: 500;
   line-height: 1.42857;
   letter-spacing: -0.28px;
+
+  &__error {
+    border: 1px solid var(--error-color);
+  }
 }

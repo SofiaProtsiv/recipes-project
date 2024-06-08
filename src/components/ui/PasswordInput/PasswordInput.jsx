@@ -1,18 +1,24 @@
 import { useState } from 'react';
+import ErrorFormMessage from '../ErrorFormMessage';
 import sprite from '../../../assets/icons/sprite.svg';
 import cl from './input.module.scss';
 
-const PasswordInput = ({ register, errors }) => {
+const PasswordInput = ({ register, onBlur, errors }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div className={cl.input_container}>
       <input
-        className={cl.input_form}
+        className={
+          errors.password
+            ? `${cl.input_form} ${cl.input_form__error}`
+            : cl.input_form
+        }
         type={showPassword ? 'text' : 'password'}
         placeholder="Password*"
         aria-label="Enter your password"
         {...register('password')}
+        onBlur={() => onBlur()}
       />
       <button
         className={cl.toggle_password}
@@ -23,7 +29,9 @@ const PasswordInput = ({ register, errors }) => {
           <use href={`${sprite}#${showPassword ? 'eye' : 'eye_off'}`}></use>
         </svg>
       </button>
-      {errors.password && <p className={cl.error}>{errors.password.message}</p>}
+      {errors.password && (
+        <ErrorFormMessage message={errors.password.message} />
+      )}
     </div>
   );
 };

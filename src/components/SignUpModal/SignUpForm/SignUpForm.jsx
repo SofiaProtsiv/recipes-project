@@ -5,10 +5,15 @@ import * as yup from 'yup';
 import TextInput from '../../ui/TextInput';
 import PasswordInput from '../../ui/PasswordInput';
 import SubmitButton from '../../ui/SubmitButton';
+
+import ErrorFormMessage from '../../ui/ErrorFormMessage';
 import cl from './signUpForm.module.scss';
 
 const schema = yup.object().shape({
-  name: yup.string().required('Name is required'),
+  name: yup
+    .string()
+    .min(3, 'Name must be at least 3 characters')
+    .required('Name is required'),
   email: yup.string().email('Invalid email').required('Email is required'),
   password: yup
     .string()
@@ -20,9 +25,11 @@ const SignUpForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
+    trigger,
   } = useForm({
     resolver: yupResolver(schema),
+    mode: 'onChange',
   });
 
   const onSubmit = data => {
@@ -39,6 +46,7 @@ const SignUpForm = () => {
           register={register}
           errors={errors}
           name="name"
+          onBlur={() => trigger('name')}
         />
         <TextInput
           type="email"
@@ -46,11 +54,16 @@ const SignUpForm = () => {
           register={register}
           errors={errors}
           name="email"
+          onBlur={() => trigger('email')}
         />
-        <PasswordInput register={register} errors={errors} />
+        <PasswordInput
+          register={register}
+          errors={errors}
+          onBlur={() => trigger('password')}
+        />
       </div>
 
-      <SubmitButton>Create</SubmitButton>
+      <SubmitButton disabled={!isValid}>Create</SubmitButton>
     </form>
   );
 };

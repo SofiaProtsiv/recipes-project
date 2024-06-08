@@ -1,16 +1,13 @@
 /* eslint-disable react/no-unescaped-entities */
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import Button from '../ui/Button';
 import MainTitle from '../ui/MainTitle';
 import SignUpForm from './SignUpForm';
 import cl from './signUpModal.module.scss';
 
-const SignUpModal = () => {
-  const navigate = useNavigate();
-
+const SignUpModal = ({ setModalType }) => {
   const handleSignClick = () => {
-    navigate('/sign-in');
+    setModalType('SignInModal');
   };
 
   return (

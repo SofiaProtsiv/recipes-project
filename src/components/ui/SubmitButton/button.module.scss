@@ -2,23 +2,29 @@
   width: 100%;
   padding-block: 14px;
   gap: 10px;
-  background: rgba(5, 5, 5, 0.2);
+  color: #fff;
+  background-color: var(--button-bg);
   border-radius: 30px;
 
-  color: rgba(255, 255, 255, 0.4);
   font-size: 14px;
   font-weight: 700;
   line-height: 1.42857;
   letter-spacing: -0.28px;
   text-transform: uppercase;
 
+  transition: all var(--transition-time) var(--transition-effect);
+  &:hover,
+  &:active {
+    background-color: var(--border-color-dark);
+  }
+
+  &:disabled {
+    background-color: var(--button-disable-bg);
+    color: var(--button-disable-color);
+    cursor: default;
+  }
+
   @media only screen and (min-width: 375px) {
     min-width: 283px;
   }
-}
-
-.submit:hover,
-.submit:active {
-  color: #fff;
-  background-color: #050505;
 }

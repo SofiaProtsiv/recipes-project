@@ -19,9 +19,11 @@ const SignInForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
+    trigger,
   } = useForm({
     resolver: yupResolver(schema),
+    mode: 'onChange',
   });
 
   const onSubmit = data => {
@@ -38,11 +40,16 @@ const SignInForm = () => {
           register={register}
           errors={errors}
           name="email"
+          onBlur={() => trigger('email')}
         />
-        <PasswordInput register={register} errors={errors} />
+        <PasswordInput
+          register={register}
+          errors={errors}
+          onBlur={() => trigger('password')}
+        />
       </div>
 
-      <SubmitButton onSubmit={onSubmit}>Sign in</SubmitButton>
+      <SubmitButton disabled={!isValid}>Sign in</SubmitButton>
     </form>
   );
 };

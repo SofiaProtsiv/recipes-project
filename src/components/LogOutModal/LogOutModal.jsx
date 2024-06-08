@@ -12,8 +12,10 @@ const handleLogOut = () => {
 const LogOutModal = () => {
   return (
     <div className={cl.container}>
-      <MainTitle>Log out</MainTitle>
-      <Subtitle>You can always log back in at my time.</Subtitle>
+      <MainTitle addClass={cl.title_center}>Log out</MainTitle>
+      <Subtitle addClass={cl.title_center}>
+        You can always log back in at my time.
+      </Subtitle>
       <div className={cl.wrapper}>
         <Button addClass={cl.logout} onClick={handleLogOut}>
           Log out
