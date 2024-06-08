@@ -2,7 +2,7 @@
 import Button from '../ui/Button';
 import MainTitle from '../ui/MainTitle';
 import Subtitle from '../ui/Subtitle/Subtitle';
-import cl from './LogOutModal.module.scss';
+import cl from './logOutModal.module.scss';
 
 const handleLogOut = () => {
   // Відправка даних на backend, logout
