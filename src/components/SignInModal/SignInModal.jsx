@@ -1,20 +1,26 @@
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '../ui/Button';
 import MainTitle from '../ui/MainTitle';
+import SignInForm from './SignInForm';
 import cl from './signInModal.module.scss';
 
-const SignInModal = () => {
+const SignInModal = ({ onClose }) => {
+  const navigate = useNavigate();
+
+  const handleSignClick = () => {
+    navigate('/sign-up');
+  };
+
   return (
-    <div className={cl.className}>
-      <MainTitle>Sign in</MainTitle>
-      <SignInModal />
-      <div>
-        <p>I already have an account?</p>
-        <Button>
-          <Link to="/login">Sign up</Link>
-        </Button>
+    <>
+      <MainTitle addClass={cl.title_center}>Sign up</MainTitle>
+      <SignInForm />
+      <div className={cl.footer}>
+        <p>Don't have an account?</p>
+        <Button onClick={handleSignClick}> Create an account</Button>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -4,6 +4,8 @@ import Layout from './layout/Layout';
 import PrivateRoute from './components/PrivateRoute';
 import PublicRoute from './components/PublicRoute';
 
+import Modal from './components/ui/Modal';
+
 export default function App() {
   const HomePage = lazy(() => import('./pages/HomePage'));
   const RecipePage = lazy(() => import('./pages/RecipePage'));
@@ -11,11 +13,31 @@ export default function App() {
   const AddRecipePage = lazy(() => import('./pages/AddRecipePage'));
   const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
+  const SignUpModal = lazy(() => import('./components/SignUpModal'));
+  const SignInModal = lazy(() => import('./components/SignInModal'));
+  const LogOutModal = lazy(() => import('./components/LogOutModal'));
+
   return (
     <Routes>
       <Route element={<PublicRoute />}>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
+          <Route
+            path="sign-up"
+            element={
+              <Modal>
+                <SignUpModal />
+              </Modal>
+            }
+          />
+          <Route
+            path="sign-in"
+            element={
+              <Modal>
+                <SignInModal />
+              </Modal>
+            }
+          />
         </Route>
       </Route>
 
@@ -24,6 +46,14 @@ export default function App() {
           <Route path="recipe/:recipeId" element={<RecipePage />} />
           <Route path="user/:id" element={<UserPage />} />
           <Route path="recipe/add" element={<AddRecipePage />} />
+          <Route
+            path="log-out"
+            element={
+              <Modal>
+                <LogOutModal />
+              </Modal>
+            }
+          />
         </Route>
       </Route>
 

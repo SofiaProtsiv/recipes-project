@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import cl from './mainTitle.module.scss';
 
-const MainTitle = ({ children }) => {
-  return <h2 className={cl.className}>{children}</h2>;
+const MainTitle = ({ addClass, children }) => {
+  return <h2 className={`${cl.title} ${addClass}`}>{children}</h2>;
 };
 
 MainTitle.propTypes = {

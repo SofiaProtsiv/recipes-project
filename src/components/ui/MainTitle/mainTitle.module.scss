@@ -1,0 +1,15 @@
+.title {
+  color: #050505;
+  text-align: center;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.143;
+  letter-spacing: -0.56px;
+  text-transform: uppercase;
+
+  @media only screen and (min-width: 768px) {
+    font-size: 32px;
+    line-height: 1.25;
+    letter-spacing: -0.64px;
+  }
+}
