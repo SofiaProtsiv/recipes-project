@@ -1,14 +1,16 @@
-.title {
-  color: var(--primary-text-color);
-  font-size: 28px;
+.main_title {
+  font-family: var(--base-font);
+  font-family: 'Mulish', sans-serif;
   font-weight: 800;
-  line-height: 1.143;
-  letter-spacing: -0.56px;
+  font-size: 28px;
+  line-height: 1.14286;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
+  text-align: center;
+  color: #050505;
 
-  @media only screen and (min-width: 768px) {
-    font-size: 32px;
-    line-height: 1.25;
-    letter-spacing: -0.64px;
+  @media (768px <=width) {
+    font-size: 40px;
+    line-height: 1.1;
   }
 }

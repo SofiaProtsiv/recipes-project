@@ -7,7 +7,6 @@ const Subtitle = ({ addClass, children }) => {
       {children}
     </p>
   );
-};
 
 Subtitle.propTypes = {
   children: PropTypes.node.isRequired,
