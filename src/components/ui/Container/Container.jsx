@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import cl from './container.module.scss';
 
 const Container = ({ children }) => {
-  return <div className={cl.className}>{children}</div>;
+  return <div className={cl.container}>{children}</div>;
 };
 
 Container.propTypes = {

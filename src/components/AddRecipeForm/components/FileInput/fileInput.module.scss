@@ -1,0 +1,30 @@
+.file-input {
+  display: none;
+}
+
+.file-input-label {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.file-input-label:hover {
+  background-color: #0056b3;
+}
+
+.preview {
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  padding: 5px;
+  border-radius: 4px;
+  max-width: 343px;
+  max-height: 318px;
+  width: 343px;
+  height: 318px;
+  border: 1px dashed var(#0056b3);
+}

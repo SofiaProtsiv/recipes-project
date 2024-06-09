@@ -10,13 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.6.0",
     "@reduxjs/toolkit": "^2.2.5",
     "dotenv": "^16.4.5",
     "i18next": "^23.11.5",
     "netlify-cli": "^17.25.0",
     "prop-types": "^15.8.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-hook-form": "^7.51.5",
     "react-i18next": "^14.1.2",
     "react-redux": "^9.1.2",

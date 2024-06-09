@@ -1,0 +1,93 @@
+.form {
+  display: flex;
+  flex-direction: column;
+
+  // @media (768px <=width) {
+  //   background-color: blue;
+  // }
+
+  @media (width >=1440px) {
+    flex-direction: row;
+  }
+}
+.fileInput-container {
+  position: relative;
+  max-width: 343px;
+  max-height: 318px;
+  width: 343px;
+  height: 318px;
+
+  & .form-group {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+.recipeInfo-container {
+}
+.input {
+  border: none;
+  outline: none;
+  border-bottom: 1px solid var(--border-color-light);
+  padding-bottom: 16px;
+}
+.error {
+  color: red;
+  font-size: 0.9em;
+}
+
+.cooking-time {
+  display: flex;
+  align-items: center;
+}
+
+.cooking-time button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  margin: 0 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cooking-time button:hover {
+  background-color: #0056b3;
+}
+
+.ingredient {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.ingredient select,
+.ingredient input {
+  margin-right: 10px;
+}
+
+.ingredient button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.ingredient button:hover {
+  background-color: #c82333;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.form-actions button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
