@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.wrapper {
+  padding-bottom: 20px;
+}
+
+.logout {
+  width: 100%;
+  padding-block: 14px;
+  gap: 10px;
+  border-radius: 30px;
+  color: #fff;
+  background-color: var(--button-bg);
+
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.42857;
+  letter-spacing: -0.28px;
+  text-transform: uppercase;
+
+  @media only screen and (min-width: 375px) {
+    min-width: 283px;
+  }
+}
+
+.logout:hover,
+.logout:active {
+  background-color: #050505;
+}
+
+.title_center {
+  text-align: center;
+}
