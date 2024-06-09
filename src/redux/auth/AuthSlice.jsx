@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  user: { name: '', email: '' },
+  user: { name: '', email: '', avatar: '' },
   token: null,
   isLoggedIn: false,
 };
@@ -12,13 +12,13 @@ export const authSlice = createSlice({
 
   reducers: {
     registerUser(state, action) {
-      state.user = action.payload.user;
-      state.token = action.payload.token;
+      state.user = action.payload.data.user;
+      state.token = action.payload.data.token;
     },
 
     logInUser(state, action) {
-      state.user = action.payload.user;
-      state.token = action.payload.token;
+      state.user = action.payload.data.user;
+      state.token = action.payload.data.token;
       state.isLoggedIn = true;
     },
     logOutUser(state) {
@@ -28,11 +28,20 @@ export const authSlice = createSlice({
     },
 
     fetchUser(state, action) {
-      state.user = action.payload;
+      state.user = action.payload.data;
       state.isLoggedIn = true;
+    },
+
+    updateUserAvatar(state, action) {
+      state.user.avatar = action.payload.data.avatar;
     },
   },
 });
 
-export const { logInUser, registerUser, logOutUser, fetchUser } =
-  authSlice.actions;
+export const {
+  logInUser,
+  registerUser,
+  logOutUser,
+  fetchUser,
+  updateUserAvatar,
+} = authSlice.actions;
