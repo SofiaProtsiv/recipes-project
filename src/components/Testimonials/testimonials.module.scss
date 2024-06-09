@@ -1,36 +1,38 @@
 .testimonials_wrapper {
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 64px;
+  margin-bottom: 80px;
 
-  margin: 0 auto;
   position: relative;
-
-  width: 100vw;
-  height: 100vh;
+  // overflow: hidden;
 
   @media (375px <=width) {
     width: 343px;
-    height: 394px;
+    margin-bottom: 80px;
+    // height: 394px;
   }
 
   @media (768px <=width) {
     width: 704px;
-    height: 432px;
+    // height: 432px;
     gap: 80px;
+    margin-bottom: 100px;
   }
 
   @media (width >=1440px) {
     width: 822px;
-    height: 432px;
+    // height: 432px;
+    margin-bottom: 120px;
   }
 }
 
 .testimonials_title_wrapper {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  // gap: 16px;
   align-items: center;
 }
 
