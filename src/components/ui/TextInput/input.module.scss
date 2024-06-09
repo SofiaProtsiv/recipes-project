@@ -18,12 +18,8 @@
   font-weight: 500;
   line-height: 1.42857;
   letter-spacing: -0.28px;
-}
 
-.toggle_password {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  stroke: rgba(5, 5, 5, 0.8);
-  background-color: #00000000;
+  &__error {
+    border: 1px solid var(--error-color);
+  }
 }

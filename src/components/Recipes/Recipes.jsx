@@ -9,8 +9,8 @@ const Recipes = () => {
   return (
     <>
       <Button>Back</Button>
-      <MainTitle></MainTitle>
-      <Subtitle></Subtitle>
+      <MainTitle>RecipesTitle</MainTitle>
+      <Subtitle>RecipesSubtitle</Subtitle>
       <RecipeFilters />
       <RecipeList />
       <RecipePagination />

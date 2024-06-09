@@ -1,0 +1,24 @@
+.title_center {
+  display: block;
+  min-width: 100%;
+  margin-inline: auto;
+}
+.footer {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+  margin-top: 20px;
+
+  color: rgba(5, 5, 5, 0.6);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.286;
+  letter-spacing: -0.28px;
+
+  @media only screen and (min-width: 768px) {
+    font-size: 14px;
+  }
+}

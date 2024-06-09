@@ -1,7 +1,7 @@
 import cl from './input.module.scss';
 
 const Input = () => {
-  return <div className={cl.className}>Input</div>;
+  return <input className={cl.className}>Input</input>;
 };
 
 export default Input;
