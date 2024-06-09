@@ -1,0 +1,55 @@
+.wrapper {
+  display: flex;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  background-color: rgba(5, 5, 5, 0.6);
+  z-index: 9;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.modal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 60px 30px;
+  justify-content: center;
+  align-items: stretch;
+  border-radius: 30px;
+  background-color: #fff;
+
+  @media only screen and (min-width: 375px) {
+    // padding: 60px 30px;
+  }
+
+  @media only screen and (min-width: 768px) {
+    padding: 80px;
+  }
+}
+
+.close_button {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  padding: 4px;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cancel_button {
+  border-radius: 30px;
+  border: 1px solid rgba(5, 5, 5, 0.9);
+  padding-block: 14px;
+}
+
+.close_icon {
+  stroke: #050505;
+  // --fill: white;
+}

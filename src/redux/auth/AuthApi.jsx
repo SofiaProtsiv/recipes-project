@@ -1,7 +1,8 @@
+// File: AuthApi.jsx
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 const baseUrl = 'https://project-ssback01.onrender.com';
-// waiting for the back
+
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
@@ -14,7 +15,6 @@ export const authApi = createApi({
       return headers;
     },
   }),
-
   tagTypes: ['User'],
   endpoints: builder => ({
     register: builder.mutation({
@@ -25,7 +25,6 @@ export const authApi = createApi({
       }),
       invalidatesTags: ['User'],
     }),
-
     logIn: builder.mutation({
       query: values => ({
         url: '/users/login',
@@ -34,7 +33,6 @@ export const authApi = createApi({
       }),
       invalidatesTags: ['User'],
     }),
-
     logOut: builder.mutation({
       query: () => ({
         url: '/users/logout',
@@ -42,19 +40,76 @@ export const authApi = createApi({
       }),
       invalidatesTags: ['User'],
     }),
-
     updateAvatar: builder.mutation({
-      query: ({ data }) => ({
-        url: `/avatar`,
+      query: avatar => {
+        const formData = new FormData();
+        formData.append('avatar', avatar);
+
+        return {
+          url: '/users/avatar',
+          method: 'PATCH',
+          body: formData,
+        };
+      },
+      invalidatesTags: ['User'],
+    }),
+    fetchCurrentUser: builder.query({
+      query: () => ({
+        url: '/users/current',
+      }),
+      providesTags: ['User'],
+    }),
+    getUserById: builder.query({
+      query: id => ({
+        url: `/users/${id}`,
+      }),
+      providesTags: ['User'],
+    }),
+    getFollowings: builder.query({
+      query: () => ({
+        url: `/users/followings`,
+      }),
+      providesTags: ['User'],
+    }),
+    getFollowers: builder.query({
+      query: () => ({
+        url: `/users/followers`,
+      }),
+      providesTags: ['User'],
+    }),
+    addUserToFollowingList: builder.mutation({
+      query: id => ({
+        url: `/users/followings/${id}`,
         method: 'PATCH',
-        body: data,
+      }),
+      invalidatesTags: ['User'],
+    }),
+    removeUserFromFollowingList: builder.mutation({
+      query: id => ({
+        url: `/users/followings/${id}`,
+        method: 'DELETE',
       }),
       invalidatesTags: ['User'],
     }),
 
-    fetchCurrentUser: builder.query({
+    addRecipeToFavoritesList: builder.mutation({
+      query: id => ({
+        url: `/users/recipes/favorite/${id}`,
+        method: 'PATCH',
+      }),
+      invalidatesTags: ['User'],
+    }),
+    removeRecipeFromFavoritesList: builder.mutation({
+      query: id => ({
+        url: `/users/recipes/favorite/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['User'],
+    }),
+    // should work if backend change logic for that router.
+    getFavoriteRecipesList: builder.query({
       query: () => ({
-        url: '/users/current',
+        url: `/recipes/favorite`,
       }),
       providesTags: ['User'],
     }),
@@ -66,5 +121,15 @@ export const {
   useLogInMutation,
   useLogOutMutation,
   useFetchCurrentUserQuery,
-  useUpdateAvatarMutation
+  useUpdateAvatarMutation,
+  useGetUserByIdQuery,
+  useGetFollowersQuery,
+  useGetFollowingsQuery,
+  useAddUserToFollowingListMutation,
+  useRemoveUserFromFollowingListMutation,
+  useAddRecipeToFavoritesListMutation,
+  useRemoveRecipeFromFavoritesListMutation,
+  useGetFavoriteRecipesListQuery,
 } = authApi;
+
+export default authApi;

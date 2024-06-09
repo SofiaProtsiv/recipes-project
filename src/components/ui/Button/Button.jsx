@@ -1,7 +1,15 @@
 import cl from './button.module.scss';
 
-const Button = () => {
-  return <div className={cl.className}>Button</div>;
+const Button = ({ onClick, addClass = '', type = 'button', children }) => {
+  return (
+    <button
+      type={type}
+      className={addClass ? `${cl.button} ${addClass}` : cl.button}
+      onClick={onClick}
+    >
+      {children}
+    </button>
+  );
 };
 
 export default Button;
