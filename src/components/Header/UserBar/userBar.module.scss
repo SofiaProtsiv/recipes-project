@@ -1,1 +1,81 @@
+.userBar {
+  position: relative;
+}
+.userInfo {
+  display: flex;
+  align-items: center;
+  background-color: var(--hero-bg);
+  border-radius: 30px;
 
+  &:hover {
+    cursor: pointer;
+  }
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+  }
+
+  .name {
+    display: flex;
+    gap: 4px;
+    padding: 0 6px;
+    justify-content: center;
+    align-items: center;
+    .username {
+      text-transform: uppercase;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 1.5em;
+      letter-spacing: -0.24px;
+      text-transform: uppercase;
+    }
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+    transition: transform var(--transition-time) var(--transition-effect);
+    &.active {
+        transform: rotate(180deg);
+    }
+  }
+}
+
+.menu {
+    display: flex;
+    position: absolute;
+    top: 40px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: baseline;
+    gap: 4px;
+    padding: 16px;
+    width: 100%;
+    border-radius: 20px;
+    background-color: var(--hero-bg);
+    border: 1px solid var(--user-bar-border);
+    transition: opacity var(--transition-time) var(--transition-effect);
+    opacity: 0;
+
+    &.active {
+        opacity: 1;
+    }
+
+    button {
+        background-color: transparent;
+        border: none;
+        color: var(--white-color);
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 1.5em;
+        letter-spacing: -0.24px;
+        text-transform: uppercase;
+        display: flex;
+        gap: 2px;
+        align-items: center;
+    }
+}

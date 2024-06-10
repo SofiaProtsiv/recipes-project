@@ -7,7 +7,7 @@ const Navigation = () => {
   
   return (
     <nav className={cl.nav}>
-      <NavLink className={cl.link} to="/home" state={{ from: location }}>
+      <NavLink className={cl.link} to="/" state={{ from: location }}>
         Home
       </NavLink>
       <NavLink
@@ -24,3 +24,5 @@ const Navigation = () => {
 };
 
 export default Navigation;
+
+
