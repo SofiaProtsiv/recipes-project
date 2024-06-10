@@ -17,6 +17,7 @@ import { areasApi } from './areas/areasApi';
 import { authSlice } from './auth/AuthSlice';
 import { authApi } from './auth/AuthApi';
 import { recipesApi } from './recipes/recipesApi';
+import { categoriesApi } from './categories/categoriesApi';
 const persistConfig = {
   key: 'authSlice',
   storage,
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
   [testimonialsApi.reducerPath]: testimonialsApi.reducer,
   [ingredientsApi.reducerPath]: ingredientsApi.reducer,
   [areasApi.reducerPath]: areasApi.reducer,
+  [categoriesApi.reducerPath]: categoriesApi.reducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -40,6 +42,7 @@ const apiMiddlewares = [
   areasApi.middleware,
   authApi.middleware,
   recipesApi.middleware,
+  categoriesApi.middleware,
 ];
 
 const middleware = getDefaultMiddleware =>
