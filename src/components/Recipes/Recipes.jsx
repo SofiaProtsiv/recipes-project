@@ -10,22 +10,34 @@ import PropTypes from 'prop-types';
 import getLimitForViewport from '../../utils/getLimitForViewport';
 import cl from './recipes.module.scss';
 
-const Recipes = () => {
+const Recipes = ({ category = null }) => {
   const limit = getLimitForViewport();
   const selectList = ['ingredients', 'area'];
   const [recipeList, setRecipeList] = useState([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
-  const resp = recipesApi.useGetRecipesQuery({ page, limit });
+  const [ingredient, setIngredient] = useState(null);
+  const [area, setArea] = useState(null);
+  const recipeResp = recipesApi.useGetRecipesQuery({
+    page,
+    limit,
+    category,
+    area,
+    ingredient,
+  });
+
   useEffect(() => {
-    if (resp.status === 'fulfilled') {
-      const { recipes, total } = resp.data;
+    if (recipeResp.status === 'fulfilled') {
+      const { recipes, total } = recipeResp.data;
       setRecipeList(recipes);
       setTotal(total);
     }
-  }, [resp, page]);
+  }, [recipeResp, page, area, ingredient]);
 
   const handlePage = clickedPage => {
+    if (clickedPage === page) {
+      return;
+    }
     if (clickedPage > page) {
       setPage(page + 1);
     } else {
@@ -33,6 +45,21 @@ const Recipes = () => {
     }
   };
 
+  const handleIngredient = id => {
+    if (id === ingredient) {
+      setIngredient(null);
+    } else {
+      setIngredient(id);
+    }
+  };
+
+  const handleArea = id => {
+    if (id === area) {
+      setArea(null);
+    } else {
+      setArea(id);
+    }
+  };
   const totalPages = Math.ceil(total / limit);
   return (
     <>
@@ -40,7 +67,11 @@ const Recipes = () => {
       <MainTitle>RecipesTitle</MainTitle>
       <Subtitle>RecipesSubtitle</Subtitle>
       <div className={cl.recipesWrapper}>
-        <RecipeFilters selectList={selectList} />
+        <RecipeFilters
+          selectList={selectList}
+          handleIngredient={handleIngredient}
+          handleArea={handleArea}
+        />
         <div className={cl.recipeListWrapper}>
           <RecipeList recipeList={recipeList} />
           <RecipePagination
