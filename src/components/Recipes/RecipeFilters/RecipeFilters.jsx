@@ -22,7 +22,7 @@ const RecipeFilters = ({ selectList = [], handleIngredient, handleArea }) => {
 
   return (
     <>
-      <ul className={cl.className}>
+      <ul className={cl.recipeFilters}>
         {selectList.map(item => {
           if (item) {
             return (
@@ -46,7 +46,9 @@ const RecipeFilters = ({ selectList = [], handleIngredient, handleArea }) => {
 };
 
 RecipeFilters.propTypes = {
-  selectList: PropTypes.arrayOf(PropTypes.string),
+  selectList: PropTypes.array,
+  handleIngredient: PropTypes.func,
+  handleArea: PropTypes.func,
 };
 
 export default RecipeFilters;

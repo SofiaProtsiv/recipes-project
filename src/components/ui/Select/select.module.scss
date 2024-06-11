@@ -95,11 +95,11 @@ $desktop: 1440px;
 
   .selectDropdown li:hover,
   .selectDropdown input:checked ~ label {
-    background-color: #f2f2f2;
+    background-color: var(--pagination-border-color);
   }
 
   .selectDropdown input:focus ~ label {
-    background-color: #dfdfdf;
+    background-color: var(--pagination-border-color);
   }
 
   .selectDropdown input[type='radio'] {

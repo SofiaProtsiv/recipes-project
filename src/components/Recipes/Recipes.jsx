@@ -16,14 +16,14 @@ const Recipes = ({ category = null }) => {
   const [recipeList, setRecipeList] = useState([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
-  const [ingredient, setIngredient] = useState(null);
+  const [ingredients, setIngredient] = useState(null);
   const [area, setArea] = useState(null);
   const recipeResp = recipesApi.useGetRecipesQuery({
     page,
     limit,
     category,
     area,
-    ingredient,
+    ingredients,
   });
 
   useEffect(() => {
@@ -32,7 +32,7 @@ const Recipes = ({ category = null }) => {
       setRecipeList(recipes);
       setTotal(total);
     }
-  }, [recipeResp, page, area, ingredient]);
+  }, [recipeResp, page, area, ingredients, category]);
 
   const handlePage = clickedPage => {
     if (clickedPage === page) {
@@ -46,7 +46,7 @@ const Recipes = ({ category = null }) => {
   };
 
   const handleIngredient = id => {
-    if (id === ingredient) {
+    if (id === ingredients) {
       setIngredient(null);
     } else {
       setIngredient(id);
@@ -85,7 +85,7 @@ const Recipes = ({ category = null }) => {
   );
 };
 
-Recipes.PropTypes = {
+Recipes.propTypes = {
   category: PropTypes.string,
 };
 

@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const ingredientsApi = createApi({
   reducerPath: 'ingredientsApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:3000',
+    baseUrl: 'https://project-ssback01.onrender.com',
   }),
   tagTypes: ['Ingredient'],
   endpoints: builder => ({

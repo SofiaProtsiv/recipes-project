@@ -1,7 +1,8 @@
 import cl from './select.module.scss';
 import { useState, useRef, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
-const Select = ({ options = [], value, onChange, className }) => {
+const Select = ({ options = [], value, onChange }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(value);
   const dropdownRef = useRef(null);
@@ -12,9 +13,8 @@ const Select = ({ options = [], value, onChange, className }) => {
   };
 
   const handleOptionClick = option => {
-    console.log(option);
     setSelectedValue(option.name);
-    onChange({ value: option._id });
+    onChange(option._id);
     setIsOpen(false);
   };
 
@@ -37,11 +37,7 @@ const Select = ({ options = [], value, onChange, className }) => {
   }, []);
 
   return (
-    <div
-      className={`${cl.selectWrapper} ${className || ''} ${
-        isOpen ? cl.active : ''
-      }`}
-    >
+    <div className={`${cl.selectWrapper} ${isOpen ? cl.active : ''}`}>
       <button
         className={cl.selectButton}
         role="combobox"
@@ -84,6 +80,12 @@ const Select = ({ options = [], value, onChange, className }) => {
       )}
     </div>
   );
+};
+
+Select.propTypes = {
+  options: PropTypes.arrayOf(PropTypes.object),
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
 };
 
 export default Select;
