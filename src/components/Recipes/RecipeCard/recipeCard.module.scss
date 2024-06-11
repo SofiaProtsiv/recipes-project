@@ -1,3 +1,10 @@
+/* Breakpoints */
+$mobile: 375px;
+$mobile-max: 767.99px;
+$tablet: 768px;
+$tablet-max: 1439.99px;
+$desktop: 1440px;
+
 .recipeItem {
   display: flex;
   flex-direction: column;
@@ -16,6 +23,7 @@
     font-size: 18px;
     line-height: 24px;
     text-align: left;
+    letter-spacing: -0.02em;
     color: var(--primary-text-color);
     width: 100%;
     margin-bottom: 8px;
@@ -28,6 +36,7 @@
     font-weight: 400;
     font-size: 14px;
     line-height: 20px;
+    letter-spacing: -0.02em;
     text-align: left;
     color: var(--secondary-text-color);
     height: 44px;
@@ -35,5 +44,19 @@
     overflow: hidden;
     text-overflow: ellipsis;
     margin-bottom: 8px;
+  }
+
+  @media screen and (min-width: $tablet) {
+    h3 {
+      font-size: 20px;
+      line-height: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 20px;
+      letter-spacing: -0.02em;
+    }
   }
 }

@@ -7,45 +7,55 @@ import RecipeFilters from './RecipeFilters';
 import RecipeList from './RecipeList';
 import RecipePagination from './RecipePagination';
 import PropTypes from 'prop-types';
+import getLimitForViewport from '../../utils/getLimitForViewport';
+import cl from './recipes.module.scss';
 
 const Recipes = () => {
   const limit = getLimitForViewport();
   const selectList = ['ingredients', 'area'];
   const [recipeList, setRecipeList] = useState([]);
+  const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
-  const recipes = recipesApi.useGetRecipesQuery(page, limit);
+  const resp = recipesApi.useGetRecipesQuery({ page, limit });
   useEffect(() => {
-    if (recipes.status === 'fulfilled') {
-      setRecipeList(recipes.data);
+    if (resp.status === 'fulfilled') {
+      const { recipes, total } = resp.data;
+      setRecipeList(recipes);
+      setTotal(total);
     }
-  }, [recipes, page]);
+  }, [resp, page]);
 
-  const handlePage = direction => {
-    if (direction === 'next') {
+  const handlePage = clickedPage => {
+    if (clickedPage > page) {
       setPage(page + 1);
     } else {
       setPage(page - 1);
     }
   };
+
+  const totalPages = Math.ceil(total / limit);
   return (
     <>
       <Button>Back</Button>
       <MainTitle>RecipesTitle</MainTitle>
       <Subtitle>RecipesSubtitle</Subtitle>
-      <RecipeFilters selectList={selectList} />
-      <RecipeList recipeList={recipeList} />
-      <RecipePagination handlePage={handlePage} page={page} />
+      <div className={cl.recipesWrapper}>
+        <RecipeFilters selectList={selectList} />
+        <div className={cl.recipeListWrapper}>
+          <RecipeList recipeList={recipeList} />
+          <RecipePagination
+            handlePage={handlePage}
+            page={page}
+            totalPages={totalPages}
+          />
+        </div>
+      </div>
     </>
   );
 };
 
 Recipes.PropTypes = {
   category: PropTypes.string,
-};
-
-const getLimitForViewport = () => {
-  const isMobile = window.innerWidth < 768;
-  return isMobile ? 8 : 12;
 };
 
 export default Recipes;

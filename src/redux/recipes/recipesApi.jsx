@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const recipesApi = createApi({
   reducerPath: 'recipesApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://project-ssback01.onrender.com',
+    baseUrl: 'http://localhost:3000',
     prepareHeaders: (headers, { getState }) => {
       const token = getState().authSlice.token;
       if (token) {
@@ -18,15 +18,27 @@ export const recipesApi = createApi({
     getRecipes: builder.query({
       query: ({
         page = 1,
-        limit = 10,
+        limit = 12,
         category = null,
         area = null,
         ingredients = null,
-      }) => ({
-        url: '/recipes',
-        method: 'GET',
-        params: { page, limit, category, area, ingredients },
-      }),
+      }) => {
+        const filter = { page, limit };
+        if (category) {
+          filter.category = category;
+        }
+        if (area) {
+          filter.area = area;
+        }
+        if (ingredients) {
+          filter.ingredients = ingredients;
+        }
+        return {
+          url: '/recipes',
+          method: 'GET',
+          params: filter,
+        };
+      },
       providesTags: ['Recipe'],
     }),
     getPopularRecipes: builder.query({
