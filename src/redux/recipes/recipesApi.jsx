@@ -16,7 +16,17 @@ export const recipesApi = createApi({
   // public endpoints
   endpoints: builder => ({
     getRecipes: builder.query({
-      query: () => '/recipes',
+      query: ({
+        page = 1,
+        limit = 10,
+        category = null,
+        area = null,
+        ingredients = null,
+      }) => ({
+        url: '/recipes',
+        method: 'GET',
+        params: { page, limit, category, area, ingredients },
+      }),
       providesTags: ['Recipe'],
     }),
     getPopularRecipes: builder.query({
@@ -25,6 +35,14 @@ export const recipesApi = createApi({
     }),
     getRecipeById: builder.query({
       query: id => `/recipes/${id}`,
+      providesTags: ['Recipe'],
+    }),
+    getUserRecipes: builder.query({
+      query: ({ page = 1, limit = 10, id }) => ({
+        url: `/recipes/user/${id}`,
+        method: 'GET',
+        query: { page, limit, id },
+      }),
       providesTags: ['Recipe'],
     }),
     //private endpoints
@@ -74,6 +92,7 @@ export const {
   useGetRecipesQuery,
   useGetPopularRecipesQuery,
   useGetRecipeByIdQuery,
+  useGetUserRecipesQuery,
   useAddRecipeMutation,
   useGetOwnRecipesQuery,
   useRemoveRecipeMutation,
