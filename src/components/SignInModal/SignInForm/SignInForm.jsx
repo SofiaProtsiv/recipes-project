@@ -1,10 +1,16 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
+import { useDispatch } from 'react-redux';
+import { useLogInMutation } from '../../../redux/auth/AuthApi';
+import { logInUser } from '../../../redux/auth/AuthSlice';
+
 import TextInput from '../../ui/TextInput';
 import PasswordInput from '../../ui/PasswordInput';
 import SubmitButton from '../../ui/SubmitButton';
+import ErrorFormMessage from '../../ui/ErrorFormMessage';
 import cl from './signInForm.module.scss';
 
 const schema = yup.object().shape({
@@ -15,7 +21,11 @@ const schema = yup.object().shape({
     .required('Password is required'),
 });
 
-const SignInForm = () => {
+const SignInForm = ({ onClose }) => {
+  const [modalError, setModalError] = useState(null);
+  const dispatch = useDispatch();
+  const [logIn] = useLogInMutation();
+
   const {
     register,
     handleSubmit,
@@ -26,9 +36,14 @@ const SignInForm = () => {
     mode: 'onChange',
   });
 
-  const onSubmit = data => {
-    // Відправка даних на backend
-    console.log(data);
+  const onSubmit = async data => {
+    try {
+      const result = await logIn(data).unwrap();
+      dispatch(logInUser({ data: result }));
+      onClose();
+    } catch (error) {
+      setModalError(error.data.message);
+    }
   };
 
   return (
@@ -48,6 +63,8 @@ const SignInForm = () => {
           onBlur={() => trigger('password')}
         />
       </div>
+
+      {modalError && <ErrorFormMessage message={modalError} />}
 
       <SubmitButton disabled={!isValid}>Sign in</SubmitButton>
     </form>

@@ -1,5 +1,6 @@
 import { createPortal } from 'react-dom';
 import { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import LogOutModal from '../../LogOutModal';
 import SignUpModal from '../../SignUpModal';
 import SignInModal from '../../SignInModal';
@@ -12,6 +13,8 @@ const Modal = ({ onClose, type = 'LogOutModal' }) => {
 
   const [modalType, setModalType] = useState(type);
   const modalRef = useRef(null);
+
+  const { name } = useSelector(state => state.authSlice?.user);
 
   const handleEscape = event => {
     if (event.key === 'Escape') {
@@ -38,6 +41,7 @@ const Modal = ({ onClose, type = 'LogOutModal' }) => {
   }, []);
 
   const isLogOutModal = type === 'LogOutModal';
+  const isSignUpModal = type === 'SignUpModal';
 
   return createPortal(
     <div className={cl.wrapper}>
@@ -46,13 +50,14 @@ const Modal = ({ onClose, type = 'LogOutModal' }) => {
           <SignUpModal setModalType={setModalType} />
         )}
         {modalType === 'SignInModal' && (
-          <SignInModal setModalType={setModalType} />
+          <SignInModal onClose={onClose} setModalType={setModalType} />
         )}
         {modalType === 'LogOutModal' && <LogOutModal />}
 
-        {isLogOutModal && (
+        {(isLogOutModal || (name && isSignUpModal)) && (
           <Button addClass={cl.cancel_button} onClick={onClose}>
-            Cancel
+            {isLogOutModal && `Cancel`}
+            {isSignUpModal && `Close`}
           </Button>
         )}
         <button

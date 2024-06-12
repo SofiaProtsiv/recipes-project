@@ -11,12 +11,12 @@ const Header = () => {
       <Logo />
 
       {isUserAuthorized ? (
-        <AuthBar />
-      ) : (
         <>
           <Navigation />
           <UserBar />
         </>
+      ) : (
+        <AuthBar />
       )}
     </header>
   );

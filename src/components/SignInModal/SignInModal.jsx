@@ -4,7 +4,7 @@ import MainTitle from '../ui/MainTitle';
 import SignInForm from './SignInForm';
 import cl from './signInModal.module.scss';
 
-const SignInModal = ({ setModalType }) => {
+const SignInModal = ({ onClose, setModalType }) => {
   const handleSignClick = () => {
     setModalType('SignUpModal');
   };
@@ -12,7 +12,7 @@ const SignInModal = ({ setModalType }) => {
   return (
     <>
       <MainTitle>Sign in</MainTitle>
-      <SignInForm />
+      <SignInForm onClose={onClose} />
       <div className={cl.footer}>
         <p>Don't have an account?</p>
         <Button onClick={handleSignClick}> Create an account</Button>

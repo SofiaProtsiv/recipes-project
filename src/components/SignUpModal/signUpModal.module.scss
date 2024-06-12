@@ -22,3 +22,19 @@
     font-size: 14px;
   }
 }
+
+.text {
+  display: block;
+  margin-block: 16px 32px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.42857;
+  letter-spacing: -0.28px;
+  @media only screen and (min-width: 375px) {
+    max-width: 283px;
+  }
+
+  @media only screen and (min-width: 768px) {
+    max-width: 400px;
+  }
+}
