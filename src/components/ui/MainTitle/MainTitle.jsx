@@ -11,6 +11,7 @@ const MainTitle = ({ addClass, children }) => {
 
 MainTitle.propTypes = {
   children: PropTypes.node.isRequired,
+  addClass: PropTypes.string,
 };
 
 export default MainTitle;

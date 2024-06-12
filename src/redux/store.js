@@ -18,6 +18,7 @@ import { authSlice } from './auth/AuthSlice';
 import { authApi } from './auth/AuthApi';
 import { recipesApi } from './recipes/recipesApi';
 import { categoriesApi } from './categories/categoriesApi';
+
 const persistConfig = {
   key: 'authSlice',
   storage,

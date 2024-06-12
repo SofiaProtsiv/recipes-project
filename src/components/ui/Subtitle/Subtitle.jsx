@@ -11,6 +11,7 @@ const Subtitle = ({ addClass, children }) => {
 
 Subtitle.propTypes = {
   children: PropTypes.node.isRequired,
+  addClass: PropTypes.string,
 };
 
 export default Subtitle;
