@@ -13,6 +13,7 @@
     "@hookform/resolvers": "^3.6.0",
     "@reduxjs/toolkit": "^2.2.5",
     "dotenv": "^16.4.5",
+    "framer-motion": "^11.2.10",
     "i18next": "^23.11.5",
     "netlify-cli": "^17.25.0",
     "prop-types": "^15.8.1",
@@ -26,6 +27,7 @@
     "react-select": "^5.8.0",
     "redux-persist": "^6.0.0",
     "sass": "^1.77.4",
+    "swiper": "^11.1.4",
     "yup": "^1.4.0"
   },
   "devDependencies": {

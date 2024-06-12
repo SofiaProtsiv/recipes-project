@@ -32,7 +32,7 @@ const rootReducer = combineReducers({
   [testimonialsApi.reducerPath]: testimonialsApi.reducer,
   [ingredientsApi.reducerPath]: ingredientsApi.reducer,
   [areasApi.reducerPath]: areasApi.reducer,
-  [categoriesApi.reducerPath]: categoriesApi.reducer,
+  [categoriesApi.reducerPath]: categoriesApi.reducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
