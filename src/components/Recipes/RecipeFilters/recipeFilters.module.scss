@@ -1,0 +1,29 @@
+/* Breakpoints */
+$mobile: 375px;
+$mobile-max: 767.99px;
+$tablet: 768px;
+$tablet-max: 1439.99px;
+$desktop: 1440px;
+
+.recipeFilters {
+  display: grid;
+  height: fit-content;
+
+  @media screen and (min-width: $mobile) and (max-width: $mobile-max) {
+    grid-template-columns: repeat(1, minmax(343px, 1fr));
+    width: 343px;
+    row-gap: 14px;
+  }
+
+  @media screen and (min-width: $tablet) and (max-width: $tablet-max) {
+    grid-template-columns: repeat(2, minmax(345px, 1fr));
+    column-gap: 14px;
+    width: 704px;
+  }
+
+  @media screen and (min-width: $desktop) {
+    grid-template-columns: repeat(1, minmax(330px, 1fr));
+    row-gap: 14px;
+    width: 330px;
+  }
+}

@@ -7,9 +7,10 @@ const MainTitle = ({ addClass, children }) => {
       {children}
     </h2>
   );
-
+};
 MainTitle.propTypes = {
   children: PropTypes.node.isRequired,
+  addClass: PropTypes.string,
 };
 
 export default MainTitle;

@@ -17,8 +17,7 @@ const Header = () => {
     <header className={`${cl.header} ${!isHomePage ? cl.black : ''}`}>
       <Logo />
 
-      {!isUserAuthorized ? (
-        <AuthBar />
+      {isUserAuthorized ? (
       ) : isMobile ? (
         <div className={cl.mobile}>
           <UserBar />
@@ -29,6 +28,8 @@ const Header = () => {
           <Navigation />
           <UserBar />
         </>
+      ) : (
+        <AuthBar />
       )}
     </header>
   );

@@ -1,6 +1,11 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+
+import { useDispatch } from 'react-redux';
+import { useRegisterMutation } from '../../../redux/auth/AuthApi';
+import { registerUser } from '../../../redux/auth/AuthSlice';
 
 import TextInput from '../../ui/TextInput';
 import PasswordInput from '../../ui/PasswordInput';
@@ -22,8 +27,12 @@ const schema = yup.object().shape({
 });
 
 const SignUpForm = () => {
+  const [modalError, setModalError] = useState(null);
+  const dispatch = useDispatch();
+  const [register] = useRegisterMutation();
+
   const {
-    register,
+    register: formRegister,
     handleSubmit,
     formState: { errors, isValid },
     trigger,
@@ -32,9 +41,13 @@ const SignUpForm = () => {
     mode: 'onChange',
   });
 
-  const onSubmit = data => {
-    // Відправка даних на backend
-    console.log(data);
+  const onSubmit = async data => {
+    try {
+      const result = await register(data).unwrap();
+      dispatch(registerUser({ data: result }));
+    } catch (error) {
+      setModalError(error.data.message);
+    }
   };
 
   return (
@@ -43,7 +56,7 @@ const SignUpForm = () => {
         <TextInput
           type="text"
           placeholder="Name*"
-          register={register}
+          register={formRegister}
           errors={errors}
           name="name"
           onBlur={() => trigger('name')}
@@ -51,17 +64,19 @@ const SignUpForm = () => {
         <TextInput
           type="email"
           placeholder="Email*"
-          register={register}
+          register={formRegister}
           errors={errors}
           name="email"
           onBlur={() => trigger('email')}
         />
         <PasswordInput
-          register={register}
+          register={formRegister}
           errors={errors}
           onBlur={() => trigger('password')}
         />
       </div>
+
+      {modalError && <ErrorFormMessage message={modalError} />}
 
       <SubmitButton disabled={!isValid}>Create</SubmitButton>
     </form>

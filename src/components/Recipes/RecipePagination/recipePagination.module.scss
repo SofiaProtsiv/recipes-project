@@ -1,0 +1,58 @@
+/* Breakpoints */
+$mobile: 375px;
+$mobile-max: 767.99px;
+$tablet: 768px;
+$tablet-max: 1439.99px;
+$desktop: 1440px;
+
+.paginationWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 32px;
+  gap: 6px;
+
+  .wrapper-page {
+    display: flex;
+    flex-direction: column;
+    width: 40px;
+    height: 40px;
+    border-radius: 100px;
+    border-color: var(--pagination-border-color);
+    border-style: solid;
+    border-width: 1px;
+    justify-content: center;
+    align-self: center;
+    cursor: pointer;
+    transition: border var(--transition-time) var(--transition-effect);
+  }
+
+  .current-page {
+    border-color: var(--primary-text-color);
+  }
+
+  .pageLink {
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.43;
+    letter-spacing: 0.018em;
+    color: var(--primary-text-color);
+  }
+
+  .wrapper-page:hover,
+  .wrapper-page:focus {
+    border: 1px solid var(--primary-text-color);
+  }
+
+  @media screen and (min-width: $tablet) {
+    .paginationWrapper {
+      margin-top: 60px;
+    }
+  }
+}

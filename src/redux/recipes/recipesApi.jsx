@@ -16,15 +16,51 @@ export const recipesApi = createApi({
   // public endpoints
   endpoints: builder => ({
     getRecipes: builder.query({
-      query: () => '/recipes',
+      query: ({
+        page = 1,
+        limit = 12,
+        category = null,
+        area = null,
+        ingredients = null,
+      }) => {
+        const filter = { page, limit };
+        if (category) {
+          filter.category = category;
+        }
+        if (area) {
+          filter.area = area;
+        }
+        if (ingredients) {
+          filter.ingredients = ingredients;
+        }
+        return {
+          url: '/recipes',
+          method: 'GET',
+          params: filter,
+        };
+      },
       providesTags: ['Recipe'],
     }),
     getPopularRecipes: builder.query({
-      query: () => '/recipes/popular/list',
+      query: ({ page = 1, limit = 12 }) => {
+        return {
+          url: '/recipes/popular/list',
+          method: 'GET',
+          params: { page, limit },
+        };
+      },
       providesTags: ['Recipe'],
     }),
     getRecipeById: builder.query({
       query: id => `/recipes/${id}`,
+      providesTags: ['Recipe'],
+    }),
+    getUserRecipes: builder.query({
+      query: ({ page = 1, limit = 10, id }) => ({
+        url: `/recipes/user/${id}`,
+        method: 'GET',
+        params: { page, limit, id },
+      }),
       providesTags: ['Recipe'],
     }),
     //private endpoints
@@ -37,7 +73,7 @@ export const recipesApi = createApi({
         description,
         ingredients,
         instructions,
-        recipe,
+        thumb,
       }) => {
         const formData = new FormData();
         formData.append('time', time);
@@ -50,7 +86,7 @@ export const recipesApi = createApi({
           formData.append(`ingredients[${index}][measure]`, ingredient.measure);
         });
         formData.append('instructions', instructions);
-        formData.append('recipe', recipe);
+        formData.append('thumb', thumb);
         return { url: '/recipes/personal', method: 'POST', body: formData };
       },
       invalidatesTags: ['Recipe'],
@@ -74,6 +110,7 @@ export const {
   useGetRecipesQuery,
   useGetPopularRecipesQuery,
   useGetRecipeByIdQuery,
+  useGetUserRecipesQuery,
   useAddRecipeMutation,
   useGetOwnRecipesQuery,
   useRemoveRecipeMutation,
