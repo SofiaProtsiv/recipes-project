@@ -56,7 +56,11 @@ const Select = ({ options = [], value, onChange }) => {
         tabIndex={0}
       >
         <span className={cl.selectValue}>{selectedValue}</span>
-        <span className={cl.arrow}></span>
+        <span>
+          <svg className={cl.arrow}>
+            <use href="/symbols.svg#icon-arrow-down"></use>
+          </svg>
+        </span>
       </button>
       {isOpen && (
         <ul

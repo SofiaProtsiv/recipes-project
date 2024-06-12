@@ -106,5 +106,14 @@ $desktop: 1440px;
     div:focus {
       background-color: var(--primary-text-color);
     }
+
+    div.active {
+      background-color: var(--primary-text-color);
+    }
+
+    div.active .recipeFavorite {
+      fill: var(--white-color);
+      stroke: none;
+    }
   }
 }

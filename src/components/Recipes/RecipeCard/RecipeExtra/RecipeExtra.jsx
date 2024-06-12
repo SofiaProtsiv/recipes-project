@@ -14,10 +14,8 @@ const RecipeExtra = ({ owner: { _id, name, avatar }, isFavorite = false }) => {
         <h4 className={cl.recipeOwnerName}>{name}</h4>
       </div>
       <div className={cl.recipeButtons}>
-        <div>
-          <svg
-            className={`${cl.recipeFavorite} ${isFavorite ? cl.active : ''}`}
-          >
+        <div className={isFavorite && `${cl.active}`}>
+          <svg className={cl.recipeFavorite}>
             <use href="/symbols.svg#icon-heart"></use>
           </svg>
         </div>

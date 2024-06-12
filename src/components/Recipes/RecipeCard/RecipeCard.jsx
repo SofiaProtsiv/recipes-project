@@ -14,7 +14,7 @@ const RecipeCard = ({ recipe }, isFavorite = false) => {
         ></img>
         <h3 className={cl.recipeTitle}>{title} </h3>
         <p className={cl.recipeText}>{instructions}</p>
-        <RecipeExtra owner={owner} isFavorite={isFavorite} />
+        <RecipeExtra owner={owner} isFavorite={false} />
       </li>
     </>
   );
