@@ -2,6 +2,11 @@ import Button from '../ui/Button';
 import cl from './hero.module.scss';
 
 const Hero = () => {
+
+  const handleAddRecipe = () => {
+    window.location.href = "recipe/add";
+  }
+
   return (
     <section className={cl.section}>
       <h1 className={cl.title}>Improve Your<br/>Culinary Talents</h1>
@@ -9,7 +14,7 @@ const Hero = () => {
         Amazing recipes for beginners in the world of cooking, enveloping you in
         the aromas and tastes of various cuisines.
       </p>
-      <Button className={cl.button}>Add Recipe</Button>
+      <Button onClick={handleAddRecipe} addClass={cl.button}>Add Recipe</Button>
       <div className={cl.imgContainer}>
         <img src="/public/images/categories/Breakfast.jpg" alt="" />
         <img src="/public/images/categories/Beef.jpg" alt="" />

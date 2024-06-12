@@ -84,3 +84,17 @@
     }
   }
 }
+.button {
+  background-color: transparent;
+  border: 1px solid var(--hero-button);
+  color: var(--hero-button);
+  padding: 12px 24px;
+  border-radius: 30px;
+  text-transform: uppercase;
+  font-size: 14px;
+
+  @media (768px<=width) {
+    font-size: 16px;
+    padding: 16px 32px;
+  }
+}

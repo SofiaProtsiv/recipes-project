@@ -6,6 +6,7 @@
   align-items: center;
   background-color: var(--hero-bg);
   border-radius: 30px;
+  color: var(--white-color);
 
   &:hover {
     cursor: pointer;
@@ -57,11 +58,13 @@
     border-radius: 20px;
     background-color: var(--hero-bg);
     border: 1px solid var(--user-bar-border);
-    transition: opacity var(--transition-time) var(--transition-effect);
+    transition: all var(--transition-time) var(--transition-effect);
     opacity: 0;
+    visibility: hidden;
 
     &.active {
         opacity: 1;
+        visibility: visible;
     }
 
     button {

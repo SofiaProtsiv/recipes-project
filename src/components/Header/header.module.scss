@@ -3,16 +3,30 @@
     justify-content: space-between;
     align-items: center;
     position: absolute;
-    top: 40px;
+    top: 24px;
     left: 0;
     width: 100%;
     padding: 0 24px;
     color: var(--white-color);
+
     @media (768px<=width) {
-        padding: 0 80px;
+        padding: 0 48px;
+        top: 36px;
     }
 
-    @media screen and (max-width: var(--tablet)) {
-        padding: 0 48px;
+    @media (1440px<=width) {
+        padding: 0 80px;
+        top: 40px;
+    }
+
+    &.black {
+        color: var(--primary-text-color);
+    }
+
+    .mobile {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
     }
 }
