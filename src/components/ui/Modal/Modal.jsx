@@ -13,19 +13,25 @@ const Modal = ({ onClose, type = 'LogOutModal' }) => {
 
   const [modalType, setModalType] = useState(type);
   const [modalHeight, setModalHeight] = useState(0);
+  const [show, setShow] = useState(true);
   const modalRef = useRef(null);
 
   const { name } = useSelector(state => state.authSlice?.user);
 
+  const closeWithAnimation = () => {
+    setShow(false);
+    setTimeout(onClose, 300);
+  };
+
   const handleEscape = event => {
     if (event.key === 'Escape') {
-      onClose();
+      closeWithAnimation();
     }
   };
 
   const handleClickOutside = event => {
     if (modalRef.current && !modalRef.current.contains(event.target)) {
-      onClose();
+      closeWithAnimation();
     }
   };
 
@@ -59,21 +65,29 @@ const Modal = ({ onClose, type = 'LogOutModal' }) => {
 
   return createPortal(
     <div
-      className={`${cl.wrapper} ${modalHeight < 600 && cl.wrapper_scroll} ${
-        cl.scroll_hidden
-      }`}
+      className={`${cl.wrapper} ${modalHeight < 600 ? cl.wrapper_scroll : ''} ${
+        show ? cl.wrapper_show : ''
+      } ${cl.scroll_hidden}`}
     >
-      <div className={cl.modal} ref={modalRef}>
+      <div
+        className={`${cl.modal} ${show ? cl.modal_show : ''}`}
+        ref={modalRef}
+      >
         {modalType === 'SignUpModal' && (
           <SignUpModal setModalType={setModalType} />
         )}
         {modalType === 'SignInModal' && (
-          <SignInModal onClose={onClose} setModalType={setModalType} />
+          <SignInModal
+            onClose={closeWithAnimation}
+            setModalType={setModalType}
+          />
         )}
-        {modalType === 'LogOutModal' && <LogOutModal onClose={onClose} />}
+        {modalType === 'LogOutModal' && (
+          <LogOutModal onClose={closeWithAnimation} />
+        )}
 
         {(isLogOutModal || (name && isSignUpModal)) && (
-          <Button addClass={cl.cancel_button} onClick={onClose}>
+          <Button addClass={cl.cancel_button} onClick={closeWithAnimation}>
             {isLogOutModal && `Cancel`}
             {isSignUpModal && `Close`}
           </Button>
@@ -81,7 +95,7 @@ const Modal = ({ onClose, type = 'LogOutModal' }) => {
         <button
           className={cl.close_button}
           aria-label="Close modal window"
-          onClick={onClose}
+          onClick={closeWithAnimation}
         >
           <svg className={cl.close_icon} width={24} height={24}>
             <use href={`${sprite}#close`}></use>

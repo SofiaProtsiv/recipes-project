@@ -1,6 +1,14 @@
 .container {
   display: flex;
   flex-direction: column;
+
+  @media only screen and (min-width: 375px) {
+    width: 283px;
+  }
+
+  @media only screen and (min-width: 768px) {
+    width: 400px;
+  }
 }
 
 .wrapper {
