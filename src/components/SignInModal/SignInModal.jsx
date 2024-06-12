@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '../ui/Button';
-import MainTitle from '../ui/MainTitle';
+import SecondTitle from '../ui/SecondTitle';
 import SignInForm from './SignInForm';
 import cl from './signInModal.module.scss';
 
@@ -11,7 +11,7 @@ const SignInModal = ({ onClose, setModalType }) => {
 
   return (
     <>
-      <MainTitle>Sign in</MainTitle>
+      <SecondTitle>Sign in</SecondTitle>
       <SignInForm onClose={onClose} />
       <div className={cl.footer}>
         <p>Don't have an account?</p>

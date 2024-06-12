@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { useLogOutMutation } from '../../redux/auth/AuthApi';
 import { logOutUser } from '../../redux/auth/AuthSlice';
 import Button from '../ui/Button';
-import MainTitle from '../ui/MainTitle';
+import SecondTitle from '../ui/SecondTitle';
 import Subtitle from '../ui/Subtitle/Subtitle';
 import cl from './logOutModal.module.scss';
 
-const LogOutModal = () => {
+const LogOutModal = ({ onClose }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [logOut] = useLogOutMutation();
@@ -18,6 +18,7 @@ const LogOutModal = () => {
       await logOut().unwrap();
       dispatch(logOutUser());
       navigate('/');
+      onClose();
     } catch (error) {
       console.error('Logout error:', error);
     }
@@ -25,7 +26,7 @@ const LogOutModal = () => {
 
   return (
     <div className={cl.container}>
-      <MainTitle addClass={cl.title_center}>Log out</MainTitle>
+      <SecondTitle addClass={cl.title_center}>Log out</SecondTitle>
       <Subtitle addClass={cl.title_center}>
         You can always log back in at any time.
       </Subtitle>

@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import React from 'react';
 import Button from '../ui/Button';
-import MainTitle from '../ui/MainTitle';
+import SecondTitle from '../ui/SecondTitle';
 import SignUpForm from './SignUpForm';
 import { useSelector } from 'react-redux';
 import cl from './signUpModal.module.scss';
@@ -21,7 +21,7 @@ const SignUpModal = ({ setModalType }) => {
 
   return (
     <>
-      <MainTitle addClass={cl.title_center}>{title}</MainTitle>
+      <SecondTitle addClass={cl.title_center}>{title}</SecondTitle>
       {name ? (
         message
       ) : (

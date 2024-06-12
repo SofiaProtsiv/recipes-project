@@ -12,6 +12,7 @@ const Modal = ({ onClose, type = 'LogOutModal' }) => {
   //type = 'LogOutModal', 'SignUpModal', 'SignInModal'
 
   const [modalType, setModalType] = useState(type);
+  const [modalHeight, setModalHeight] = useState(0);
   const modalRef = useRef(null);
 
   const { name } = useSelector(state => state.authSlice?.user);
@@ -40,11 +41,28 @@ const Modal = ({ onClose, type = 'LogOutModal' }) => {
     };
   }, []);
 
+  useEffect(() => {
+    const updateModalHeight = () => {
+      setModalHeight(window.innerHeight);
+    };
+
+    updateModalHeight();
+    window.addEventListener('resize', updateModalHeight);
+
+    return () => {
+      window.removeEventListener('resize', updateModalHeight);
+    };
+  }, []);
+
   const isLogOutModal = type === 'LogOutModal';
   const isSignUpModal = type === 'SignUpModal';
 
   return createPortal(
-    <div className={cl.wrapper}>
+    <div
+      className={`${cl.wrapper} ${modalHeight < 600 && cl.wrapper_scroll} ${
+        cl.scroll_hidden
+      }`}
+    >
       <div className={cl.modal} ref={modalRef}>
         {modalType === 'SignUpModal' && (
           <SignUpModal setModalType={setModalType} />
@@ -52,7 +70,7 @@ const Modal = ({ onClose, type = 'LogOutModal' }) => {
         {modalType === 'SignInModal' && (
           <SignInModal onClose={onClose} setModalType={setModalType} />
         )}
-        {modalType === 'LogOutModal' && <LogOutModal />}
+        {modalType === 'LogOutModal' && <LogOutModal onClose={onClose} />}
 
         {(isLogOutModal || (name && isSignUpModal)) && (
           <Button addClass={cl.cancel_button} onClick={onClose}>
@@ -76,12 +94,3 @@ const Modal = ({ onClose, type = 'LogOutModal' }) => {
 };
 
 export default Modal;
-
-// example
-// const [showModal, setShowModal] = useState(false);
-// const toggleModal = () => {
-//   setShowModal(!showModal);
-// };
-
-// <button onClick={toggleModal}>Show Modal</button>
-// {showModal && <Modal onClose={toggleModal} type="SignInModal" />}

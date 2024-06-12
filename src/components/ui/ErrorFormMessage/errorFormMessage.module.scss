@@ -7,9 +7,11 @@
 
   @media only screen and (min-width: 375px) {
     padding-left: 14px;
+    max-width: 283px;
   }
 
   @media only screen and (min-width: 768px) {
     font-size: 14px;
+    max-width: 400px;
   }
 }
