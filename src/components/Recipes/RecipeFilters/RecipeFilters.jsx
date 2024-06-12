@@ -4,42 +4,95 @@ import PropTypes from 'prop-types';
 import { ingredientsApi } from '../../../redux/ingredients/ingredientsApi';
 import { areasApi } from '../../../redux/areas/areasApi';
 import { useEffect, useState } from 'react';
+import { categoriesApi } from '../../../redux/categories/categoriesApi';
 
-const RecipeFilters = ({ selectList = [], handleIngredient, handleArea }) => {
+const RecipeFilters = ({ handleIngredient, handleArea, handleCategories }) => {
+  const [selectList, setSelectList] = useState([]);
   const [areasList, setAreasList] = useState([]);
   const [ingredientsList, setIngredientsList] = useState([]);
-  const ingredientsResp = ingredientsApi.useGetIngredientsQuery();
-  const areasResp = areasApi.useGetAreasQuery();
+  const [categoriesList, setCategoriesList] = useState([]);
+  const {
+    data: ingredientsResp,
+    isFetching: isIngredientsFetching,
+    isSuccess: isIngredientsSuccess,
+    isError: isIngredientsError,
+    error: ingredientsError,
+  } = ingredientsApi.useGetIngredientsQuery();
+  const {
+    data: areasResp,
+    isFetching: isAreasFetching,
+    isSuccess: isAreasSuccess,
+    isError: isAreasError,
+    error: areasError,
+  } = areasApi.useGetAreasQuery();
+  const {
+    data: categoriesResp,
+    isFetching: isCategoriesFetching,
+    isSuccess: isCategoriesSuccess,
+    isError: isCategoriesError,
+    error: categoriesError,
+  } = categoriesApi.useGetCategoriesQuery();
 
   useEffect(() => {
-    if (ingredientsResp.status === 'fulfilled') {
-      setIngredientsList(ingredientsResp.data);
+    if (isCategoriesSuccess && ingredientsResp) {
+      setIngredientsList(ingredientsResp);
+      setSelectList(prevSelectList => [...prevSelectList, 'ingredients']);
     }
-    if (areasResp.status === 'fulfilled') {
-      setAreasList(areasResp.data);
+  }, [isCategoriesSuccess, ingredientsResp]);
+
+  useEffect(() => {
+    if (isAreasSuccess && areasResp) {
+      setAreasList(areasResp);
+      setSelectList(prevSelectList => [...prevSelectList, 'area']);
     }
-  }, [areasList, ingredientsList, areasResp, ingredientsResp]);
+  }, [isAreasSuccess, areasResp]);
+
+  useEffect(() => {
+    if (isCategoriesSuccess && categoriesResp) {
+      setCategoriesList(categoriesResp);
+      setSelectList(prevSelectList => [...prevSelectList, 'category']);
+    }
+  }, [isCategoriesSuccess, categoriesResp]);
+
+  const renderSelect = item => {
+    let options, onChange, className;
+
+    switch (item) {
+      case 'ingredients':
+        options = ingredientsList;
+        onChange = handleIngredient;
+        className = 'ingredients';
+        break;
+      case 'area':
+        options = areasList;
+        onChange = handleArea;
+        className = 'area';
+        break;
+      case 'category':
+        options = categoriesList;
+        onChange = handleCategories;
+        className = 'category';
+        break;
+      default:
+        return null;
+    }
+
+    return (
+      <li key={item}>
+        <Select
+          options={options}
+          onChange={onChange}
+          value={item}
+          className={className}
+        />
+      </li>
+    );
+  };
 
   return (
     <>
       <ul className={cl.recipeFilters}>
-        {selectList.map(item => {
-          if (item) {
-            return (
-              <li key={item}>
-                <Select
-                  options={item === 'ingredients' ? ingredientsList : areasList}
-                  onChange={
-                    item === 'ingredients' ? handleIngredient : handleArea
-                  }
-                  value={item}
-                  className={item === 'ingredients' ? 'ingredients' : 'areas'}
-                />
-              </li>
-            );
-          }
-          return null;
-        })}
+        {selectList.map(item => renderSelect(item))}
       </ul>
     </>
   );
@@ -49,6 +102,7 @@ RecipeFilters.propTypes = {
   selectList: PropTypes.array,
   handleIngredient: PropTypes.func,
   handleArea: PropTypes.func,
+  handleCategories: PropTypes.func,
 };
 
 export default RecipeFilters;

@@ -13,8 +13,14 @@ const Select = ({ options = [], value, onChange }) => {
   };
 
   const handleOptionClick = option => {
-    setSelectedValue(option.name);
-    onChange(option._id);
+    if (option.name === selectedValue) {
+      setSelectedValue(value);
+      onChange({});
+    } else {
+      setSelectedValue(option.name);
+      onChange(option);
+    }
+
     setIsOpen(false);
   };
 
