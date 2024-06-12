@@ -16,7 +16,6 @@ $desktop: 1440px;
     border: 1px solid var(--pagination-border-color);
     border-radius: 30px;
     cursor: pointer;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -42,9 +41,10 @@ $desktop: 1440px;
 
   .arrow {
     transition: transform ease-in-out 0.3s;
-    min-width: 12px;
-    min-height: 8px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1.5 1.75L6 6.25L10.5 1.75' stroke='%23050505' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: var(--primary-text-color);
   }
 
   .selectDropdown {

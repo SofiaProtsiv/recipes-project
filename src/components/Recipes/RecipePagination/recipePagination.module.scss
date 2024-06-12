@@ -24,6 +24,7 @@ $desktop: 1440px;
     justify-content: center;
     align-self: center;
     cursor: pointer;
+    transition: border var(--transition-time) var(--transition-effect);
   }
 
   .current-page {
@@ -42,6 +43,11 @@ $desktop: 1440px;
     line-height: 1.43;
     letter-spacing: 0.018em;
     color: var(--primary-text-color);
+  }
+
+  .wrapper-page:hover,
+  .wrapper-page:focus {
+    border: 1px solid var(--primary-text-color);
   }
 
   @media screen and (min-width: $tablet) {

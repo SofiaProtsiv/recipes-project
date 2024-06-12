@@ -1,38 +1,47 @@
 import { useEffect, useState } from 'react';
 import { recipesApi } from '../../redux/recipes/recipesApi';
-import Button from '../ui/Button';
-import MainTitle from '../ui/MainTitle';
-import Subtitle from '../ui/Subtitle';
 import RecipeFilters from './RecipeFilters';
 import RecipeList from './RecipeList';
 import RecipePagination from './RecipePagination';
 import PropTypes from 'prop-types';
 import getLimitForViewport from '../../utils/getLimitForViewport';
 import cl from './recipes.module.scss';
+import SkeletonRecipeCard from './RecipeCard/SkeletonRecipeCard';
 
-const Recipes = ({ category = null }) => {
+const Recipes = ({ category }) => {
   const limit = getLimitForViewport();
-  const selectList = ['ingredients', 'area'];
   const [recipeList, setRecipeList] = useState([]);
-  const [total, setTotal] = useState(0);
+  const [totalElements, setTotalElements] = useState(0);
   const [page, setPage] = useState(1);
   const [ingredients, setIngredient] = useState(null);
   const [area, setArea] = useState(null);
-  const recipeResp = recipesApi.useGetRecipesQuery({
-    page,
-    limit,
-    category,
-    area,
-    ingredients,
-  });
+  const [categoryState, setCategory] = useState(category);
+  const { data, isFetching, isSuccess, isError, error } =
+    recipesApi.useGetRecipesQuery({
+      page,
+      limit,
+      category: categoryState,
+      area,
+      ingredients,
+    });
 
   useEffect(() => {
-    if (recipeResp.status === 'fulfilled') {
-      const { recipes, total } = recipeResp.data;
+    if (isSuccess && data) {
+      const { recipes, total } = data;
       setRecipeList(recipes);
-      setTotal(total);
+      setTotalElements(total);
     }
-  }, [recipeResp, page, area, ingredients, category]);
+  }, [
+    isSuccess,
+    isError,
+    isFetching,
+    data,
+    recipeList,
+    page,
+    area,
+    ingredients,
+    categoryState,
+  ]);
 
   const handlePage = clickedPage => {
     if (clickedPage === page) {
@@ -45,7 +54,7 @@ const Recipes = ({ category = null }) => {
     }
   };
 
-  const handleIngredient = id => {
+  const handleIngredient = ({ _id: id }) => {
     if (id === ingredients) {
       setIngredient(null);
     } else {
@@ -53,32 +62,46 @@ const Recipes = ({ category = null }) => {
     }
   };
 
-  const handleArea = id => {
+  const handleCategories = ({ _id: id }) => {
+    if (id === categoryState) {
+      setCategory(null);
+    } else {
+      setCategory(id);
+    }
+  };
+
+  const handleArea = ({ _id: id }) => {
     if (id === area) {
       setArea(null);
     } else {
       setArea(id);
     }
   };
-  const totalPages = Math.ceil(total / limit);
+
+  const totalPages = Math.ceil(totalElements / limit);
   return (
     <>
-      <Button>Back</Button>
-      <MainTitle>RecipesTitle</MainTitle>
-      <Subtitle>RecipesSubtitle</Subtitle>
       <div className={cl.recipesWrapper}>
         <RecipeFilters
-          selectList={selectList}
           handleIngredient={handleIngredient}
           handleArea={handleArea}
+          handleCategories={handleCategories}
         />
         <div className={cl.recipeListWrapper}>
-          <RecipeList recipeList={recipeList} />
-          <RecipePagination
-            handlePage={handlePage}
-            page={page}
-            totalPages={totalPages}
-          />
+          {isFetching ? (
+            <SkeletonRecipeCard />
+          ) : isError ? (
+            <p className={cl.error}>{error.data['message']}</p>
+          ) : (
+            <>
+              <RecipeList recipeList={recipeList} />
+              <RecipePagination
+                handlePage={handlePage}
+                page={page}
+                totalPages={totalPages}
+              />
+            </>
+          )}
         </div>
       </div>
     </>

@@ -13,8 +13,14 @@ const Select = ({ options = [], value, onChange }) => {
   };
 
   const handleOptionClick = option => {
-    setSelectedValue(option.name);
-    onChange(option._id);
+    if (option.name === selectedValue) {
+      setSelectedValue(value);
+      onChange({});
+    } else {
+      setSelectedValue(option.name);
+      onChange(option);
+    }
+
     setIsOpen(false);
   };
 
@@ -37,7 +43,7 @@ const Select = ({ options = [], value, onChange }) => {
   }, []);
 
   return (
-    <div className={`${cl.selectWrapper} ${isOpen ? cl.active : ''}`}>
+    <div className={`${cl.selectWrapper}  ${isOpen ? cl.active : ''}`}>
       <button
         className={cl.selectButton}
         role="combobox"
@@ -50,7 +56,11 @@ const Select = ({ options = [], value, onChange }) => {
         tabIndex={0}
       >
         <span className={cl.selectValue}>{selectedValue}</span>
-        <span className={cl.arrow}></span>
+        <span>
+          <svg className={cl.arrow}>
+            <use href="/symbols.svg#icon-arrow-down"></use>
+          </svg>
+        </span>
       </button>
       {isOpen && (
         <ul
