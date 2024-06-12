@@ -1,43 +1,53 @@
-import PropTypes from 'prop-types';
+/* eslint-disable react/prop-types */
+
+import { Controller } from 'react-hook-form';
+import Select from 'react-select';
 import cl from './ingredientField.module.scss';
+import ErrorFormMessage from '../../../ui/ErrorFormMessage';
 
-const IngredientField = ({ index, register, remove, errors }) => (
-  <div className={cl.ingredient}>
-    <select {...register(`ingredients.${index}.ingredient`)}>
-      <option value="">Select ingredient...</option>
-      <option value="salt">Salt</option>
-      <option value="pepper">Pepper</option>
-      <option value="sugar">Sugar</option>
-      <option value="flour">Flour</option>
-    </select>
-    <input
-      type="text"
-      placeholder="Quantity"
-      {...register(`ingredients.${index}.quantity`)}
-    />
-    <button type="button" onClick={remove}>
-      Remove
-    </button>
-    {errors && (
-      <p className={cl.error}>
-        {errors.ingredient?.message || errors.quantity?.message}
-      </p>
-    )}
-  </div>
-);
-
-IngredientField.propTypes = {
-  index: PropTypes.number.isRequired,
-  register: PropTypes.func.isRequired,
-  remove: PropTypes.func.isRequired,
-  errors: PropTypes.shape({
-    ingredient: PropTypes.shape({
-      message: PropTypes.string,
-    }),
-    quantity: PropTypes.shape({
-      message: PropTypes.string,
-    }),
-  }),
+const IngredientField = ({ control, register, index, options, errors }) => {
+  return (
+    <div className={cl['ingredient-fields-wrapper']}>
+      <div className={cl['ingredient-field']}>
+        <div className={cl['form-group']}>
+          <Controller
+            name={`ingredients[${index}].ingredient`}
+            control={control}
+            render={({ field }) => (
+              <Select
+                {...field}
+                options={options}
+                placeholder="Add the ingredient"
+                className="react-select-container"
+                classNamePrefix="react-select"
+                value={field.value || null}
+              />
+            )}
+          />
+          {errors?.ingredient && (
+            <ErrorFormMessage
+              addClass={cl['custome-error']}
+              message={errors.ingredient?.message}
+            />
+          )}
+        </div>
+        <div className={cl['form-group']}>
+          <input
+            type="text"
+            {...register(`ingredients[${index}].measure`)}
+            placeholder="Enter quantity"
+            className={cl.input}
+          />
+          {errors?.measure && (
+            <ErrorFormMessage
+              addClass={cl['custome-error']}
+              message={errors.measure.message}
+            />
+          )}
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default IngredientField;

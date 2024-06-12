@@ -1,12 +1,15 @@
-import { useState } from 'react';
-import { useForm, useFieldArray } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { schema } from './utils/form-validation-schema';
+import { useFormFields } from './hooks/useFormFields';
+import { useRecipeLogic } from './hooks/useRecipeLogic';
 import FormGroup from './components/FormGroup';
 import FileInput from './components/FileInput';
 import IngredientField from './components/IngredientField';
 import CookingTimeControl from './components/CookingTimeControl';
+import sprite from '../../assets/icons/sprite.svg';
 import cl from './addRecipeForm.module.scss';
+import SubmitButton from '../ui/SubmitButton';
+import Select from 'react-select';
+import IngredientCard from '../IngredientCard';
+import { Controller } from 'react-hook-form';
 
 const AddRecipeForm = () => {
   const {
@@ -14,84 +17,116 @@ const AddRecipeForm = () => {
     handleSubmit,
     control,
     setValue,
-    reset,
     watch,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-    defaultValues: {
-      cookingTime: 0,
-      ingredients: [{ ingredient: '', quantity: '' }],
-    },
-  });
+    getValues,
+    setError,
+    reset,
+    errors,
+    fields,
+  } = useFormFields();
 
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'ingredients',
-  });
-  const [imagePreview, setImagePreview] = useState(null);
-  const currentCookingTime = watch('cookingTime', 0);
+  const {
+    categoryOptions,
+    ingredientOptions,
+    areaOptions,
+    imagePreview,
+    selectedIngredients,
+    handleClear,
+    handleImageChange,
+    removeIngredient,
+    addIngredient,
+    onSubmit,
+  } = useRecipeLogic(setValue, getValues, setError, reset);
 
-  const handleReset = () => {
-    reset();
-    setImagePreview(null);
-  };
-
-  const handleImageChange = event => {
-    const file = event.target.files[0];
-    if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = () => setImagePreview(reader.result);
-      reader.readAsDataURL(file);
-    } else {
-      setImagePreview(null);
-    }
-  };
-
-  const onSubmit = data => {
-    console.log(data);
-  };
+  const currentCookingTime = watch('time', 10);
+  const descriptionLength = watch('description', '').length;
+  const instructionsLength = watch('instructions', '').length;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={cl.form}>
       <div className={cl['fileInput-container']}>
-        <FormGroup label="Upload a Photo" error={errors.photo?.message}>
+        <FormGroup label="Recipe Image" error={errors.thumb?.message}>
           <FileInput
-            id="file-input"
-            register={register('photo')}
+            id="thumb"
+            register={register('thumb')}
             onChange={handleImageChange}
             imagePreview={imagePreview}
+            error={errors.thumb?.message}
           />
         </FormGroup>
       </div>
 
       <div className={cl['recipeInfo-container']}>
-        <FormGroup label="The name of the recipe" error={errors.name?.message}>
-          <input
-            type="text"
-            {...register('name')}
-            className={cl.input}
-            placeholder="Enter a description of the dish"
-          />
-          <span>0/200</span>
-        </FormGroup>
+        <div className={cl['name-wrapper']}>
+          <FormGroup label="" error={errors.title?.message}>
+            <input
+              type="text"
+              {...register('title')}
+              className={cl['recipe-name-input']}
+              placeholder="The name of the recipe"
+            />
+          </FormGroup>
+          <FormGroup label="" error={errors.description?.message}>
+            <div className={cl['custome-form-group']}>
+              <textarea
+                {...register('description')}
+                className={cl.textarea}
+                placeholder="Enter the description of the dish"
+              />
+              <span className={cl['chars-count-description']}>
+                {descriptionLength}/200
+              </span>
+            </div>
+          </FormGroup>
+        </div>
 
-        <FormGroup label="Category" error={errors.category?.message}>
-          <select {...register('category')}>
-            <option value="">Select...</option>
-            <option value="appetizer">Appetizer</option>
-            <option value="main">Main</option>
-            <option value="dessert">Dessert</option>
-          </select>
-        </FormGroup>
+        <div className={cl['form-group-wrapper']}>
+          <FormGroup
+            addClass={cl['category-wrapper']}
+            label="Category"
+            error={errors.category?.message}
+          >
+            <Controller
+              name="category"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  options={categoryOptions}
+                  placeholder="Select a category"
+                  className="react-select-container"
+                  classNamePrefix="react-select"
+                  value={field.value || null}
+                />
+              )}
+            />
+          </FormGroup>
 
-        <FormGroup label="Cooking Time" error={errors.cookingTime?.message}>
-          <CookingTimeControl
-            value={currentCookingTime}
-            onDecrement={() =>
-              setValue('cookingTime', Math.max(0, currentCookingTime - 1))
-            }
-            onIncrement={() => setValue('cookingTime', currentCookingTime + 1)}
+          <FormGroup label="Cooking Time" error={errors.time?.message}>
+            <CookingTimeControl
+              value={currentCookingTime}
+              onDecrement={() =>
+                setValue('time', Math.max(0, currentCookingTime - 1))
+              }
+              onIncrement={() => setValue('time', currentCookingTime + 1)}
+            />
+          </FormGroup>
+        </div>
+
+        <FormGroup label="Area" error={errors.area?.message}>
+          <Controller
+            name="area"
+            control={control}
+            render={({ field }) => (
+              <Select
+                {...field}
+                options={areaOptions}
+                placeholder="Select an area"
+                className="react-select-container"
+                classNamePrefix="react-select"
+                value={field.value || null}
+              />
+            )}
           />
         </FormGroup>
 
@@ -100,31 +135,70 @@ const AddRecipeForm = () => {
             <IngredientField
               key={field.id}
               index={index}
+              control={control}
               register={register}
-              remove={() => remove(index)}
+              options={ingredientOptions}
               errors={errors.ingredients?.[index]}
             />
           ))}
           <button
+            className={cl['add-ingredient-button']}
             type="button"
-            onClick={() => append({ ingredient: '', quantity: '' })}
+            onClick={addIngredient}
           >
             Add Ingredient
+            <svg width={16} height={16}>
+              <use href={`${sprite}#plus`}></use>
+            </svg>
           </button>
         </FormGroup>
+
+        {selectedIngredients.length > 0 && (
+          <div>
+            <ul className={cl['ingredients-list']}>
+              {selectedIngredients.map(({ _id, img, name, measure }) => (
+                <IngredientCard
+                  key={_id}
+                  id={_id}
+                  img={img}
+                  name={name}
+                  measure={measure}
+                  removeIngredient={removeIngredient}
+                />
+              ))}
+            </ul>
+          </div>
+        )}
 
         <FormGroup
           label="Recipe Preparation"
-          error={errors.preparation?.message}
+          error={errors.instructions?.message}
         >
-          <textarea {...register('preparation')} />
+          <div className={cl['custome-form-group']}>
+            <textarea
+              className={cl.textarea}
+              {...register('instructions')}
+              placeholder="Enter recipe"
+            />
+            <span className={cl['chars-count-instructions']}>
+              {instructionsLength}/200
+            </span>
+          </div>
         </FormGroup>
 
         <div className={cl['form-actions']}>
-          <button type="button" onClick={handleReset}>
-            Clear
+          <button
+            type="button"
+            onClick={() => handleClear(reset)}
+            className={cl['clear-button']}
+          >
+            <svg width={20} height={20}>
+              <use href={`${sprite}#trash`}></use>
+            </svg>
           </button>
-          <button type="submit">Publish</button>
+          <SubmitButton addClass={cl['submit-btn']} type="submit">
+            Publish
+          </SubmitButton>
         </div>
       </div>
     </form>

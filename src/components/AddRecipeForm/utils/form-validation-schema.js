@@ -1,26 +1,53 @@
 import * as yup from 'yup';
 
 export const schema = yup.object().shape({
-  photo: yup.mixed().test('fileType', 'Only images are allowed', value => {
+  thumb: yup.mixed().test('fileType', 'Only images are allowed', value => {
     return !value.length || (value[0] && value[0].type.startsWith('image/'));
   }),
-  name: yup.string().required('Recipe name is required'),
-  category: yup.string().required('Category is required'),
-  cookingTime: yup
+  title: yup.string().required('Recipe name is required'),
+  category: yup.object().required('Category is required'),
+  area: yup.object().required('Area is required'),
+  time: yup
     .number()
     .min(1, 'Cooking time must be at least 1 minute')
     .required(),
-  ingredients: yup
-    .array()
-    .of(
-      yup.object().shape({
-        ingredient: yup.string().required('Ingredient is required'),
-        quantity: yup.string().required('Quantity is required'),
-      })
-    )
-    .min(1, 'At least one ingredient is required'),
-  preparation: yup
+  instructions: yup
     .string()
     .max(200, 'Maximum 200 characters allowed')
-    .required('Recipe preparation is required'),
+    .required('Recipe instruction is required'),
+  description: yup
+    .string()
+    .max(200, 'Maximum 200 characters allowed')
+    .required('Recipe description is required'),
 });
+
+
+// import * as yup from 'yup';
+
+// export const schema = yup.object().shape({
+//   name: yup.string().required('Введіть назву рецепта'),
+//   description: yup
+//     .string()
+//     .max(200, 'Опис не повинен перевищувати 200 символів')
+//     .required('Введіть опис рецепта'),
+//   category: yup.string().required('Оберіть категорію'),
+//   area: yup.string().required('Оберіть походження'),
+//   time: yup
+//     .number()
+//     .min(1, 'Час приготування повинен бути не менше 1 хвилини')
+//     .required('Вкажіть час приготування'),
+//   instructions: yup
+//     .string()
+//     .max(200, 'Інструкції не повинні перевищувати 200 символів')
+//     .required('Введіть інструкції'),
+//   thumb: yup.mixed().required('Додайте зображення'),
+//   ingredient: yup.string(),
+//   measure: yup
+//     .string()
+//     .min(1, 'Введіть кількість')
+//     .when('ingredient', {
+//       is: ingredient => ingredient?.length > 0,
+//       then: yup.string().required('Введіть кількість'),
+//     }),
+// });
+

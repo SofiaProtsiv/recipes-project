@@ -37,7 +37,7 @@ export const recipesApi = createApi({
         description,
         ingredients,
         instructions,
-        recipe,
+        thumb,
       }) => {
         const formData = new FormData();
         formData.append('time', time);
@@ -50,7 +50,7 @@ export const recipesApi = createApi({
           formData.append(`ingredients[${index}][measure]`, ingredient.measure);
         });
         formData.append('instructions', instructions);
-        formData.append('recipe', recipe);
+        formData.append('thumb', thumb);
         return { url: '/recipes/personal', method: 'POST', body: formData };
       },
       invalidatesTags: ['Recipe'],
