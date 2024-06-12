@@ -1,16 +1,15 @@
 import PropTypes from 'prop-types';
-import cl from './mainTitle.module.scss';
+import cl from './secondTitle.module.scss';
 
-const MainTitle = ({ addClass, children }) => {
+const SecondTitle = ({ addClass, children }) => {
   return (
     <h2 className={addClass ? `${cl.title} ${addClass}` : cl.title}>
       {children}
     </h2>
   );
 };
-MainTitle.propTypes = {
+SecondTitle.propTypes = {
   children: PropTypes.node.isRequired,
-  addClass: PropTypes.string,
 };
 
-export default MainTitle;
+export default SecondTitle;
