@@ -8,7 +8,7 @@ const RecipeCard = ({ recipe }) => {
         <img
           src={recipe.thumb}
           alt={recipe.title}
-          className={cl.recipeImg}
+          className={`${cl.recipeImg} ${cl.skeleton}`}
         ></img>
         <h3 className={cl.recipeTitle}>{recipe.title} </h3>
         <p className={cl.recipeText}>{recipe.instructions}</p>

@@ -6,6 +6,7 @@ import RecipePagination from './RecipePagination';
 import PropTypes from 'prop-types';
 import getLimitForViewport from '../../utils/getLimitForViewport';
 import cl from './recipes.module.scss';
+import SkeletonRecipeCard from './RecipeCard/SkeletonRecipeCard';
 
 const Recipes = ({ category }) => {
   const limit = getLimitForViewport();
@@ -86,22 +87,22 @@ const Recipes = ({ category }) => {
           handleArea={handleArea}
           handleCategories={handleCategories}
         />
-        {!isFetching && (
-          <div className={cl.recipeListWrapper}>
-            {isError ? (
-              <p className={cl.error}>{error.data['message']}</p>
-            ) : (
-              <>
-                <RecipeList recipeList={recipeList} />
-                <RecipePagination
-                  handlePage={handlePage}
-                  page={page}
-                  totalPages={totalPages}
-                />
-              </>
-            )}
-          </div>
-        )}
+        <div className={cl.recipeListWrapper}>
+          {isFetching ? (
+            <SkeletonRecipeCard />
+          ) : isError ? (
+            <p className={cl.error}>{error.data['message']}</p>
+          ) : (
+            <>
+              <RecipeList recipeList={recipeList} />
+              <RecipePagination
+                handlePage={handlePage}
+                page={page}
+                totalPages={totalPages}
+              />
+            </>
+          )}
+        </div>
       </div>
     </>
   );

@@ -7,18 +7,15 @@ $desktop: 1440px;
 
 .recipesWrapper {
   display: grid;
+  grid-template-columns: repeat(1, minmax(343px, 1fr));
+  width: 343px;
+  row-gap: 32px;
 
   .recipeListWrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-  }
-
-  @media screen and (min-width: $mobile) and (max-width: $mobile-max) {
-    grid-template-columns: repeat(1, minmax(343px, 1fr));
-    width: 343px;
-    row-gap: 32px;
   }
 
   @media screen and (min-width: $tablet) and (max-width: $tablet-max) {

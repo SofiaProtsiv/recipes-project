@@ -43,7 +43,7 @@ const Select = ({ options = [], value, onChange }) => {
   }, []);
 
   return (
-    <div className={`${cl.selectWrapper} ${isOpen ? cl.active : ''}`}>
+    <div className={`${cl.selectWrapper}  ${isOpen ? cl.active : ''}`}>
       <button
         className={cl.selectButton}
         role="combobox"
