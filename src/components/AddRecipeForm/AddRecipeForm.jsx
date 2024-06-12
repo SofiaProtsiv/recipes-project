@@ -51,7 +51,6 @@ const AddRecipeForm = () => {
             register={register('thumb')}
             onChange={handleImageChange}
             imagePreview={imagePreview}
-            error={errors.thumb?.message}
           />
         </FormGroup>
       </div>

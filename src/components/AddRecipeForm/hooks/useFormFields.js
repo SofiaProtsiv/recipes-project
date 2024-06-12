@@ -24,7 +24,7 @@ export const useFormFields = () => {
       area: null,
       ingredients: [{ ingredient: null, measure: '' }],
       instructions: '',
-      thumb: '',
+      thumb: null,
     },
   });
 

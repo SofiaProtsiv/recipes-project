@@ -9,7 +9,7 @@ const AddRecipePage = () => {
     <div className={cl.section}>
       <div className={cl.container}>
         <PathInfo />
-        <MainTitle>Add recipe</MainTitle>
+        <MainTitle addClass={cl['custome-title']}>Add recipe</MainTitle>
         <Subtitle>
           Reveal your culinary art, share your favorite recipe and create
           gastronomic masterpieces with us.

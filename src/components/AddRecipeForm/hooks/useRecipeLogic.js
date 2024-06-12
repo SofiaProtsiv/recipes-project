@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAddRecipeMutation } from '../../../redux/recipes/recipesApi';
-import { useGetCategoriessQuery } from '../../../redux/categories/categoriesApi';
+import { useGetCategoriesQuery } from '../../../redux/categories/categoriesApi';
 import { useGetIngredientsQuery } from '../../../redux/ingredients/ingredientsApi';
 import { useGetAreasQuery } from '../../../redux/areas/areasApi';
 
@@ -8,7 +8,7 @@ export const useRecipeLogic = (setValue, getValues, setError, setReset) => {
   const [imagePreview, setImagePreview] = useState(null);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
 
-  const { data: categories } = useGetCategoriessQuery();
+  const { data: categories } = useGetCategoriesQuery();
   const { data: ingredients } = useGetIngredientsQuery();
   const { data: area } = useGetAreasQuery();
   const [addRecipe] = useAddRecipeMutation();

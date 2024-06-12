@@ -1,9 +1,7 @@
 import * as yup from 'yup';
 
 export const schema = yup.object().shape({
-  thumb: yup.mixed().test('fileType', 'Only images are allowed', value => {
-    return !value.length || (value[0] && value[0].type.startsWith('image/'));
-  }),
+  // thumb: yup.mixed().required('Photo is required'),
   title: yup.string().required('Recipe name is required'),
   category: yup.object().required('Category is required'),
   area: yup.object().required('Area is required'),
