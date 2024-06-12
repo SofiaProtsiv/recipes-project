@@ -1,0 +1,110 @@
+/* Breakpoints */
+$mobile: 375px;
+$mobile-max: 767.99px;
+$tablet: 768px;
+$tablet-max: 1439.99px;
+$desktop: 1440px;
+
+.recipeExtra {
+  display: flex;
+  justify-content: space-between;
+
+  .recipeOwner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .recipeOwnerImg {
+      width: 32px;
+      height: 32px;
+      border-radius: 30px;
+      transition: border var(--transition-time) var(--transition-effect);
+
+      @media screen and (min-width: $tablet) {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    .recipeOwnerImg:hover,
+    .recipeOwnerImg:focus {
+      border: 1px solid var(--primary-text-color);
+    }
+
+    .recipeOwnerName {
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.42;
+      letter-spacing: -0.02em;
+
+      @media screen and (min-width: $tablet) {
+        font-size: 16px;
+        line-height: 1.5;
+      }
+    }
+  }
+
+  .recipeButtons {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    div {
+      display: flex;
+      flex-direction: column;
+      width: 36px;
+      height: 36px;
+      border-radius: 100px;
+      border-color: var(--pagination-border-color);
+      border-style: solid;
+      border-width: 1px;
+      justify-content: center;
+      align-self: center;
+      cursor: pointer;
+      transition: border var(--transition-time) var(--transition-effect);
+
+      .recipeFavorite,
+      .recipeLink {
+        width: 16px;
+        height: 16px;
+        margin: auto;
+        fill: none;
+        stroke: var(--primary-text-color);
+        cursor: pointer;
+
+        @media screen and (min-width: $tablet) {
+          width: 18px;
+          height: 18px;
+        }
+      }
+
+      .recipeFavorite {
+        transition: fill var(--transition-time) var(--transition-effect);
+      }
+      .recipeLink {
+        transition: stroke var(--transition-time) var(--transition-effect);
+      }
+
+      @media screen and (min-width: $tablet) {
+        width: 42px;
+        height: 42px;
+      }
+    }
+
+    div:hover .recipeFavorite,
+    div:focus .recipeFavorite {
+      fill: var(--white-color);
+      stroke: none;
+    }
+
+    div:hover .recipeLink,
+    div:focus .recipeLink {
+      stroke: var(--white-color);
+    }
+
+    div:hover,
+    div:focus {
+      background-color: var(--primary-text-color);
+    }
+  }
+}
