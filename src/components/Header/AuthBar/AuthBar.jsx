@@ -1,13 +1,6 @@
 import { useState } from 'react';
 import Modal from '../../ui/Modal';
 import cl from './authBar.module.scss';
-// const [showModal, setShowModal] = useState(false);
-// const toggleModal = () => {
-//   setShowModal(!showModal);
-// };
-
-// <button onClick={toggleModal}>Show Modal</button>
-// {showModal && <Modal onClose={toggleModal} type="SignInModal" />}
 
 const AuthBar = () => {
   const [modalType, setModalType] = useState(null);
@@ -19,11 +12,10 @@ const AuthBar = () => {
   };
 
   return (
-    <div className={cl.className}>
-      <button onClick={() => toggleModal('SignInModal')}>Sign In</button>
-      <button onClick={() => toggleModal('SignUpModal')}>Sign Up</button>
-      <button onClick={() => toggleModal()}>Log Out</button>
-
+    <div className={cl.authBtns}>
+      <button className={cl.signIn} onClick={() => toggleModal('SignInModal')}>Sign In</button>
+      <button className={cl.signUp} onClick={() => toggleModal('SignUpModal')}>Sign Up</button>
+      {/* <button onClick={() => toggleModal()}>Log Out</button> */}
       {showModal && <Modal onClose={toggleModal} type={modalType} />}
     </div>
   );

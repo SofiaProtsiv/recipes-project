@@ -18,16 +18,17 @@ const Header = () => {
       <Logo />
 
       {isUserAuthorized ? (
-      ) : isMobile ? (
-        <div className={cl.mobile}>
-          <UserBar />
-          <MobileNavigation />
-        </div>
-      ) : (
-        <>
-          <Navigation />
-          <UserBar />
-        </>
+        isMobile ? (
+          <div className={cl.mobile}>
+            <UserBar />
+            <MobileNavigation />
+          </div>
+        ) : (
+          <>
+            <Navigation />
+            <UserBar />
+          </>
+        )
       ) : (
         <AuthBar />
       )}
