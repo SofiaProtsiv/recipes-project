@@ -11,8 +11,26 @@ const SignUpModal = ({ setModalType }) => {
   const handleSignClick = () => {
     setModalType('SignInModal');
   };
+  const nameTitle = (
+    <span className={cl.title_name}>
+      {name}
+      <span className={cl.title_text}>!</span>
+    </span>
+  );
+  const title =
+    name && email ? (
+      <>
+        <span>
+          Welcome,
+          <br />
+          &nbsp;
+        </span>
 
-  const title = name && email ? `Welcome, ${name}!` : `Sign up`;
+        {nameTitle}
+      </>
+    ) : (
+      `Sign up`
+    );
   const message = (
     <p className={cl.text}>
       Your account with email {email} has been successfully created.
@@ -21,7 +39,7 @@ const SignUpModal = ({ setModalType }) => {
 
   return (
     <>
-      <SecondTitle addClass={cl.title_center}>{title}</SecondTitle>
+      <SecondTitle addClass={cl.title_modal}>{title}</SecondTitle>
       {name ? (
         message
       ) : (
