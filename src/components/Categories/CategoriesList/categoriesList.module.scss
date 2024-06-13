@@ -1,0 +1,16 @@
+.categories-list {
+  display: grid;
+  grid-row: auto;
+  grid-auto-rows: minmax(250px, 250px);
+  gap: 16px;
+
+  @media screen and (768px <= width) {
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: minmax(370px, 370px);
+    gap: 20px;
+  }
+
+  @media screen and (1440px <= width) {
+    grid-template-columns: repeat(15, 1fr);
+  }
+}
