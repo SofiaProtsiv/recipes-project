@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
 // waiting for the back
 export const recipesApi = createApi({
   reducerPath: 'recipesApi',
@@ -13,20 +14,61 @@ export const recipesApi = createApi({
     },
   }),
   tagTypes: ['Recipe'],
+
   // public endpoints
   endpoints: builder => ({
     getRecipes: builder.query({
-      query: () => '/recipes',
+      query: ({
+        page = 1,
+        limit = 12,
+        category = null,
+        area = null,
+        ingredients = null,
+      }) => {
+        const filter = { page, limit };
+        if (category) {
+          filter.category = category;
+        }
+        if (area) {
+          filter.area = area;
+        }
+        if (ingredients) {
+          filter.ingredients = ingredients;
+        }
+        return {
+          url: '/recipes',
+          method: 'GET',
+          params: filter,
+        };
+      },
       providesTags: ['Recipe'],
     }),
+
     getPopularRecipes: builder.query({
-      query: () => '/recipes/popular/list',
+      query: ({ page = 1, limit = 4 } = {}) => {
+        return {
+          url: '/recipes/popular/list',
+          method: 'GET',
+          params: { page, limit },
+        };
+      },
       providesTags: ['Recipe'],
     }),
+
     getRecipeById: builder.query({
       query: id => `/recipes/${id}`,
       providesTags: ['Recipe'],
     }),
+
+    getUserRecipes: builder.query({
+      query: ({ page = 1, limit = 10, id }) => ({
+        url: `/recipes/user/${id}`,
+        method: 'GET',
+        params: { page, limit, id },
+      }),
+      providesTags: ['Recipe'],
+    }),
+
     //private endpoints
     addRecipe: builder.mutation({
       query: ({
@@ -61,6 +103,7 @@ export const recipesApi = createApi({
       },
       invalidatesTags: ['Recipe'],
     }),
+
     getOwnRecipes: builder.query({
       query: () => '/recipes/personal/data',
       providesTags: ['Recipe'],
@@ -80,6 +123,7 @@ export const {
   useGetRecipesQuery,
   useGetPopularRecipesQuery,
   useGetRecipeByIdQuery,
+  useGetUserRecipesQuery,
   useAddRecipeMutation,
   useGetOwnRecipesQuery,
   useRemoveRecipeMutation,
