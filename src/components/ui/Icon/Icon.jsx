@@ -1,24 +1,12 @@
-import PropTypes from 'prop-types';
+import sprite from '../../../assets/icons/sprite.svg';
+import cl from './icon.module.scss';
 
-{
-  /* <Icon id="example" />; */
-}
-const Icon = ({ id }) => {
-  switch (id) {
-    case 'example':
-      return (
-        <svg>
-          <path></path>
-        </svg>
-      );
-
-    default:
-      return <svg></svg>;
-  }
-};
-
-Icon.propTypes = {
-  id: PropTypes.string.isRequired,
+const Icon = ({ icon = 'star', width = 16, height = 16 }) => {
+  return (
+    <svg className={cl.icon} width={width} height={height}>
+      <use href={`${sprite}#${icon}`}></use>
+    </svg>
+  );
 };
 
 export default Icon;
