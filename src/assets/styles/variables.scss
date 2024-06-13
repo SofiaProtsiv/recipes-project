@@ -4,6 +4,7 @@
   --white-color: #ffffff;
   --primary-text-color: #050505;
   --secondary-text-color: #050505cc;
+  --recipe-feature-text: rgba(5, 5, 5, 0.6);
   --subtitle-text-color: #05050580;
   --subtitle-white-color: #ffffff80;
   --light-text-color: #05050599;
@@ -17,6 +18,7 @@
   --button-disable-color: #ffffff40;
   --button-disable-bg: #05050520;
   --button-bg: rgba(5, 5, 5, 0.85);
+  --button-border: rgba(5, 5, 5, 0.12);
   --pagination-border-color: #05050510;
   --breadcrum-home: #05050540;
   --error-color: #c42424;
@@ -36,7 +38,14 @@
   --background-color: rgba(18, 20, 23, 0.4);
 
   /* Backdrop */
-  --base-font: 'Mulish', sans-serif;
+  --base-font: "Mulish", sans-serif;
+
+  /* SVG-icons */
+  --stroke: var(--border-color-dark);
+  --fill: none;
+
+  /* RGB */
+  --white-rgb: 255, 255, 255;
 }
 
 body.dark {

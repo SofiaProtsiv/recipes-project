@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
 // waiting for the back
 export const recipesApi = createApi({
   reducerPath: 'recipesApi',
@@ -13,6 +14,7 @@ export const recipesApi = createApi({
     },
   }),
   tagTypes: ['Recipe'],
+
   // public endpoints
   endpoints: builder => ({
     getRecipes: builder.query({
@@ -41,8 +43,9 @@ export const recipesApi = createApi({
       },
       providesTags: ['Recipe'],
     }),
+
     getPopularRecipes: builder.query({
-      query: ({ page = 1, limit = 12 }) => {
+      query: ({ page = 1, limit = 4 } = {}) => {
         return {
           url: '/recipes/popular/list',
           method: 'GET',
@@ -51,10 +54,12 @@ export const recipesApi = createApi({
       },
       providesTags: ['Recipe'],
     }),
+
     getRecipeById: builder.query({
       query: id => `/recipes/${id}`,
       providesTags: ['Recipe'],
     }),
+
     getUserRecipes: builder.query({
       query: ({ page = 1, limit = 10, id }) => ({
         url: `/recipes/user/${id}`,
@@ -63,6 +68,7 @@ export const recipesApi = createApi({
       }),
       providesTags: ['Recipe'],
     }),
+
     //private endpoints
     addRecipe: builder.mutation({
       query: ({
@@ -73,24 +79,31 @@ export const recipesApi = createApi({
         description,
         ingredients,
         instructions,
-        thumb,
+        thumb: recipes,
       }) => {
         const formData = new FormData();
-        formData.append('time', time);
         formData.append('title', title);
         formData.append('category', category);
         formData.append('area', area);
+        formData.append('instructions', instructions);
+
         formData.append('description', description);
         ingredients.forEach((ingredient, index) => {
           formData.append(`ingredients[${index}][id]`, ingredient.id);
           formData.append(`ingredients[${index}][measure]`, ingredient.measure);
         });
-        formData.append('instructions', instructions);
-        formData.append('thumb', thumb);
-        return { url: '/recipes/personal', method: 'POST', body: formData };
+        formData.append('time', time);
+        formData.append('recipe', recipes);
+
+        return {
+          url: '/recipes/personal',
+          method: 'POST',
+          body: formData,
+        };
       },
       invalidatesTags: ['Recipe'],
     }),
+
     getOwnRecipes: builder.query({
       query: () => '/recipes/personal/data',
       providesTags: ['Recipe'],
