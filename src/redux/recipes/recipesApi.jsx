@@ -42,7 +42,7 @@ export const recipesApi = createApi({
       providesTags: ['Recipe'],
     }),
     getPopularRecipes: builder.query({
-      query: ({ page = 1, limit = 12 }) => {
+      query: ({ page = 1, limit = 4 } = {}) => {
         return {
           url: '/recipes/popular/list',
           method: 'GET',
