@@ -106,10 +106,10 @@ export const authApi = createApi({
       }),
       invalidatesTags: ['User'],
     }),
-    // should work if backend change logic for that router.
+
     getFavoriteRecipesList: builder.query({
       query: () => ({
-        url: `/recipes/favorite`,
+        url: `/users/recipes/favorite`,
       }),
       providesTags: ['User'],
     }),
