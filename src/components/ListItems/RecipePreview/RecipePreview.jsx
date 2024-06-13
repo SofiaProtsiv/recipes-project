@@ -1,13 +1,25 @@
-import cl from './recipePreview.module.scss';
+import PropTypes from 'prop-types';
+
 import { useRemoveRecipeFromFavoritesListMutation } from '../../../redux/auth/AuthApi';
+import { useRemoveRecipeMutation } from '../../../redux/recipes/recipesApi';
+import { TypeOfList } from '../constants';
+
+import cl from './recipePreview.module.scss';
 import ButtonIcon from '../../ui/ButtonIcon';
 import ButtonLink from '../../ui/ButtonLink';
-import PropTypes from 'prop-types';
-const RecipePreview = ({ cardData }) => {
+
+const RecipePreview = ({ cardData, typeOfList }) => {
   const [removeRecipeFromFavoritesList] =
     useRemoveRecipeFromFavoritesListMutation();
-  const removeRecipeHandler = id => {
+
+  const [removeRecipe] = useRemoveRecipeMutation();
+
+  const removeFavoriteRecipeHandler = id => {
     removeRecipeFromFavoritesList(id);
+  };
+
+  const removeOwnRecipeHandler = id => {
+    removeRecipe(id);
   };
 
   return (
@@ -30,9 +42,13 @@ const RecipePreview = ({ cardData }) => {
             to={`recipe/${cardData._id}`}
           ></ButtonLink>
         </li>
-        <li>
+        <li className={typeOfList === TypeOfList.Recipes && cl.hiddenButton}>
           <ButtonIcon
-            onClick={() => removeRecipeHandler(cardData._id)}
+            onClick={
+              typeOfList === TypeOfList.MyFavoritesRecipes
+                ? () => removeFavoriteRecipeHandler(cardData._id)
+                : () => removeOwnRecipeHandler(cardData._id)
+            }
             icon="trash"
           ></ButtonIcon>
         </li>
@@ -49,6 +65,7 @@ RecipePreview.propTypes = {
     _id: PropTypes.string.isRequired,
   }).isRequired,
   isLoading: PropTypes.bool.isRequired,
+  typeOfList: PropTypes.oneOf(Object.values(TypeOfList)),
 };
 
 export default RecipePreview;
