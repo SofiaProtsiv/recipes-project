@@ -16,51 +16,15 @@ export const recipesApi = createApi({
   // public endpoints
   endpoints: builder => ({
     getRecipes: builder.query({
-      query: ({
-        page = 1,
-        limit = 12,
-        category = null,
-        area = null,
-        ingredients = null,
-      }) => {
-        const filter = { page, limit };
-        if (category) {
-          filter.category = category;
-        }
-        if (area) {
-          filter.area = area;
-        }
-        if (ingredients) {
-          filter.ingredients = ingredients;
-        }
-        return {
-          url: '/recipes',
-          method: 'GET',
-          params: filter,
-        };
-      },
+      query: () => '/recipes',
       providesTags: ['Recipe'],
     }),
     getPopularRecipes: builder.query({
-      query: ({ page = 1, limit = 12 }) => {
-        return {
-          url: '/recipes/popular/list',
-          method: 'GET',
-          params: { page, limit },
-        };
-      },
+      query: () => '/recipes/popular/list',
       providesTags: ['Recipe'],
     }),
     getRecipeById: builder.query({
       query: id => `/recipes/${id}`,
-      providesTags: ['Recipe'],
-    }),
-    getUserRecipes: builder.query({
-      query: ({ page = 1, limit = 10, id }) => ({
-        url: `/recipes/user/${id}`,
-        method: 'GET',
-        params: { page, limit, id },
-      }),
       providesTags: ['Recipe'],
     }),
     //private endpoints
@@ -73,21 +37,27 @@ export const recipesApi = createApi({
         description,
         ingredients,
         instructions,
-        thumb,
+        thumb: recipes,
       }) => {
         const formData = new FormData();
-        formData.append('time', time);
         formData.append('title', title);
         formData.append('category', category);
         formData.append('area', area);
+        formData.append('instructions', instructions);
+
         formData.append('description', description);
         ingredients.forEach((ingredient, index) => {
           formData.append(`ingredients[${index}][id]`, ingredient.id);
           formData.append(`ingredients[${index}][measure]`, ingredient.measure);
         });
-        formData.append('instructions', instructions);
-        formData.append('thumb', thumb);
-        return { url: '/recipes/personal', method: 'POST', body: formData };
+        formData.append('time', time);
+        formData.append('recipe', recipes);
+
+        return {
+          url: '/recipes/personal',
+          method: 'POST',
+          body: formData,
+        };
       },
       invalidatesTags: ['Recipe'],
     }),
@@ -110,7 +80,6 @@ export const {
   useGetRecipesQuery,
   useGetPopularRecipesQuery,
   useGetRecipeByIdQuery,
-  useGetUserRecipesQuery,
   useAddRecipeMutation,
   useGetOwnRecipesQuery,
   useRemoveRecipeMutation,

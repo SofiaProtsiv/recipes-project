@@ -3,10 +3,13 @@ import { useAddRecipeMutation } from '../../../redux/recipes/recipesApi';
 import { useGetCategoriesQuery } from '../../../redux/categories/categoriesApi';
 import { useGetIngredientsQuery } from '../../../redux/ingredients/ingredientsApi';
 import { useGetAreasQuery } from '../../../redux/areas/areasApi';
+import { toast } from 'react-toastify';
 
-export const useRecipeLogic = (setValue, getValues, setError, setReset) => {
+export const useRecipeLogic = (setValue, getValues, setError, reset) => {
   const [imagePreview, setImagePreview] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const { data: categories } = useGetCategoriesQuery();
   const { data: ingredients } = useGetIngredientsQuery();
@@ -34,22 +37,19 @@ export const useRecipeLogic = (setValue, getValues, setError, setReset) => {
     setSelectedIngredients([]);
   };
 
-  const handleResetForm = () => {
-    setReset();
-    setImagePreview(null);
-    setSelectedIngredients([]);
-  }
-
-  const handleImageChange = event => {
+  const handleImageChange = (event) => {
     const file = event.target.files[0];
+
     if (file && file.type.startsWith('image/')) {
       const reader = new FileReader();
+      setImageFile(file);
+      setValue('thumb', file)
       reader.onload = () => setImagePreview(reader.result);
       reader.readAsDataURL(file);
-    } else {
-      setImagePreview(null);
+      setError('thumb', null);
     }
   };
+
 
   const removeIngredient = id => {
     setSelectedIngredients(prev =>
@@ -59,6 +59,7 @@ export const useRecipeLogic = (setValue, getValues, setError, setReset) => {
 
   const addIngredient = () => {
     const { ingredient, measure } = getValues('ingredients')[0];
+
     if (!ingredient || !measure) {
       setError('ingredients', {
         type: 'required',
@@ -66,6 +67,8 @@ export const useRecipeLogic = (setValue, getValues, setError, setReset) => {
       });
       return;
     }
+
+    setError('ingredients', null);
 
     const isAlreadySelected = selectedIngredients.find(
       i => i._id === ingredient.value
@@ -91,7 +94,7 @@ export const useRecipeLogic = (setValue, getValues, setError, setReset) => {
     setValue('ingredients', [{ ingredient: null, measure: '' }]);
   };
 
-  const onSubmit = data => {
+  const onSubmit = async data => {
     if (selectedIngredients.length === 0) {
       setError('ingredients', {
         type: 'manual',
@@ -99,6 +102,8 @@ export const useRecipeLogic = (setValue, getValues, setError, setReset) => {
       });
       return;
     }
+
+    setLoading(true);
 
     const formattedData = {
       title: data.title,
@@ -111,11 +116,19 @@ export const useRecipeLogic = (setValue, getValues, setError, setReset) => {
       })),
       instructions: data.instructions,
       time: data.time.toString(),
-      thumb: data.thumb,
+      thumb: imageFile
     };
 
-    addRecipe(formattedData);
-    handleResetForm();
+    try {
+      await addRecipe(formattedData);
+      toast.success(`Recipe was succesfully added`)
+    } catch (error) {
+      toast.error(`Error adding recipe: ${error.message}`)
+      console.error('Error adding recipe:', error.message);
+    } finally {
+      setLoading(false);
+      handleClear(reset);
+    }
   };
 
   return {
@@ -129,5 +142,6 @@ export const useRecipeLogic = (setValue, getValues, setError, setReset) => {
     removeIngredient,
     addIngredient,
     onSubmit,
+    loading
   };
 };
