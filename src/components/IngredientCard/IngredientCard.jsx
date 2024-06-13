@@ -9,11 +9,13 @@ const IngredientCard = ({ id, img, name, measure, removeIngredient }) => {
       <div className={cl['ingredient-info']}>
         <p>{name}</p>
         <span>{measure}</span>
-        <button type="button" onClick={() => removeIngredient(id)}>
-          <svg width={16} height={16}>
-            <use href={`${sprite}#close`}></use>
-          </svg>
-        </button>
+        {removeIngredient && (
+          <button type="button" onClick={() => removeIngredient(id)}>
+            <svg width={16} height={16}>
+              <use href={`${sprite}#close`}></use>
+            </svg>
+          </button>
+        )}
       </div>
     </li>
   );
