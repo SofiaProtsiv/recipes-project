@@ -1,6 +1,7 @@
 import { createPortal } from 'react-dom';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { enableBodyTabbing, disableBodyTabbing } from '../../../utils/tabindex';
 import LogOutModal from '../../LogOutModal';
 import SignUpModal from '../../SignUpModal';
 import SignInModal from '../../SignInModal';
@@ -20,7 +21,10 @@ const Modal = ({ onClose, type = 'LogOutModal' }) => {
 
   const closeWithAnimation = () => {
     setShow(false);
-    setTimeout(onClose, 300);
+    setTimeout(() => {
+      enableBodyTabbing(modalRef);
+      onClose();
+    }, 350);
   };
 
   const handleEscape = event => {
@@ -39,11 +43,15 @@ const Modal = ({ onClose, type = 'LogOutModal' }) => {
     document.addEventListener('keydown', handleEscape, false);
     document.addEventListener('mousedown', handleClickOutside, false);
     document.body.style.overflow = 'hidden';
+    document.body.style.paddingRight = '1.01em';
+
+    disableBodyTabbing(modalRef);
 
     return () => {
       document.removeEventListener('keydown', handleEscape, false);
       document.removeEventListener('mousedown', handleClickOutside, false);
       document.body.style.overflow = 'auto';
+      document.body.style.paddingRight = '0';
     };
   }, []);
 

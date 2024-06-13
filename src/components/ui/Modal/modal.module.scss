@@ -1,3 +1,43 @@
+@keyframes fadeIn {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-400px);
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 0;
+    transform: translateY(-400px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInWr {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeOutWr {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 .wrapper {
   display: flex;
   position: absolute;
@@ -11,8 +51,7 @@
   z-index: 9;
   width: 100%;
   min-height: 100vh;
-  opacity: 0.4;
-  transition: opacity 0.3s ease-in-out;
+  animation: fadeInWr 0.4s ease-out;
 
   &_scroll {
     align-items: flex-start;
@@ -21,8 +60,7 @@
 }
 
 .wrapper_show {
-  opacity: 1;
-  visibility: visible;
+  animation: fadeOutWr 0.4s ease-in;
 }
 
 .modal {
@@ -34,9 +72,7 @@
   align-items: stretch;
   border-radius: 30px;
   background-color: #fff;
-  transform: translateY(-80px);
-  opacity: 0.4;
-  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  animation: fadeIn 0.4s ease-out;
 
   @media only screen and (min-width: 768px) {
     padding: 80px;
@@ -44,8 +80,7 @@
 }
 
 .modal_show {
-  transform: translateY(0);
-  opacity: 1;
+  animation: fadeOut 0.4s ease-in;
 }
 
 .close_button {
@@ -66,14 +101,22 @@
 }
 
 .close_icon {
-  stroke: #050505;
+  stroke: var(--primary-text-color);
+  transform: scale(1);
+  transition: transform var(--transition-time) var(--transition-effect);
+}
+
+.close_icon:hover,
+.close_icon:active {
+  stroke: var(--primary-text-color);
+  transform: scale(1.2);
 }
 
 .scroll_hidden {
   overflow-y: auto;
 
   &::-webkit-scrollbar {
-    width: 1px;
+    width: 20px;
   }
 
   &::-webkit-scrollbar-corner {

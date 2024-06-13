@@ -16,11 +16,12 @@ const LogOutModal = ({ onClose }) => {
   const handleLogOut = async () => {
     try {
       await logOut().unwrap();
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
       dispatch(logOutUser());
       navigate('/');
       onClose();
-    } catch (error) {
-      console.error('Logout error:', error);
     }
   };
 
