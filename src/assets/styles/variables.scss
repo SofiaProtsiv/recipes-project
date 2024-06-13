@@ -32,7 +32,14 @@
   --background-color: rgba(18, 20, 23, 0.4);
 
   /* Backdrop */
-  --base-font: 'Mulish', sans-serif;
+  --base-font: "Mulish", sans-serif;
+
+  /* SVG-icons */
+  --stroke: var(--border-color-dark);
+  --fill: none;
+
+  /* RGB */
+  --white-rgb: 255, 255, 255;
 }
 
 body.dark {
