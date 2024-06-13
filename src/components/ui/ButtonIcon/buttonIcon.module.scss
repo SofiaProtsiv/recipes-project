@@ -10,7 +10,12 @@
   border: 1px solid var(--border-color-light-dark);
   background-color: transparent;
 
-  &:hover {
+  transition-property: border, background;
+  transition-duration: var(--transition-time);
+  transition-timing-function: var(--transition-effect);
+
+  &:hover,
+  &:focus {
     background-color: var(--primary-text-color);
     border-color: var(--primary-text-color);
   }
