@@ -5,10 +5,23 @@ import Navigation from './Navigation';
 import UserBar from './UserBar';
 import cl from './header.module.scss';
 import { useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { authApi } from '../../redux/auth/AuthApi';
 
 const Header = () => {
-  const isUserAuthorized = false;
-  const isMobile = true;
+  const [user, setUser] = useState(null);
+
+  const { data, isFetching, isSuccess, isError } =
+    authApi.useFetchCurrentUserQuery({});
+
+  useEffect(() => {
+    if (isSuccess && data) {
+      setUser(data);
+    }
+  }, [isSuccess, isError, isFetching, data]);
+
+  const isUserAuthorized = user;
+  const isMobile = window.innerWidth < 768;
 
   const location = useLocation();
   const isHomePage = location.pathname === '/';
@@ -20,13 +33,13 @@ const Header = () => {
       {isUserAuthorized ? (
         isMobile ? (
           <div className={cl.mobile}>
-            <UserBar />
+            <UserBar user={user}/>
             <MobileNavigation />
           </div>
         ) : (
           <>
             <Navigation />
-            <UserBar />
+            <UserBar user={user}/>
           </>
         )
       ) : (

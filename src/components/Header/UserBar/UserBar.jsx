@@ -1,15 +1,30 @@
 import cl from './userBar.module.scss';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Modal from '../../ui/Modal';
 
-const UserBar = () => {
+const UserBar = ({user}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const [modalType, setModalType] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  
+
+  const navigate = useNavigate();
+
+  const toggleModal = type => {
+    setModalType(type);
+    setShowModal(!showModal);
+  };
+
   const handleProfileClick = () => {
-    // handle profile link click
+    navigate(`/user/${user._id}`);
+    setIsMenuOpen(false);
   };
 
   const handleLogoutClick = () => {
-    // handle logout link click
+    toggleModal();
+    setIsMenuOpen(false);
   };
 
   const handleUserInfoClick = () => {
@@ -21,11 +36,11 @@ const UserBar = () => {
       <div className={cl.userInfo} onClick={handleUserInfoClick}>
         <img
           className={cl.avatar}
-          src="/public/images/categories/Breakfast.jpg"
-          alt="User Avatar"
+          src={user?.avatar}
+          alt="User avatar"
         />
         <div className={cl.name}>
-          <span className={cl.username}>Victoria</span>
+          <span className={cl.username}>{ user?.name }</span>
           <svg
             className={`${isMenuOpen ? cl.active : ''}`}
             xmlns="http://www.w3.org/2000/svg"
@@ -86,6 +101,7 @@ const UserBar = () => {
           </button>
         </li>
       </ul>
+      {showModal && <Modal onClose={toggleModal} type={modalType} />}
     </div>
   );
 };

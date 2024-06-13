@@ -15,7 +15,7 @@ const AuthBar = () => {
     <div className={cl.authBtns}>
       <button className={cl.signIn} onClick={() => toggleModal('SignInModal')}>Sign In</button>
       <button className={cl.signUp} onClick={() => toggleModal('SignUpModal')}>Sign Up</button>
-      {/* <button onClick={() => toggleModal()}>Log Out</button> */}
+      
       {showModal && <Modal onClose={toggleModal} type={modalType} />}
     </div>
   );

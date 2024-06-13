@@ -49,12 +49,13 @@
     display: flex;
     position: absolute;
     top: 40px;
+    right: 0;
     flex-direction: column;
     justify-content: center;
     align-items: baseline;
     gap: 4px;
     padding: 16px;
-    width: 100%;
+    width: max-content;
     border-radius: 20px;
     background-color: var(--hero-bg);
     border: 1px solid var(--user-bar-border);
