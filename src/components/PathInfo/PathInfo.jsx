@@ -11,20 +11,23 @@ const PathInfo = () => {
   const generateBreadcrumb = () => {
     if (path === '/recipe/add') {
       return 'Add recipe';
-    } else if (path.startsWith('/recipe/')) {
+    }
+    if (path.startsWith('/recipe/')) {
       return recipe?.title;
-    } else if (path.startsWith('/user')) {
+    }
+    if (path.startsWith('/user')) {
       return 'Profile';
-    } else {
-      return '';
     }
   };
-  const isRecipeFound = path.startsWith('/recipe/') && recipe;
+
+  const isRecipeFound = path.startsWith('/recipe/') && !recipeId;
+
   return (
     <div className={cl.breadcrumb}>
       <Link to="/" className={cl['home-link']}>
         Home
       </Link>
+
       {isRecipeFound ? <span>/</span> : null}
 
       <p className={cl.link}>{generateBreadcrumb()}</p>

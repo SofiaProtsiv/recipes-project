@@ -36,6 +36,7 @@ const AddRecipeForm = () => {
     removeIngredient,
     addIngredient,
     onSubmit,
+    loading,
   } = useRecipeLogic(setValue, getValues, setError, reset);
 
   const currentCookingTime = watch('time', 10);
@@ -195,8 +196,12 @@ const AddRecipeForm = () => {
               <use href={`${sprite}#trash`}></use>
             </svg>
           </button>
-          <SubmitButton addClass={cl['submit-btn']} type="submit">
-            Publish
+          <SubmitButton
+            addClass={cl['submit-btn']}
+            type="submit"
+            disabled={loading}
+          >
+            {loading ? 'Submitting...' : 'Publish'}
           </SubmitButton>
         </div>
       </div>

@@ -1,7 +1,25 @@
-.title_center {
-  display: block;
+.title_modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-wrap: wrap;
   min-width: 100%;
   margin-inline: auto;
+  @media only screen and (min-width: 375px) {
+    max-width: 283px;
+  }
+
+  @media only screen and (min-width: 768px) {
+    max-width: 400px;
+  }
+}
+
+.title_name {
+  color: var(--secondary-text-color);
+}
+
+.title_text {
+  color: var(--primary-text-color);
 }
 .footer {
   display: flex;
