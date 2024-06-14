@@ -48,7 +48,12 @@ const CategoryList = () => {
           {categories?.map((item, idx) => {
             const isWide = isElementWide(idx, IS_TABLET, IS_DESKTOP);
             return (
-              <CategoryItem key={item._id} name={item.name} isWide={isWide} />
+              <CategoryItem
+                key={item._id}
+                categoryId={item._id}
+                name={item.name}
+                isWide={isWide}
+              />
             );
           })}
         </ul>

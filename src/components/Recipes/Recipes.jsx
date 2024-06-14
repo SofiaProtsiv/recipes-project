@@ -9,15 +9,17 @@ import cl from './recipes.module.scss';
 import SkeletonRecipeCard from './RecipeCard/SkeletonRecipeCard';
 import { useSelector } from 'react-redux';
 import authApi from '../../redux/auth/AuthApi';
+import { useParams } from 'react-router-dom';
 
-const Recipes = ({ category }) => {
+const Recipes = () => {
   const limit = getLimitForViewport();
+  const { name: category } = useParams();
+  const [categoryState, setCategory] = useState(null);
   const [recipeList, setRecipeList] = useState([]);
   const [totalElements, setTotalElements] = useState(0);
   const [page, setPage] = useState(1);
   const [ingredients, setIngredient] = useState(null);
   const [area, setArea] = useState(null);
-  const [categoryState, setCategory] = useState(category);
   const isLoggedIn = useSelector(state => state.authSlice.isLoggedIn);
   const { data: userData } = authApi.useFetchCurrentUserQuery();
   const { data, isFetching, isSuccess, isError, error } =
@@ -29,8 +31,14 @@ const Recipes = ({ category }) => {
       ingredients,
       userId: userData?._id,
     });
-
   const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    if (!(category === 'all')) {
+      setCategory(category);
+    }
+  }, [category]);
+
   useEffect(() => {
     if (isLoggedIn) {
       setUser(userData);
@@ -98,6 +106,7 @@ const Recipes = ({ category }) => {
           handleIngredient={handleIngredient}
           handleArea={handleArea}
           handleCategories={handleCategories}
+          category={category}
         />
         <div className={cl.recipeListWrapper}>
           {isFetching ? (

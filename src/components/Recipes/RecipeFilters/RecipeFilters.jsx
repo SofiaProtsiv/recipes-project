@@ -7,11 +7,17 @@ import { useEffect, useState } from 'react';
 import { categoriesApi } from '../../../redux/categories/categoriesApi';
 import SkeletonSelect from '../../ui/Select/SkeletonSelect';
 
-const RecipeFilters = ({ handleIngredient, handleArea, handleCategories }) => {
+const RecipeFilters = ({
+  handleIngredient,
+  handleArea,
+  handleCategories,
+  category,
+}) => {
   const [selectList, setSelectList] = useState([]);
   const [areasList, setAreasList] = useState([]);
   const [ingredientsList, setIngredientsList] = useState([]);
   const [categoriesList, setCategoriesList] = useState([]);
+  const [settedCategory, setCategory] = useState('category');
   const {
     data: ingredientsResp,
     isFetching: isIngredientsFetching,
@@ -46,8 +52,14 @@ const RecipeFilters = ({ handleIngredient, handleArea, handleCategories }) => {
     if (isCategoriesSuccess && categoriesResp) {
       setCategoriesList(categoriesResp);
       setSelectList(prevSelectList => [...prevSelectList, 'category']);
+      if (category) {
+        const { name } = categoriesResp.filter(
+          elem => elem._id === category
+        )[0];
+        setCategory(name);
+      }
     }
-  }, [isCategoriesSuccess, categoriesResp]);
+  }, [isCategoriesSuccess, category, categoriesResp]);
 
   const renderSelect = item => {
     let options, onChange, className, isLoading;
@@ -83,7 +95,9 @@ const RecipeFilters = ({ handleIngredient, handleArea, handleCategories }) => {
           <Select
             options={options}
             onChange={onChange}
-            value={item}
+            value={
+              settedCategory && item === 'category' ? settedCategory : item
+            }
             className={className}
           />
         )}
@@ -109,6 +123,7 @@ RecipeFilters.propTypes = {
   handleIngredient: PropTypes.func,
   handleArea: PropTypes.func,
   handleCategories: PropTypes.func,
+  category: PropTypes.string,
 };
 
 export default RecipeFilters;
