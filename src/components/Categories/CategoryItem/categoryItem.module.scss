@@ -46,6 +46,7 @@ $desktop: 1440px;
     color: var(--white-color);
 
     border-color: rgba(var(--white-rgb), 0.3);
+    background-color: rgba(var(--white-rgb), 0.2);
   }
 }
 
@@ -88,20 +89,19 @@ $desktop: 1440px;
   background: rgba(var(--white-rgb), 0.3);
 
   display: flex;
-  padding: 8px 12px;
+  padding: 0 12px;
   justify-content: center;
   align-items: center;
   gap: 10px;
 
   color: var(--white-color);
   font-size: 16px;
-  font-style: normal;
   font-weight: 700;
   line-height: 1.5; /* 150% */
   letter-spacing: -0.32px;
 
   @media screen and ($tablet <= width) {
-    padding: 10px 14px;
+    padding: 0 14px;
 
     font-size: 20px;
     line-height: 1.2; /* 120% */

@@ -7,9 +7,9 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Categories from './components/Categories';
 import Recipes from './components/Recipes';
+import HomePage from './pages/HomePage';
 
 export default function App() {
-  const HomePage = lazy(() => import('./pages/HomePage'));
   const RecipePage = lazy(() => import('./pages/RecipePage'));
   const UserPage = lazy(() => import('./pages/UserPage'));
   const AddRecipePage = lazy(() => import('./pages/AddRecipePage'));

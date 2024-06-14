@@ -9,8 +9,8 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <Container addClass={cl.homepage}>
-        <Suspense fallback={<div>Loading main content...</div>}>
+      <Container addClass="section">
+        <Suspense fallback={<p>Categories data are loading...</p>}>
           <Outlet />
         </Suspense>
       </Container>

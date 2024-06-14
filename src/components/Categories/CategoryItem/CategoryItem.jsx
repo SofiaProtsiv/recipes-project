@@ -3,7 +3,7 @@ import cl from './categoryItem.module.scss';
 import ButtonLink from '../../ui/ButtonLink';
 import { Link } from 'react-router-dom';
 
-const CategoryItem = ({ name, isWide }) => {
+export default function CategoryItem({ name, isWide }) {
   const IS_HIRESOLUTION = useMediaPredicate('(min-resolution: 192dpi)');
   const ext = IS_HIRESOLUTION ? 'webp' : 'jpg';
   const IS_ALL = name === 'All categories';
@@ -11,7 +11,7 @@ const CategoryItem = ({ name, isWide }) => {
   const bgStyle = IS_ALL
     ? { backgroundColor: 'var(--primary-text-color' }
     : {
-        backgroundImage: `url(./images/categories/${name.toLowerCase()}.${ext})`,
+        backgroundImage: `url(./images/categories/${name.toLowerCase()}.${ext}), linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)`,
       };
 
   return (
@@ -43,6 +43,4 @@ const CategoryItem = ({ name, isWide }) => {
       </li>
     </>
   );
-};
-
-export default CategoryItem;
+}
