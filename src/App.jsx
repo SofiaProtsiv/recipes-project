@@ -5,6 +5,8 @@ import PrivateRoute from './components/PrivateRoute';
 import PublicRoute from './components/PublicRoute';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Categories from './components/Categories';
+import Recipes from './components/Recipes';
 
 export default function App() {
   const HomePage = lazy(() => import('./pages/HomePage'));
@@ -17,8 +19,11 @@ export default function App() {
     <>
       <Routes>
         <Route element={<PublicRoute />}>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<HomePage />} />
+          <Route element={<Layout />}>
+            <Route path="/" element={<HomePage />}>
+              <Route index element={<Categories />} />
+              <Route path="categories/:name" element={<Recipes />} />
+            </Route>
           </Route>
         </Route>
 
