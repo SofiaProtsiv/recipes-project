@@ -7,6 +7,8 @@ import PropTypes from 'prop-types';
 import getLimitForViewport from '../../utils/getLimitForViewport';
 import cl from './recipes.module.scss';
 import SkeletonRecipeCard from './RecipeCard/SkeletonRecipeCard';
+import { useSelector } from 'react-redux';
+import authApi from '../../redux/auth/AuthApi';
 
 const Recipes = ({ category }) => {
   const limit = getLimitForViewport();
@@ -16,6 +18,8 @@ const Recipes = ({ category }) => {
   const [ingredients, setIngredient] = useState(null);
   const [area, setArea] = useState(null);
   const [categoryState, setCategory] = useState(category);
+  const isLoggedIn = useSelector(state => state.authSlice.isLoggedIn);
+  const { data: userData } = authApi.useFetchCurrentUserQuery();
   const { data, isFetching, isSuccess, isError, error } =
     recipesApi.useGetRecipesQuery({
       page,
@@ -23,7 +27,15 @@ const Recipes = ({ category }) => {
       category: categoryState,
       area,
       ingredients,
+      userId: userData?._id,
     });
+
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    if (isLoggedIn) {
+      setUser(userData);
+    }
+  }, [userData, isLoggedIn, user]);
 
   useEffect(() => {
     if (isSuccess && data) {

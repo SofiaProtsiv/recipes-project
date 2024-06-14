@@ -17,6 +17,7 @@ $desktop: 1440px;
 
   @media screen and (min-width: $tablet) and (max-width: $tablet-max) {
     grid-template-columns: repeat(2, minmax(345px, 1fr));
+    row-gap: 14px;
     column-gap: 14px;
     width: 704px;
   }

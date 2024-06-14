@@ -26,11 +26,6 @@ $desktop: 1440px;
       }
     }
 
-    .recipeOwnerImg:hover,
-    .recipeOwnerImg:focus {
-      border: 1px solid var(--primary-text-color);
-    }
-
     .recipeOwnerName {
       font-size: 14px;
       font-weight: 700;
@@ -62,72 +57,5 @@ $desktop: 1440px;
     display: flex;
     align-items: center;
     gap: 4px;
-
-    div {
-      display: flex;
-      flex-direction: column;
-      width: 36px;
-      height: 36px;
-      border-radius: 100px;
-      border-color: var(--pagination-border-color);
-      border-style: solid;
-      border-width: 1px;
-      justify-content: center;
-      align-self: center;
-      cursor: pointer;
-      transition: border var(--transition-time) var(--transition-effect);
-
-      .recipeFavorite,
-      .recipeLink {
-        width: 16px;
-        height: 16px;
-        margin: auto;
-        fill: none;
-        stroke: var(--primary-text-color);
-        cursor: pointer;
-
-        @media screen and (min-width: $tablet) {
-          width: 18px;
-          height: 18px;
-        }
-      }
-
-      .recipeFavorite {
-        transition: fill var(--transition-time) var(--transition-effect);
-      }
-      .recipeLink {
-        transition: stroke var(--transition-time) var(--transition-effect);
-      }
-
-      @media screen and (min-width: $tablet) {
-        width: 42px;
-        height: 42px;
-      }
-    }
-
-    div:hover .recipeFavorite,
-    div:focus .recipeFavorite {
-      fill: var(--white-color);
-      stroke: none;
-    }
-
-    div:hover .recipeLink,
-    div:focus .recipeLink {
-      stroke: var(--white-color);
-    }
-
-    div:hover,
-    div:focus {
-      background-color: var(--primary-text-color);
-    }
-
-    div.active {
-      background-color: var(--primary-text-color);
-    }
-
-    div.active .recipeFavorite {
-      fill: var(--white-color);
-      stroke: none;
-    }
   }
 }
