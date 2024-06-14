@@ -42,6 +42,20 @@ $desktop: 1440px;
         line-height: 1.5;
       }
     }
+
+    .skeleton {
+      animation: skeleton-loading 1s linear infinite alternate;
+      border-radius: 20px;
+
+      @keyframes skeleton-loading {
+        0% {
+          background-color: var(--pagination-border-color);
+        }
+        100% {
+          background-color: var(--light-text-color);
+        }
+      }
+    }
   }
 
   .recipeButtons {

@@ -7,7 +7,7 @@ const RecipeExtra = ({ owner: { _id, name, avatar }, isFavorite = false }) => {
     <div className={cl.recipeExtra}>
       <div className={cl.recipeOwner} data-id={_id}>
         <img
-          className={cl.recipeOwnerImg}
+          className={`${cl.recipeOwnerImg} ${cl.skeleton}`}
           src={avatar ? avatar : defaultAvatar}
           alt={name}
         ></img>
@@ -32,7 +32,7 @@ const RecipeExtra = ({ owner: { _id, name, avatar }, isFavorite = false }) => {
 RecipeExtra.propTypes = {
   owner: PropTypes.shape({
     _id: PropTypes.string.isRequired,
-    avatar: PropTypes.string.isRequired,
+    avatar: PropTypes.string,
     name: PropTypes.string.isRequired,
   }).isRequired,
   isFavorite: PropTypes.bool,
