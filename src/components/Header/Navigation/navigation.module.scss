@@ -1,0 +1,18 @@
+.nav {
+  display: flex;
+  gap: 40px;
+  text-transform: capitalize;
+}
+
+.link {
+  position: relative;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.25;
+  padding: 14px;
+
+  &.active::after {
+    content: '';
+    position: absolute;
+  }
+}

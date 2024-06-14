@@ -1,0 +1,29 @@
+.authBtns {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--white-color);
+  border-radius: 30px;
+
+  & > * {
+    padding: 10px 16px;
+    border-radius: 30px;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 1.5em;
+    letter-spacing: -0.24px;
+    text-transform: uppercase;
+  }
+
+  .signIn {
+    color: var(--primary-text-color);
+    background-color: var(--white-color);
+  }
+
+  .signUp {
+    color: var(--white-color);
+    background-color: var(--primary-text-color);
+    border: 1px solid var(--auth-bar-border);
+  }
+}
