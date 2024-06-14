@@ -24,3 +24,15 @@ $desktop: 1440px;
     padding: 0 80px;
   }
 }
+
+.section {
+  margin-bottom: 64px;
+
+  @media screen and ($tablet <= width) {
+    margin-bottom: 100px;
+  }
+
+  @media screen and ($desktop <= width) {
+    margin-bottom: 120px;
+  }
+}

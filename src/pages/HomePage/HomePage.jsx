@@ -9,7 +9,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <Container addClass={cl.homepage}>
+      <Container addClass="section">
         <Suspense fallback={<p>Categories data are loading...</p>}>
           <Outlet />
         </Suspense>
