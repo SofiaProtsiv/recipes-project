@@ -8,7 +8,7 @@ import cl from './notFoundPage.module.scss';
 export default function NotFoundPage() {
   return (
     <>
-      <Container addClass={cl.homepage}>
+      <Container>
         <Suspense fallback={<div>Loading main content...</div>}>
           <Outlet />
           <div className={cl.wrapper}>
