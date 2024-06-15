@@ -41,7 +41,7 @@ const CategoryItem = ({ name, categoryId, isWide }) => {
           <Link
             className={cl['link-to-all']}
             to={`categories/all`}
-            onClick={() => scrollUpToSection('#recipes')}
+            onClick={() => scrollUpToSection('#categories')}
           >
             <p>{name}</p>
           </Link>
