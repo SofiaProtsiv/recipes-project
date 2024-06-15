@@ -17,10 +17,37 @@ const Hero = () => {
       <Link to="recipe/add">
         <Button addClass={cl.button}>Add Recipe</Button>
       </Link>
-
       <div className={cl.imgContainer}>
-        <img src="/public/images/categories/breakfast.jpg" alt="" />
-        <img src="/public/images/categories/beef.jpg" alt="" />
+        <picture>
+          <source
+            media="(max-width: 768px)"
+            srcSet="/images/hero/desert@1x.jpg"
+          />
+          <source
+            media="(min-width: 769px)"
+            srcSet="/images/hero/desert@2x.jpg"
+          />
+          <img
+            className={cl.firstImg}
+            src="/images/hero/desert.jpg"
+            alt="desert"
+          />
+        </picture>
+        <picture>
+          <source
+            media="(max-width: 768px)"
+            srcSet="/images/hero/meat-and-vine@1x.jpg"
+          />
+          <source
+            media="(min-width: 769px)"
+            srcSet="/images/hero/meat-and-vine@2x.jpg"
+          />
+          <img
+            className={cl.lastImg}
+            src="/images/hero/meat-and-vine.jpg"
+            alt="meat and bottle of vine"
+          />
+        </picture>
       </div>
     </section>
   );
