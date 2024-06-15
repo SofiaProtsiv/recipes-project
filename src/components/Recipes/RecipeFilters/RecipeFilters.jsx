@@ -55,13 +55,24 @@ const RecipeFilters = ({
         if (elem) {
           setCategory(elem.name);
         }
+      } else {
+        setCategory('category');
       }
-      setSelectList(prevSelectList => [...prevSelectList, settedCategory]);
+      setSelectList(prevSelectList => [
+        ...prevSelectList.filter(el => el !== settedCategory),
+        settedCategory,
+      ]);
     }
-  }, [isCategoriesSuccess, category, categoriesResp, settedCategory]);
+  }, [
+    isCategoriesSuccess,
+    category,
+    categoriesResp,
+    settedCategory,
+    handleCategories,
+  ]);
 
   const renderSelect = item => {
-    let options, onChange, className, isLoading, value, isSuccess;
+    let options, onChange, className, value, isLoading, isSuccess;
 
     switch (item) {
       case 'ingredients':

@@ -58,7 +58,7 @@ const Recipes = () => {
       const { recipes, total } = data;
       setRecipeList(recipes);
       setTotalElements(total);
-      if (category !== ALL_RECIPES) {
+      if (categoryName !== ALL_RECIPES && recipes.length > 0) {
         const { category } = recipes[0];
         setCategoryName(category.name);
       }
@@ -74,6 +74,7 @@ const Recipes = () => {
     ingredients,
     categoryState,
     category,
+    categoryName,
   ]);
 
   const handlePage = clickedPage => {
@@ -97,11 +98,13 @@ const Recipes = () => {
     }
   };
 
-  const handleCategories = ({ _id: id }) => {
+  const handleCategories = ({ _id: id, name }) => {
     if (id === categoryState) {
       setCategory(null);
+      setCategoryName(ALL_RECIPES);
     } else {
       setCategory(id);
+      setCategoryName(name);
     }
   };
 

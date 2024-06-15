@@ -16,7 +16,7 @@ const Select = ({ options = [], value, onChange }) => {
   const handleOptionClick = option => {
     if (option.name === selectedValue) {
       setSelectedValue(value);
-      onChange({});
+      onChange(option);
     } else {
       setSelectedValue(option.name);
       onChange(option);
