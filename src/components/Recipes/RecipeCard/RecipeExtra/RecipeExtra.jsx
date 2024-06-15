@@ -14,7 +14,7 @@ const RecipeExtra = ({ owner: { _id, name, avatar }, isFavorite = false }) => {
         <h4 className={cl.recipeOwnerName}>{name}</h4>
       </div>
       <div className={cl.recipeButtons}>
-        <div className={isFavorite && `${cl.active}`}>
+        <div className={isFavorite ? `${cl.active}` : ''}>
           <svg className={cl.recipeFavorite}>
             <use href="/symbols.svg#icon-heart"></use>
           </svg>
@@ -32,7 +32,7 @@ const RecipeExtra = ({ owner: { _id, name, avatar }, isFavorite = false }) => {
 RecipeExtra.propTypes = {
   owner: PropTypes.shape({
     _id: PropTypes.string.isRequired,
-    avatar: PropTypes.string.isRequired,
+    avatar: PropTypes.string,
     name: PropTypes.string.isRequired,
   }).isRequired,
   isFavorite: PropTypes.bool,

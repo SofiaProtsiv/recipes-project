@@ -2,6 +2,7 @@ import { useMediaPredicate } from 'react-media-hook';
 import cl from './categoryItem.module.scss';
 import ButtonLink from '../../ui/ButtonLink';
 import { Link } from 'react-router-dom';
+import scrollUpToSection from '../../../utils/scrollUpToSection';
 
 export default function CategoryItem({ name, isWide }) {
   const IS_HIRESOLUTION = useMediaPredicate('(min-resolution: 192dpi)');
@@ -36,7 +37,11 @@ export default function CategoryItem({ name, isWide }) {
         )}
 
         {IS_ALL && (
-          <Link className={cl['link-to-all']} to={`categories/all`}>
+          <Link
+            className={cl['link-to-all']}
+            to={`categories/all`}
+            onClick={() => scrollUpToSection('#recipes')}
+          >
             <p>{name}</p>
           </Link>
         )}

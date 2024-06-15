@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import getLimitForViewport from '../../utils/getLimitForViewport';
 import cl from './recipes.module.scss';
 import SkeletonRecipeCard from './RecipeCard/SkeletonRecipeCard';
+import scrollUpToSection from '../../utils/scrollUpToSection';
 
 const Recipes = ({ category }) => {
   const limit = getLimitForViewport();
@@ -52,6 +53,8 @@ const Recipes = ({ category }) => {
     } else {
       setPage(page - 1);
     }
+
+    scrollUpToSection('#recipes');
   };
 
   const handleIngredient = ({ _id: id }) => {
@@ -81,7 +84,7 @@ const Recipes = ({ category }) => {
   const totalPages = Math.ceil(totalElements / limit);
   return (
     <>
-      <div className={cl.recipesWrapper}>
+      <div className={cl.recipesWrapper} id="recipes">
         <RecipeFilters
           handleIngredient={handleIngredient}
           handleArea={handleArea}
