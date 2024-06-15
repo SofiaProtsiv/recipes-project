@@ -1,6 +1,7 @@
 import cl from './select.module.scss';
 import { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import Icon from '../Icon';
 
 const Select = ({ options = [], value, onChange }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -57,9 +58,7 @@ const Select = ({ options = [], value, onChange }) => {
       >
         <span className={cl.selectValue}>{selectedValue}</span>
         <span>
-          <svg className={cl.arrow}>
-            <use href="/src/assets/icons/sprite.svg#chevron_down"></use>
-          </svg>
+          <Icon icon="chevron_down"></Icon>
         </span>
       </button>
       {isOpen && (

@@ -11,9 +11,13 @@ import { useSelector } from 'react-redux';
 import authApi from '../../redux/auth/AuthApi';
 import { useParams } from 'react-router-dom';
 import scrollUpToSection from '../../utils/scrollUpToSection';
+import Subtitle from '../ui/Subtitle';
+import ButtonLink from '../ui/ButtonLink';
+import MainTitle from '../ui/MainTitle';
 
 const Recipes = () => {
   const SKELETON_AMOUNT = 6;
+  const ALL_RECIPES = 'all';
   const limit = getLimitForViewport();
   const { name: category } = useParams();
   const [categoryState, setCategory] = useState(null);
@@ -22,9 +26,10 @@ const Recipes = () => {
   const [page, setPage] = useState(1);
   const [ingredients, setIngredient] = useState(null);
   const [area, setArea] = useState(null);
+  const [categoryName, setCategoryName] = useState(null);
   const isLoggedIn = useSelector(state => state.authSlice.isLoggedIn);
   const { data: userData } = authApi.useFetchCurrentUserQuery();
-  const { data, isFetching, isSuccess, isError, error } =
+  const { data, isFetching, isSuccess, isError } =
     recipesApi.useGetRecipesQuery({
       page,
       limit,
@@ -36,9 +41,10 @@ const Recipes = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    if (category !== 'all') {
+    if (category !== ALL_RECIPES) {
       setCategory(category);
     }
+    setCategoryName(ALL_RECIPES);
   }, [category]);
 
   useEffect(() => {
@@ -52,6 +58,10 @@ const Recipes = () => {
       const { recipes, total } = data;
       setRecipeList(recipes);
       setTotalElements(total);
+      if (category !== ALL_RECIPES) {
+        const { category } = recipes[0];
+        setCategoryName(category.name);
+      }
     }
   }, [
     isSuccess,
@@ -63,6 +73,7 @@ const Recipes = () => {
     area,
     ingredients,
     categoryState,
+    category,
   ]);
 
   const handlePage = clickedPage => {
@@ -105,6 +116,15 @@ const Recipes = () => {
   const totalPages = Math.ceil(totalElements / limit);
   return (
     <>
+      <ButtonLink icon="arrow-back" addClass={cl.recipeBack} to={'/'}>
+        <span>Back</span>
+      </ButtonLink>
+      <MainTitle>{isFetching ? 'Loading...' : categoryName}</MainTitle>
+      <Subtitle>
+        Go on a taste journey, where every sip is a sophisticated creative
+        chord, and every dessert is an expression of the most refined
+        gastronomic desires.
+      </Subtitle>
       <div className={cl.recipesWrapper} id="recipes">
         <RecipeFilters
           handleIngredient={handleIngredient}
@@ -118,8 +138,8 @@ const Recipes = () => {
               <SkeletonRecipeCard key={i} />
             ))}
           </ul>
-        ) : isError ? (
-          <p className={cl.error}>{error.data.message}</p>
+        ) : isError || recipeList.length === 0 ? (
+          <p className={cl.error}>{'No recipies found'}</p>
         ) : (
           <div className={cl.recipesContainer}>
             <RecipeList recipeList={recipeList} />

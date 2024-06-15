@@ -7,7 +7,7 @@ const ButtonIcon = ({ onClick, addClass = '', icon }) => {
     <button
       type="button"
       className={
-        addClass ? `${cl['button-icon']} ${cl[addClass]}` : cl['button-icon']
+        addClass ? `${cl['button-icon']} ${addClass}` : cl['button-icon']
       }
       onClick={onClick}
     >

@@ -8,6 +8,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+
       <section id="categories" className={cl.section}>
         <Container>
           <Suspense fallback={<p>Categories data are loading...</p>}>

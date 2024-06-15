@@ -7,7 +7,7 @@ export default function ButtonLink({ to, addClass = '', icon, children }) {
   return (
     <Link
       className={
-        addClass ? `${cl['button-link']} ${cl[addClass]}` : cl['button-link']
+        addClass ? `${cl['button-link']} ${addClass}` : cl['button-link']
       }
       to={to}
     >
