@@ -1,23 +1,26 @@
+import { Link } from 'react-router-dom';
 import Button from '../ui/Button';
 import cl from './hero.module.scss';
 
 const Hero = () => {
-
-  const handleAddRecipe = () => {
-    window.location.href = "recipe/add";
-  }
-
   return (
     <section className={cl.section}>
-      <h1 className={cl.title}>Improve Your<br/>Culinary Talents</h1>
+      <h1 className={cl.title}>
+        Improve Your
+        <br />
+        Culinary Talents
+      </h1>
       <p className={cl.desc}>
         Amazing recipes for beginners in the world of cooking, enveloping you in
         the aromas and tastes of various cuisines.
       </p>
-      <Button onClick={handleAddRecipe} addClass={cl.button}>Add Recipe</Button>
+      <Link to="recipe/add">
+        <Button addClass={cl.button}>Add Recipe</Button>
+      </Link>
+
       <div className={cl.imgContainer}>
-        <img src="/public/images/categories/Breakfast.jpg" alt="" />
-        <img src="/public/images/categories/Beef.jpg" alt="" />
+        <img src="/public/images/categories/breakfast.jpg" alt="" />
+        <img src="/public/images/categories/beef.jpg" alt="" />
       </div>
     </section>
   );

@@ -7,6 +7,7 @@ import cl from './header.module.scss';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { authApi } from '../../redux/auth/AuthApi';
+import Container from '../ui/Container';
 
 const Header = () => {
   const [user, setUser] = useState(null);
@@ -33,13 +34,13 @@ const Header = () => {
       {isUserAuthorized ? (
         isMobile ? (
           <div className={cl.mobile}>
-            <UserBar user={user}/>
+            <UserBar user={user} />
             <MobileNavigation />
           </div>
         ) : (
           <>
             <Navigation />
-            <UserBar user={user}/>
+            <UserBar user={user} />
           </>
         )
       ) : (

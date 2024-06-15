@@ -2,6 +2,13 @@
   display: flex;
   flex-direction: column;
   gap: 40px;
+  padding-bottom: 44px;
+  @media (768px <=width) {
+    padding-bottom: 40px;
+  }
+  @media (width >=1440px) {
+    padding-bottom: 72px;
+  }
 }
 
 .footer_logo_wrapper {

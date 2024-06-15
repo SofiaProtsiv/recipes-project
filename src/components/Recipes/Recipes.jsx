@@ -10,6 +10,7 @@ import SkeletonRecipeCard from './RecipeCard/SkeletonRecipeCard';
 import { useSelector } from 'react-redux';
 import authApi from '../../redux/auth/AuthApi';
 import { useParams } from 'react-router-dom';
+import scrollUpToSection from '../../utils/scrollUpToSection';
 
 const Recipes = () => {
   const limit = getLimitForViewport();
@@ -72,6 +73,8 @@ const Recipes = () => {
     } else {
       setPage(page - 1);
     }
+
+    scrollUpToSection('#recipes');
   };
 
   const handleIngredient = ({ _id: id }) => {
@@ -101,7 +104,7 @@ const Recipes = () => {
   const totalPages = Math.ceil(totalElements / limit);
   return (
     <>
-      <div className={cl.recipesWrapper}>
+      <div className={cl.recipesWrapper} id="recipes">
         <RecipeFilters
           handleIngredient={handleIngredient}
           handleArea={handleArea}

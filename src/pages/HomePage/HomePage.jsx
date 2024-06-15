@@ -4,16 +4,17 @@ import Testimonials from '../../components/Testimonials';
 import { Suspense } from 'react';
 import Container from '../../components/ui/Container';
 import cl from './homePage.module.scss';
-
 export default function HomePage() {
   return (
     <>
       <Hero />
-      <Container addClass={cl.homepage}>
-        <Suspense fallback={<div>Loading main content...</div>}>
-          <Outlet />
-        </Suspense>
-      </Container>
+      <section id="categories" className={cl.section}>
+        <Container>
+          <Suspense fallback={<p>Categories data are loading...</p>}>
+            <Outlet />
+          </Suspense>
+        </Container>
+      </section>
       <Testimonials />
     </>
   );
