@@ -1,11 +1,13 @@
 import ButtonLink from '../../../ui/ButtonLink';
 import cl from './recipeExtra.module.scss';
 import PropTypes from 'prop-types';
-import user from '../../../../assets/constants/user';
 import ButtonIcon from '../../../ui/ButtonIcon';
 import authApi from '../../../../redux/auth/AuthApi';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
+const DEFAULT_AVATAR = '/images/user/avatar-3814049_640.webp';
 const RecipeExtra = ({
   owner: { _id, name, avatar },
   recipeId,
@@ -16,9 +18,14 @@ const RecipeExtra = ({
     authApi.useAddRecipeToFavoritesListMutation();
   const [removeRecipeFromFavoritesList] =
     authApi.useRemoveRecipeFromFavoritesListMutation();
+  const user = useSelector(state => state.authSlice.user);
 
   const handleFavorite = ({ target }) => {
     target.blur();
+    if (!user?._id) {
+      toast.error('Please login to add recipes to your favorites');
+      return;
+    }
     if (!favorite) {
       setFavorite(true);
       addRecipeToFavoritesList(recipeId);
@@ -33,7 +40,7 @@ const RecipeExtra = ({
         <ButtonLink to={`/user/${_id}`} addClass={cl.recipeOwner}>
           <img
             className={`${cl.recipeOwnerImg} ${cl.skeleton}`}
-            src={avatar ? avatar : user.DEFAULT_AVATAR}
+            src={avatar ? avatar : DEFAULT_AVATAR}
             alt={name}
           />
         </ButtonLink>

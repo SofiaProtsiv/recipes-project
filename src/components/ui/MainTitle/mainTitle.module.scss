@@ -6,10 +6,10 @@
   line-height: 1.14286;
   letter-spacing: -0.02em;
   text-transform: uppercase;
-  text-align: center;
+  text-align: left;
   color: #050505;
 
-  @media (768px <=width) {
+  @include tablet {
     font-size: 40px;
     line-height: 1.1;
   }

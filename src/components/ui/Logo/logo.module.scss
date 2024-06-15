@@ -7,7 +7,7 @@
   letter-spacing: -0.02em;
   text-transform: lowercase;
 
-  @media (768px <=width) {
+  @include tablet {
     font-size: 24px;
     line-height: 1.16667;
   }

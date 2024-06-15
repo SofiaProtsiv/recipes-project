@@ -6,7 +6,7 @@
   color: var(--primary-text-color);
   text-transform: uppercase;
 
-  @media (768px <=width) {
+  @include tablet {
     font-size: 24px;
   }
 }

@@ -7,7 +7,7 @@
   text-transform: uppercase;
   color: var(--primary-text-color);
 
-  @media (768px <=width) {
+  @include tablet {
     font-size: 40px;
     line-height: 1.1;
     letter-spacing: -0.8px;

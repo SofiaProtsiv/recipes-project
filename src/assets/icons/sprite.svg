@@ -123,4 +123,10 @@
       fill="var(--fill, black)" />
 
   </symbol>
+
+  <symbol id="arrow-back" viewBox="0 0 32 32">
+    <path style="fill:var(--fill); stroke:var(--stroke, black)" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="4" stroke-width="2.6667" d="M25.427 16.001l-18.856-0.002"></path>
+    <path style="fill:var(--fill); stroke:var(--stroke, black)" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="4" stroke-width="2.6667" d="M15.998 25.428l-9.427-9.429 9.429-9.427"></path>
+  </symbol>
+
 </svg>

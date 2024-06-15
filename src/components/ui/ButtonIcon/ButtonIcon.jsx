@@ -20,6 +20,7 @@ ButtonIcon.propTypes = {
   onClick: PropTypes.func.isRequired,
   addClass: PropTypes.string,
   icon: PropTypes.string.isRequired,
+  isActive: PropTypes.bool,
 };
 
 export default ButtonIcon;

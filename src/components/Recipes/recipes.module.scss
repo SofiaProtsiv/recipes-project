@@ -73,3 +73,48 @@ $desktop: 1440px;
     width: 910px;
   }
 }
+
+.recipeBack {
+  width: 63px;
+  align-items: center;
+  gap: 4px;
+  border: none;
+  padding: 5px;
+  background-color: transparent;
+  transition-property: border, stroke, background, color;
+  transition-duration: var(--transition-time);
+  transition-timing-function: var(--transition-effect);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.33;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    background-color: var(--primary-text-color);
+    border-color: var(--primary-text-color);
+    color: var(--white-color);
+  }
+  @media screen and (min-width: $tablet) {
+    width: 80px;
+    gap: 6px;
+    font-size: 14px;
+    line-height: 1.28;
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+
+    @media screen and (min-width: $tablet) {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  span {
+    margin: 10px 0 8px 0;
+  }
+}

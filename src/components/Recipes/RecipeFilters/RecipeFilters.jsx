@@ -13,11 +13,14 @@ const RecipeFilters = ({
   handleCategories,
   category,
 }) => {
+  const DEFAULT_CATEGORY = 'category';
+  const DEFAULT_AREA = 'area';
+  const DEFAULT_INGREDIENTS = 'ingredients';
   const [selectList, setSelectList] = useState([]);
   const [areasList, setAreasList] = useState([]);
   const [ingredientsList, setIngredientsList] = useState([]);
   const [categoriesList, setCategoriesList] = useState([]);
-  const [settedCategory, setCategory] = useState('category');
+  const [settedCategory, setCategory] = useState('');
   const {
     data: ingredientsResp,
     isFetching: isIngredientsFetching,
@@ -36,35 +39,39 @@ const RecipeFilters = ({
   useEffect(() => {
     if (isIngredientsSuccess && ingredientsResp) {
       setIngredientsList(ingredientsResp);
-      setSelectList(prevSelectList => [...prevSelectList, 'ingredients']);
+      setSelectList(prevSelectList => [...prevSelectList, DEFAULT_INGREDIENTS]);
     }
   }, [isIngredientsSuccess, ingredientsResp]);
 
   useEffect(() => {
     if (isAreasSuccess && areasResp) {
       setAreasList(areasResp);
-      setSelectList(prevSelectList => [...prevSelectList, 'area']);
+      setSelectList(prevSelectList => [...prevSelectList, DEFAULT_AREA]);
     }
   }, [isAreasSuccess, areasResp]);
 
   useEffect(() => {
     if (isCategoriesSuccess && categoriesResp.length > 0) {
       setCategoriesList(categoriesResp);
-      if (category) {
-        const elem = categoriesResp.find(el => el._id === category);
-        if (elem) {
-          setCategory(elem.name);
-        }
-      }
-      setSelectList(prevSelectList => [...prevSelectList, settedCategory]);
+      setCategory(category === 'all' ? DEFAULT_CATEGORY : category);
+      setSelectList(prevSelectList => [
+        ...prevSelectList.filter(el => el !== settedCategory),
+        settedCategory,
+      ]);
     }
-  }, [isCategoriesSuccess, category, categoriesResp, settedCategory]);
+  }, [
+    isCategoriesSuccess,
+    category,
+    categoriesResp,
+    settedCategory,
+    handleCategories,
+  ]);
 
   const renderSelect = item => {
-    let options, onChange, className, isLoading, value, isSuccess;
+    let options, onChange, className, value, isLoading, isSuccess;
 
     switch (item) {
-      case 'ingredients':
+      case DEFAULT_INGREDIENTS:
         options = ingredientsList;
         onChange = handleIngredient;
         className = item;
@@ -72,7 +79,7 @@ const RecipeFilters = ({
         value = item;
         isSuccess = isIngredientsSuccess;
         break;
-      case 'area':
+      case DEFAULT_AREA:
         options = areasList;
         onChange = handleArea;
         className = item;

@@ -7,16 +7,24 @@ import PropTypes from 'prop-types';
 import getLimitForViewport from '../../utils/getLimitForViewport';
 import cl from './recipes.module.scss';
 import SkeletonRecipeCard from './RecipeCard/SkeletonRecipeCard';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import authApi from '../../redux/auth/AuthApi';
 import { useParams } from 'react-router-dom';
 import scrollUpToSection from '../../utils/scrollUpToSection';
+import Subtitle from '../ui/Subtitle';
+import ButtonLink from '../ui/ButtonLink';
+import MainTitle from '../ui/MainTitle';
+import { authSlice } from '../../redux/auth/AuthSlice';
 
 const Recipes = () => {
   const SKELETON_AMOUNT = 6;
+  const ALL_CATEGORIES = 'all';
   const limit = getLimitForViewport();
   const { name: category } = useParams();
-  const [categoryState, setCategory] = useState(null);
+  const [currentCategory, setCategory] = useState({
+    id: '',
+    name: ALL_CATEGORIES,
+  });
   const [recipeList, setRecipeList] = useState([]);
   const [totalElements, setTotalElements] = useState(0);
   const [page, setPage] = useState(1);
@@ -24,28 +32,32 @@ const Recipes = () => {
   const [area, setArea] = useState(null);
   const isLoggedIn = useSelector(state => state.authSlice.isLoggedIn);
   const { data: userData } = authApi.useFetchCurrentUserQuery();
-  const { data, isFetching, isSuccess, isError, error } =
+  const { data, isFetching, isSuccess, isError } =
     recipesApi.useGetRecipesQuery({
       page,
       limit,
-      category: categoryState,
+      category: currentCategory ? currentCategory.id : null,
       area,
       ingredients,
       userId: userData?._id,
     });
   const [user, setUser] = useState(null);
+  const categories = useSelector(state => state.categoriesSlice.categories);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (category !== 'all') {
-      setCategory(category);
+    if (category !== ALL_CATEGORIES && categories.length > 0) {
+      const currentCategory = categories.find(item => item._id === category);
+      setCategory(currentCategory);
     }
-  }, [category]);
+  }, [category, categories]);
 
   useEffect(() => {
     if (isLoggedIn) {
       setUser(userData);
+      dispatch(authSlice.actions.updateUser({ user: userData }));
     }
-  }, [userData, isLoggedIn, user]);
+  }, [userData, isLoggedIn, user, dispatch]);
 
   useEffect(() => {
     if (isSuccess && data) {
@@ -62,7 +74,7 @@ const Recipes = () => {
     page,
     area,
     ingredients,
-    categoryState,
+    category,
   ]);
 
   const handlePage = clickedPage => {
@@ -86,11 +98,11 @@ const Recipes = () => {
     }
   };
 
-  const handleCategories = ({ _id: id }) => {
-    if (id === categoryState) {
-      setCategory(null);
+  const handleCategories = ({ _id: id, name }) => {
+    if (id === currentCategory.id) {
+      setCategory({ id: null, name: ALL_CATEGORIES });
     } else {
-      setCategory(id);
+      setCategory({ id, name });
     }
   };
 
@@ -105,12 +117,27 @@ const Recipes = () => {
   const totalPages = Math.ceil(totalElements / limit);
   return (
     <>
+      <ButtonLink icon="arrow-back" addClass={cl.recipeBack} to={'/'}>
+        <span>Back</span>
+      </ButtonLink>
+      <MainTitle>
+        {isFetching
+          ? 'Loading...'
+          : currentCategory
+          ? currentCategory.name
+          : ALL_CATEGORIES}
+      </MainTitle>
+      <Subtitle>
+        Go on a taste journey, where every sip is a sophisticated creative
+        chord, and every dessert is an expression of the most refined
+        gastronomic desires.
+      </Subtitle>
       <div className={cl.recipesWrapper} id="recipes">
         <RecipeFilters
           handleIngredient={handleIngredient}
           handleArea={handleArea}
           handleCategories={handleCategories}
-          category={categoryState}
+          category={currentCategory ? currentCategory.name : ALL_CATEGORIES}
         />
         {isFetching ? (
           <ul className={cl.skeletonList}>
@@ -118,8 +145,8 @@ const Recipes = () => {
               <SkeletonRecipeCard key={i} />
             ))}
           </ul>
-        ) : isError ? (
-          <p className={cl.error}>{error.data.message}</p>
+        ) : isError || recipeList.length === 0 ? (
+          <p className={cl.error}>{'No recipies found'}</p>
         ) : (
           <div className={cl.recipesContainer}>
             <RecipeList recipeList={recipeList} />
