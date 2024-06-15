@@ -11,13 +11,6 @@ $desktop: 1440px;
   width: 343px;
   row-gap: 32px;
 
-  .recipeListWrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  }
-
   @media screen and (min-width: $tablet) and (max-width: $tablet-max) {
     grid-template-columns: repeat(1, minmax(704px, 1fr));
     row-gap: 40px;
@@ -48,5 +41,26 @@ $desktop: 1440px;
 
   @media screen and (min-width: $desktop) {
     width: 902px;
+  }
+}
+
+.skeletonList {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(343px, 1fr));
+  width: 343px;
+  row-gap: 32px;
+
+  @media screen and (min-width: $tablet) and (max-width: $tablet-max) {
+    grid-template-columns: repeat(2, minmax(342px, 1fr));
+    row-gap: 40px;
+    column-gap: 20px;
+    width: 704px;
+  }
+
+  @media screen and (min-width: $desktop) {
+    grid-template-columns: repeat(3, minmax(290px, 1fr));
+    row-gap: 40px;
+    column-gap: 20px;
+    width: 910px;
   }
 }

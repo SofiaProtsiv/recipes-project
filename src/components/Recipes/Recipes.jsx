@@ -13,6 +13,7 @@ import { useParams } from 'react-router-dom';
 import scrollUpToSection from '../../utils/scrollUpToSection';
 
 const Recipes = () => {
+  const SKELETON_AMOUNT = 6;
   const limit = getLimitForViewport();
   const { name: category } = useParams();
   const [categoryState, setCategory] = useState(null);
@@ -111,22 +112,24 @@ const Recipes = () => {
           handleCategories={handleCategories}
           category={category}
         />
-        <div className={cl.recipeListWrapper}>
-          {isFetching ? (
-            <SkeletonRecipeCard />
-          ) : isError ? (
-            <p className={cl.error}>{error.data['message']}</p>
-          ) : (
-            <>
-              <RecipeList recipeList={recipeList} />
-              <RecipePagination
-                handlePage={handlePage}
-                page={page}
-                totalPages={totalPages}
-              />
-            </>
-          )}
-        </div>
+        {isFetching ? (
+          <ul className={cl.skeletonList}>
+            {[...new Array(SKELETON_AMOUNT)].map((_, i) => (
+              <SkeletonRecipeCard key={i} />
+            ))}
+          </ul>
+        ) : isError ? (
+          <p className={cl.error}>{error.data.message}</p>
+        ) : (
+          <>
+            <RecipeList recipeList={recipeList} />
+            <RecipePagination
+              handlePage={handlePage}
+              page={page}
+              totalPages={totalPages}
+            />
+          </>
+        )}
       </div>
     </>
   );
