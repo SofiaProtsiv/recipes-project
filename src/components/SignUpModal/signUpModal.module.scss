@@ -5,11 +5,11 @@
   flex-wrap: wrap;
   min-width: 100%;
   margin-inline: auto;
-  @media only screen and (min-width: 375px) {
+  @include mobile {
     max-width: 283px;
   }
 
-  @media only screen and (min-width: 768px) {
+  @include tablet {
     max-width: 400px;
   }
 }
