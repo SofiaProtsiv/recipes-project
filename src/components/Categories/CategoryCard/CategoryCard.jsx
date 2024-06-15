@@ -1,11 +1,11 @@
 import { useMediaPredicate } from 'react-media-hook';
-import cl from './categoryItem.module.scss';
+import cl from './categoryCard.module.scss';
 import ButtonLink from '../../ui/ButtonLink';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import scrollUpToSection from '../../../utils/scrollUpToSection';
 
-export default function CategoryItem({ name, categoryId, isWide }) {
+export default function CategoryCard({ name, categoryId, isWide }) {
   const IS_HIRESOLUTION = useMediaPredicate('(min-resolution: 192dpi)');
   const ext = IS_HIRESOLUTION ? 'webp' : 'jpg';
   const IS_ALL = name === 'All categories';
@@ -51,7 +51,7 @@ export default function CategoryItem({ name, categoryId, isWide }) {
   );
 }
 
-CategoryItem.propTypes = {
+CategoryCard.propTypes = {
   name: PropTypes.string.isRequired,
   categoryId: PropTypes.string.isRequired,
   isWide: PropTypes.bool,
