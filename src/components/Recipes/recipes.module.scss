@@ -10,12 +10,13 @@ $desktop: 1440px;
   grid-template-columns: repeat(1, minmax(343px, 1fr));
   width: 343px;
   row-gap: 32px;
+  position: relative;
 
-  .recipeListWrapper {
+  .recipesContainer {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
   }
 
   @media screen and (min-width: $tablet) and (max-width: $tablet-max) {
@@ -31,22 +32,89 @@ $desktop: 1440px;
 }
 
 .error {
-  text-align: center;
+  position: absolute;
+  top: 120%;
+  left: 37%;
+  width: 100%;
   font-size: 16px;
   font-weight: 500;
   line-height: 1.5;
   letter-spacing: 0.02em;
   color: var(--secondary-text-color);
 
-  @media screen and (min-width: $mobile) and (max-width: $mobile-max) {
-    width: 343px;
+  @media screen and (min-width: $tablet) and (max-width: $tablet-max) {
+    top: 150%;
+    left: 45%;
   }
 
+  @media screen and (min-width: $desktop) {
+    top: 50%;
+    left: 200%;
+  }
+}
+
+.skeletonList {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(343px, 1fr));
+  width: 343px;
+  row-gap: 32px;
+
   @media screen and (min-width: $tablet) and (max-width: $tablet-max) {
+    grid-template-columns: repeat(2, minmax(342px, 1fr));
+    row-gap: 40px;
+    column-gap: 20px;
     width: 704px;
   }
 
   @media screen and (min-width: $desktop) {
-    width: 902px;
+    grid-template-columns: repeat(3, minmax(290px, 1fr));
+    row-gap: 40px;
+    column-gap: 20px;
+    width: 910px;
+  }
+}
+
+.recipeBack {
+  width: 63px;
+  align-items: center;
+  gap: 4px;
+  border: none;
+  padding: 5px;
+  background-color: transparent;
+  transition-property: border, stroke, background, color;
+  transition-duration: var(--transition-time);
+  transition-timing-function: var(--transition-effect);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.33;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    background-color: var(--primary-text-color);
+    border-color: var(--primary-text-color);
+    color: var(--white-color);
+  }
+  @media screen and (min-width: $tablet) {
+    width: 80px;
+    gap: 6px;
+    font-size: 14px;
+    line-height: 1.28;
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+
+    @media screen and (min-width: $tablet) {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  span {
+    margin: 10px 0 8px 0;
   }
 }

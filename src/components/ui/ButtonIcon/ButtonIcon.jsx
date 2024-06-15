@@ -2,13 +2,13 @@ import cl from './buttonIcon.module.scss';
 import Icon from '../Icon';
 import PropTypes from 'prop-types';
 
-const ButtonIcon = ({ onClick, addClass = '', icon }) => {
+const ButtonIcon = ({ onClick, addClass = '', icon, isActive }) => {
   return (
     <button
       type="button"
-      className={
-        addClass ? `${cl['button-icon']} ${cl[addClass]}` : cl['button-icon']
-      }
+      className={`
+      ${cl['button-icon']} ${addClass} ${isActive ? cl.active : ''}
+      `}
       onClick={onClick}
     >
       <Icon icon={icon} />
@@ -20,6 +20,7 @@ ButtonIcon.propTypes = {
   onClick: PropTypes.func.isRequired,
   addClass: PropTypes.string,
   icon: PropTypes.string.isRequired,
+  isActive: PropTypes.bool,
 };
 
 export default ButtonIcon;

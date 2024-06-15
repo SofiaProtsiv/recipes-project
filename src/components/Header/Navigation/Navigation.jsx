@@ -14,7 +14,7 @@ const Navigation = () => {
         className={({ isActive }) =>
           isActive ? `${cl.link} ${cl.active}` : cl.link
         }
-        to="/add-recipe"
+        to="recipe/add"
         state={{ from: location }}
       >
         Add Recipe

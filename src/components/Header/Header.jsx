@@ -6,45 +6,46 @@ import UserBar from './UserBar';
 import cl from './header.module.scss';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { authApi } from '../../redux/auth/AuthApi';
-import Container from '../ui/Container';
+import { useFetchCurrentUserQuery } from '../../redux/auth/AuthApi';
+import { useSelector } from 'react-redux';
 
 const Header = () => {
-  const [user, setUser] = useState(null);
-
-  const { data, isFetching, isSuccess, isError } =
-    authApi.useFetchCurrentUserQuery({});
+  const [isMobile, setIsMobile] = useState(true);
+  const [isUserAuthorized, setIsUserAuthorized] = useState(false);
+  const { isLoggedIn } = useSelector(state => state.authSlice);
+  const { data: user, isLoading } = useFetchCurrentUserQuery();
 
   useEffect(() => {
-    if (isSuccess && data) {
-      setUser(data);
-    }
-  }, [isSuccess, isError, isFetching, data]);
+    setIsMobile(window.innerWidth < 769);
+  }, []);
 
-  const isUserAuthorized = user;
-  const isMobile = window.innerWidth < 768;
+  useEffect(() => {
+    setIsUserAuthorized(isLoggedIn);
+  }, [isLoggedIn]);
 
   const location = useLocation();
-  const isHomePage = location.pathname === '/';
+  const isMainLocation = location.pathname === '/';
+  const isWhiteHeader =
+    location.pathname === '/' || location.pathname.includes('/categories');
 
   return (
-    <header className={`${cl.header} ${!isHomePage ? cl.black : ''}`}>
+    <header className={`${cl.header} ${isWhiteHeader ? '' : cl.black}`}>
       <Logo />
 
       {isUserAuthorized ? (
         isMobile ? (
           <div className={cl.mobile}>
-            <UserBar user={user} />
-            <MobileNavigation />
+            {!isLoading && <UserBar user={user} />}
+            {!isMainLocation && <MobileNavigation />}
           </div>
         ) : (
           <>
-            <Navigation />
-            <UserBar user={user} />
+            {!isMainLocation && <Navigation />}
+            {!isLoading && <UserBar user={user} />}
           </>
         )
       ) : (
-        <AuthBar />
+        !isLoading && <AuthBar />
       )}
     </header>
   );

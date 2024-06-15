@@ -5,7 +5,7 @@ import cl from './pathInfo.module.scss';
 const PathInfo = () => {
   const location = useLocation();
   const { recipeId } = useParams();
-  const { data: recipe } = useGetRecipeByIdQuery(recipeId);
+  const { data: recipe } = useGetRecipeByIdQuery({ id: recipeId });
   const path = location.pathname;
 
   const generateBreadcrumb = () => {

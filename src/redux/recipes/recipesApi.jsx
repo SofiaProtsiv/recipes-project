@@ -49,27 +49,34 @@ export const recipesApi = createApi({
     }),
 
     getPopularRecipes: builder.query({
-      query: ({ page = 1, limit = 4 } = {}) => {
+      query: ({ page = 1, limit = 4, userId = null } = {}) => {
+        const filter = { page, limit };
+        if (userId) {
+          filter.userId = userId;
+        }
         return {
           url: '/recipes/popular/list',
           method: 'GET',
-          params: { page, limit },
+          params: filter,
         };
       },
       providesTags: ['Recipe'],
     }),
 
     getRecipeById: builder.query({
-      query: ({ page = 1, limit = 12, userId = null }) => {
-        const filter = { page, limit };
+      query: ({ id, userId = null }) => {
         if (userId) {
-          filter.userId = userId;
+          return {
+            url: `/recipes/${id}`,
+            method: 'GET',
+            query: { userId },
+          };
+        } else {
+          return {
+            url: `/recipes/${id}`,
+            method: 'GET',
+          };
         }
-        return {
-          url: '/recipes',
-          method: 'GET',
-          params: filter,
-        };
       },
       providesTags: ['Recipe'],
     }),

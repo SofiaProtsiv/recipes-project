@@ -4,7 +4,7 @@
   font-weight: 500;
   letter-spacing: -2%;
 
-  @media (768px <=width) {
+  @include tablet {
     font-size: 16px;
     line-height: 1.5;
   }

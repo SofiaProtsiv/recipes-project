@@ -15,6 +15,7 @@ export const authSlice = createSlice({
     registerUser(state, action) {
       state.user = action.payload.data.user;
       state.token = action.payload.data.token;
+      state.isLoggedIn = true;
     },
 
     logInUser(state, action) {
@@ -35,6 +36,11 @@ export const authSlice = createSlice({
 
     updateUserAvatar(state, action) {
       state.user.avatar = action.payload.data.avatar;
+    },
+
+    updateUser(state, action) {
+      console.log(action);
+      state.user = action.payload.user;
     },
 
     setUserId(state, action) {
@@ -58,6 +64,7 @@ export const {
   fetchUser,
   updateUserAvatar,
   setUserId,
+  updateUser,
 } = authSlice.actions;
 
 export default authSlice.reducer;

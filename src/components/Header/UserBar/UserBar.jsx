@@ -1,14 +1,13 @@
 import cl from './userBar.module.scss';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../../ui/Modal';
 
-const UserBar = ({user}) => {
+const UserBar = ({ user }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const [modalType, setModalType] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  
 
   const navigate = useNavigate();
 
@@ -34,13 +33,9 @@ const UserBar = ({user}) => {
   return (
     <div className={cl.userBar}>
       <div className={cl.userInfo} onClick={handleUserInfoClick}>
-        <img
-          className={cl.avatar}
-          src={user?.avatar}
-          alt="User avatar"
-        />
+        <img className={cl.avatar} src={user?.avatar} alt="User avatar" />
         <div className={cl.name}>
-          <span className={cl.username}>{ user?.name }</span>
+          <span className={cl.username}>{user?.name}</span>
           <svg
             className={`${isMenuOpen ? cl.active : ''}`}
             xmlns="http://www.w3.org/2000/svg"

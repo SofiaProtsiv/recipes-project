@@ -5,12 +5,7 @@ import PropTypes from 'prop-types';
 
 export default function ButtonLink({ to, addClass = '', icon, children }) {
   return (
-    <Link
-      className={
-        addClass ? `${cl['button-link']} ${cl[addClass]}` : cl['button-link']
-      }
-      to={to}
-    >
+    <Link className={`${cl['button-link']} ${addClass}`} to={to}>
       {icon && <Icon icon={icon} />}
 
       {children}

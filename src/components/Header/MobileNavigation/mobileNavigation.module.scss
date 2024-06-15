@@ -70,10 +70,11 @@
     width: 100%;
     gap: 20px;
     
-    :first-child {
+    .firstImg {
       border-radius: 15px;
       width: 77px;
       height: 70px;
+      object-fit: cover;
       transform: rotate(11deg);
       flex-shrink: 0;
       @media (768px<=width) {
@@ -81,11 +82,12 @@
         height: 116px;
       }
     }
-
-    :last-child {
+  
+    .lastImg {
       border-radius: 30px;
       width: 190px;
       height: 172px;
+      object-fit: cover;
       transform: rotate(-12deg);
       flex-shrink: 0;
       @media (768px<=width) {

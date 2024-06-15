@@ -1,15 +1,11 @@
 import { useParams } from 'react-router-dom';
 import cl from './recipePreparation.module.scss';
 import { useGetRecipeByIdQuery } from '../../../redux/recipes/recipesApi';
-import Button from '../../ui/Button';
-import { useAddRecipeToFavoritesListMutation } from '../../../redux/auth/AuthApi';
 
 const RecipePreparation = () => {
   const { recipeId } = useParams();
 
-  const [addRecipeToFavoritesList] = useAddRecipeToFavoritesListMutation();
-
-  const { data: recipe } = useGetRecipeByIdQuery(recipeId);
+  const { data: recipe } = useGetRecipeByIdQuery({ id: recipeId });
   const textParagraph = recipe?.instructions
     ? recipe.instructions.split('\n')
     : [];
@@ -21,12 +17,6 @@ const RecipePreparation = () => {
           {paragraph}
         </p>
       ))}
-      <Button
-        onClick={() => addRecipeToFavoritesList(recipeId)}
-        addClass={cl.button}
-      >
-        ADD TO FAVORITES
-      </Button>
     </div>
   );
 };
