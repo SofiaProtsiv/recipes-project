@@ -2,9 +2,10 @@ import { useMediaPredicate } from 'react-media-hook';
 import cl from './categoryItem.module.scss';
 import ButtonLink from '../../ui/ButtonLink';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import scrollUpToSection from '../../../utils/scrollUpToSection';
 
-export default function CategoryItem({ name, isWide }) {
+const CategoryItem = ({ name, categoryId, isWide }) => {
   const IS_HIRESOLUTION = useMediaPredicate('(min-resolution: 192dpi)');
   const ext = IS_HIRESOLUTION ? 'webp' : 'jpg';
   const IS_ALL = name === 'All categories';
@@ -31,7 +32,7 @@ export default function CategoryItem({ name, isWide }) {
             <ButtonLink
               icon="arrow_up_right"
               addClass={cl['button-icon']}
-              to={`categories/${name.toLowerCase()}`}
+              to={`categories/${categoryId}`}
             />
           </div>
         )}
@@ -48,4 +49,12 @@ export default function CategoryItem({ name, isWide }) {
       </li>
     </>
   );
-}
+};
+
+CategoryItem.propTypes = {
+  name: PropTypes.string.isRequired,
+  categoryId: PropTypes.string.isRequired,
+  isWide: PropTypes.bool,
+};
+export default CategoryItem;
+
