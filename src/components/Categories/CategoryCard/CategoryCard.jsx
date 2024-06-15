@@ -7,14 +7,18 @@ import scrollUpToSection from '../../../utils/scrollUpToSection';
 
 export default function CategoryCard({ name, categoryId, isWide }) {
   const IS_HIRESOLUTION = useMediaPredicate('(min-resolution: 192dpi)');
-  const ext = IS_HIRESOLUTION ? 'webp' : 'jpg';
   const IS_ALL = name === 'All categories';
 
-  const bgStyle = IS_ALL
-    ? { backgroundColor: 'var(--primary-text-color' }
-    : {
-        backgroundImage: `url(./images/categories/${name.toLowerCase()}.${ext})`,
-      };
+  let bgStyle = IS_ALL ? { backgroundColor: 'var(--primary-text-color' } : '';
+
+  const res = IS_HIRESOLUTION ? '2x' : '';
+  const imageName = `${name.toLowerCase()}${res}`;
+
+  if (!IS_ALL) {
+    bgStyle = {
+      backgroundImage: `image-set(url('./images/categories/${imageName}.webp') type('image/webp'), url('./images/categories/${imageName}.jpg') type('image/jpeg'))`,
+    };
+  }
 
   return (
     <>
