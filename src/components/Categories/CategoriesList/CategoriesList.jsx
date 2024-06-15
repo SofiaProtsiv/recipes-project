@@ -22,12 +22,10 @@ const CategoryList = () => {
     error,
   } = useGetCategoriesQuery();
 
-  let toRenderNumber;
   let categories;
+  const toRenderNumber = IS_MOBILE ? 8 : 11;
 
   if (isSuccess) {
-    toRenderNumber = IS_MOBILE ? 8 : 11;
-
     categories = allCategories.slice(0, toRenderNumber);
     categories.push({ _id: 'all_categories', name: 'All categories' });
   }
@@ -36,7 +34,7 @@ const CategoryList = () => {
     <>
       {isLoading && (
         <ul className={cl['categories-list']}>
-          {[...Array(12)].map((_, idx) => {
+          {[...Array(toRenderNumber + 1)].map((_, idx) => {
             const isWide = isElementWide(idx, IS_TABLET, IS_DESKTOP);
             return <CategorySkeleton key={idx} isWide={isWide} />;
           })}
@@ -48,7 +46,12 @@ const CategoryList = () => {
           {categories?.map((item, idx) => {
             const isWide = isElementWide(idx, IS_TABLET, IS_DESKTOP);
             return (
-              <CategoryItem key={item._id} name={item.name} isWide={isWide} />
+              <CategoryItem
+                key={item._id}
+                categoryId={item._id}
+                name={item.name}
+                isWide={isWide}
+              />
             );
           })}
         </ul>

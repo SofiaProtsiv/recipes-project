@@ -24,6 +24,7 @@ export const recipesApi = createApi({
         category = null,
         area = null,
         ingredients = null,
+        userId = null,
       }) => {
         const filter = { page, limit };
         if (category) {
@@ -34,6 +35,9 @@ export const recipesApi = createApi({
         }
         if (ingredients) {
           filter.ingredients = ingredients;
+        }
+        if (userId) {
+          filter.userId = userId;
         }
         return {
           url: '/recipes',
@@ -56,7 +60,20 @@ export const recipesApi = createApi({
     }),
 
     getRecipeById: builder.query({
-      query: id => `/recipes/${id}`,
+      query: ({ id, userId = null }) => {
+        if (userId) {
+          return {
+            url: `/recipes/${id}`,
+            method: 'GET',
+            query: { userId },
+          };
+        } else {
+          return {
+            url: `/recipes/${id}`,
+            method: 'GET',
+          };
+        }
+      },
       providesTags: ['Recipe'],
     }),
 

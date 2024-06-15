@@ -1,9 +1,8 @@
-import { NavLink, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import Button from '../ui/Button';
 import cl from './hero.module.scss';
 
 const Hero = () => {
-  const location = useLocation();
-
   return (
     <section className={cl.section}>
       <h1 className={cl.title}>
@@ -15,9 +14,9 @@ const Hero = () => {
         Amazing recipes for beginners in the world of cooking, enveloping you in
         the aromas and tastes of various cuisines.
       </p>
-      <NavLink to="recipe/add" className={cl.link} state={{ from: location }}>
-        Add Recipe
-      </NavLink>
+      <Link to="recipe/add">
+        <Button addClass={cl.button}>Add Recipe</Button>
+      </Link>
       <div className={cl.imgContainer}>
         <picture>
           <source

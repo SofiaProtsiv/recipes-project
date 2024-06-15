@@ -2,8 +2,8 @@ import RecipeExtra from './RecipeExtra';
 import cl from './recipeCard.module.scss';
 import PropTypes from 'prop-types';
 
-const RecipeCard = ({ recipe }, isFavorite = false) => {
-  const { thumb, title, instructions, owner } = recipe;
+const RecipeCard = ({ recipe }) => {
+  const { thumb, title, instructions, owner, _id: recipeId } = recipe;
   return (
     <>
       <li className={cl.recipeItem}>
@@ -14,7 +14,11 @@ const RecipeCard = ({ recipe }, isFavorite = false) => {
         ></img>
         <h3 className={cl.recipeTitle}>{title} </h3>
         <p className={cl.recipeText}>{instructions}</p>
-        <RecipeExtra owner={owner} isFavorite={false} />
+        <RecipeExtra
+          owner={owner}
+          recipeId={recipeId}
+          isFavorite={recipe.isFavorite}
+        />
       </li>
     </>
   );
@@ -22,6 +26,7 @@ const RecipeCard = ({ recipe }, isFavorite = false) => {
 
 RecipeCard.propTypes = {
   recipe: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
     thumb: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     instructions: PropTypes.string.isRequired,
@@ -30,6 +35,7 @@ RecipeCard.propTypes = {
       name: PropTypes.string.isRequired,
       avatar: PropTypes.string,
     }),
+    isFavorite: PropTypes.bool,
   }).isRequired,
   isFavorite: PropTypes.bool,
 };

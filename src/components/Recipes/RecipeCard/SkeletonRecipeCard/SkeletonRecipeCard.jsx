@@ -12,8 +12,15 @@ const SkeletonRecipeCard = () => {
           <div className={`${cl.skeleton} ${cl.skeletonText}`}></div>
           <div className={`${cl.skeleton} ${cl.skeletonText}`}></div>
         </div>
-        <div className={cl.recipeAdd}>
-          <div className={`${cl.skeleton} ${cl.skeletonText}`}></div>
+        <div className={cl.recipeExtra}>
+          <div className={cl.recipeOwner}>
+            <div className={`${cl.skeleton} ${cl.skeletonIcon}`}></div>
+            <div className={`${cl.skeleton} ${cl.skeletonText}`}></div>
+          </div>
+          <div className={cl.recipeButtons}>
+            <div className={`${cl.skeleton} ${cl.skeletonIcon}`}></div>
+            <div className={`${cl.skeleton} ${cl.skeletonIcon}`}></div>
+          </div>
         </div>
       </li>
     </>

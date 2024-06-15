@@ -11,15 +11,17 @@ const RecipeIngredients = () => {
     <div className={cl.container}>
       <h2 className={cl.title}>Ingredients</h2>
       <ul className={cl.list}>
-        {recipe?.ingredients.map(({ id: { _id, img, name }, measure }) => (
-          <IngredientCard
-            key={_id}
-            id={_id}
-            img={img}
-            name={name}
-            measure={measure}
-          />
-        ))}
+        {recipe?.ingredients.map(
+          ({ ingredient: { _id, img, name }, measure }) => (
+            <IngredientCard
+              key={_id}
+              id={_id}
+              img={img}
+              name={name}
+              measure={measure}
+            />
+          )
+        )}
       </ul>
     </div>
   );

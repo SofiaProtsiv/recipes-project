@@ -22,7 +22,6 @@
 
   @media (768px<=width) {
     height: 400px;
-    margin-bottom: 40px;
   }
 
   @media (1440px<=width) {
@@ -88,11 +87,17 @@
   }
 }
 
+.owner-container:hover img,
+.owner-container:focus img {
+  border: 1px solid var(--primary-text-color);
+}
+
 .owner-image {
   border-radius: 30px;
   width: 32px;
   height: 32px;
   object-fit: cover;
+  transition: border var(--transition-time) var(--transition-effect);
 
   @media (768px<=width) {
     border-radius: 30px;
@@ -108,11 +113,11 @@
   line-height: 150%;
   letter-spacing: -0.02em;
   color: var(--recipe-feature-text);
-  margin-bottom: 4px;
 
   @media (768px<=width) {
     font-size: 14px;
     line-height: 143%;
+    margin-bottom: 4px;
   }
 }
 

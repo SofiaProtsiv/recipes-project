@@ -94,9 +94,14 @@
   border-radius: 30px;
   text-transform: uppercase;
   font-size: 14px;
-
+  transition: all var(--transition-time) var(--transition-effect);
   @media (768px<=width) {
     font-size: 16px;
     padding: 16px 32px;
+  }
+
+  &:hover {
+    background-color: var(--hero-button);
+    color: var(--primary-text-color);
   }
 }

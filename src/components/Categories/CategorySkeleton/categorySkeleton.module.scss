@@ -9,7 +9,7 @@ $desktop: 1440px;
   position: relative;
 
   border-radius: 30px;
-  background-color: rgba(var(--black-rgb), 0.4);
+  animation: skeleton-loading 1s linear infinite alternate;
 
   @media screen and ($tablet <= width) {
     grid-column: span 3;
@@ -22,6 +22,15 @@ $desktop: 1440px;
     grid-column: span 4;
     &.wide {
       grid-column: span 7;
+    }
+  }
+
+  @keyframes skeleton-loading {
+    0% {
+      background-color: rgba(var(--black-rgb), 0.2);
+    }
+    100% {
+      background-color: rgba(var(--black-rgb), 0.4);
     }
   }
 }

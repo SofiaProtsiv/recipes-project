@@ -15,7 +15,12 @@ const FileInput = ({ id, register, onChange, imagePreview }) => {
       />
       {!imagePreview ? (
         <label htmlFor={id} className={cl['file-input-label']}>
-          <svg className={cl['photo-camera-icon']} width={64} height={64}>
+          <svg
+            className={cl['photo-camera-icon']}
+            width={64}
+            height={64}
+            style={{ '--fill': 'currentColor', opacity: 0.3 }}
+          >
             <use href={`${sprite}#photo_camera`}></use>
           </svg>
 

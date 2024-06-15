@@ -7,15 +7,23 @@ import PropTypes from 'prop-types';
 import getLimitForViewport from '../../utils/getLimitForViewport';
 import cl from './recipes.module.scss';
 import SkeletonRecipeCard from './RecipeCard/SkeletonRecipeCard';
+import { useSelector } from 'react-redux';
+import authApi from '../../redux/auth/AuthApi';
+import { useParams } from 'react-router-dom';
+import scrollUpToSection from '../../utils/scrollUpToSection';
 
-const Recipes = ({ category }) => {
+const Recipes = () => {
+  const SKELETON_AMOUNT = 6;
   const limit = getLimitForViewport();
+  const { name: category } = useParams();
+  const [categoryState, setCategory] = useState(null);
   const [recipeList, setRecipeList] = useState([]);
   const [totalElements, setTotalElements] = useState(0);
   const [page, setPage] = useState(1);
   const [ingredients, setIngredient] = useState(null);
   const [area, setArea] = useState(null);
-  const [categoryState, setCategory] = useState(category);
+  const isLoggedIn = useSelector(state => state.authSlice.isLoggedIn);
+  const { data: userData } = authApi.useFetchCurrentUserQuery();
   const { data, isFetching, isSuccess, isError, error } =
     recipesApi.useGetRecipesQuery({
       page,
@@ -23,7 +31,21 @@ const Recipes = ({ category }) => {
       category: categoryState,
       area,
       ingredients,
+      userId: userData?._id,
     });
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    if (category !== 'all') {
+      setCategory(category);
+    }
+  }, [category]);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      setUser(userData);
+    }
+  }, [userData, isLoggedIn, user]);
 
   useEffect(() => {
     if (isSuccess && data) {
@@ -52,6 +74,8 @@ const Recipes = ({ category }) => {
     } else {
       setPage(page - 1);
     }
+
+    scrollUpToSection('#recipes');
   };
 
   const handleIngredient = ({ _id: id }) => {
@@ -81,28 +105,31 @@ const Recipes = ({ category }) => {
   const totalPages = Math.ceil(totalElements / limit);
   return (
     <>
-      <div className={cl.recipesWrapper}>
+      <div className={cl.recipesWrapper} id="recipes">
         <RecipeFilters
           handleIngredient={handleIngredient}
           handleArea={handleArea}
           handleCategories={handleCategories}
+          category={categoryState}
         />
-        <div className={cl.recipeListWrapper}>
-          {isFetching ? (
-            <SkeletonRecipeCard />
-          ) : isError ? (
-            <p className={cl.error}>{error.data['message']}</p>
-          ) : (
-            <>
-              <RecipeList recipeList={recipeList} />
-              <RecipePagination
-                handlePage={handlePage}
-                page={page}
-                totalPages={totalPages}
-              />
-            </>
-          )}
-        </div>
+        {isFetching ? (
+          <ul className={cl.skeletonList}>
+            {[...new Array(SKELETON_AMOUNT)].map((_, i) => (
+              <SkeletonRecipeCard key={i} />
+            ))}
+          </ul>
+        ) : isError ? (
+          <p className={cl.error}>{error.data.message}</p>
+        ) : (
+          <div className={cl.recipesContainer}>
+            <RecipeList recipeList={recipeList} />
+            <RecipePagination
+              handlePage={handlePage}
+              page={page}
+              totalPages={totalPages}
+            />
+          </div>
+        )}
       </div>
     </>
   );

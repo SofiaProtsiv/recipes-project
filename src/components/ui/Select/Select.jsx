@@ -58,7 +58,7 @@ const Select = ({ options = [], value, onChange }) => {
         <span className={cl.selectValue}>{selectedValue}</span>
         <span>
           <svg className={cl.arrow}>
-            <use href="/symbols.svg#icon-arrow-down"></use>
+            <use href="/src/assets/icons/sprite.svg#chevron_down"></use>
           </svg>
         </span>
       </button>

@@ -92,12 +92,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.42857;
+  letter-spacing: -0.28px;
+  text-transform: uppercase;
 
-.cancel_button {
-  border-radius: 30px;
-  border: 1px solid rgba(5, 5, 5, 0.9);
-  padding-block: 14px;
+  @media only screen and (min-width: 768px) {
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: -0.32px;
+  }
 }
 
 .close_icon {
@@ -110,6 +115,23 @@
 .close_icon:active {
   stroke: var(--primary-text-color);
   transform: scale(1.2);
+}
+
+.cancel_button {
+  border-radius: 30px;
+  border: 1px solid var(--border-color-light-dark);
+  padding-block: 14px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.42857;
+  letter-spacing: -0.28px;
+  text-transform: uppercase;
+
+  @media only screen and (min-width: 768px) {
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: -0.32px;
+  }
 }
 
 .scroll_hidden {

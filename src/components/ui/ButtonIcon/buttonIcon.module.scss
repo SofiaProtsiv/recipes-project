@@ -1,7 +1,15 @@
+/* Breakpoints */
+$mobile: 375px;
+$mobile-max: 767.99px;
+$tablet: 768px;
+$tablet-max: 1439.99px;
+$desktop: 1440px;
+
 .button-icon {
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 
   width: 36px;
   height: 36px;
@@ -16,18 +24,43 @@
 
   &:hover,
   &:focus {
-    --stroke: var(--white-color);
     background-color: var(--primary-text-color);
     border-color: var(--primary-text-color);
   }
 
-  @media screen and (768px <= width) {
+  svg {
+    --fill: none;
+    --stroke: var(--primary-text-color);
+
+    @media screen and ($tablet <= width) {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  &:hover svg,
+  :focus svg {
+    --stroke: var(--white-color);
+    --fill: var(--white-color);
+  }
+
+  @media screen and ($tablet <= width) {
     width: 42px;
     height: 42px;
   }
 
-  @media screen and (1440px <= width) {
+  @media screen and ($desktop <= width) {
     width: 44px;
     height: 44px;
+  }
+}
+
+.active {
+  background-color: var(--primary-text-color);
+  border-color: var(--primary-text-color);
+
+  svg {
+    --stroke: var(--white-color);
+    --fill: var(--white-color);
   }
 }
