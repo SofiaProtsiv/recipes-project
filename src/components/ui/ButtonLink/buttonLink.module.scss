@@ -38,6 +38,10 @@ $desktop: 1440px;
     }
   }
 
+  &:active {
+    transform: scale(1.1);
+  }
+
   @media screen and ($tablet <= width) {
     width: 42px;
     height: 42px;

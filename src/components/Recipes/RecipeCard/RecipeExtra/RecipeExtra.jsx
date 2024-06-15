@@ -17,7 +17,8 @@ const RecipeExtra = ({
   const [removeRecipeFromFavoritesList] =
     authApi.useRemoveRecipeFromFavoritesListMutation();
 
-  const handleFavorite = () => {
+  const handleFavorite = ({ target }) => {
+    target.blur();
     if (!favorite) {
       setFavorite(true);
       addRecipeToFavoritesList(recipeId);
@@ -41,7 +42,7 @@ const RecipeExtra = ({
       <div className={cl.recipeButtons} data-id={recipeId}>
         <ButtonIcon
           icon="heart"
-          addClass={`${favorite ? 'active' : ''}`}
+          isActive={favorite}
           onClick={handleFavorite}
         ></ButtonIcon>
         <ButtonLink
