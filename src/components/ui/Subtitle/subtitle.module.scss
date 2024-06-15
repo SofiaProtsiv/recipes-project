@@ -6,8 +6,7 @@
   letter-spacing: -0.28px;
   color: var(--secondary-text-color);
 
-  @media only screen and (min-width: 768px) {
-    width: 540px;
+  @include tablet {
     margin-block: 20px 40px;
     font-size: 16px;
     line-height: 1.5;
