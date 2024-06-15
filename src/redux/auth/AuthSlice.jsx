@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
+import authApi from '../../redux/auth/AuthApi.jsx';
 
 const initialState = {
-  user: { name: '', email: '', avatar: '' },
+  user: { name: '', email: '', avatar: '', _id: '' },
   token: null,
   isLoggedIn: false,
 };
@@ -22,7 +23,7 @@ export const authSlice = createSlice({
       state.isLoggedIn = true;
     },
     logOutUser(state) {
-      state.user = { name: '', email: '' };
+      state.user = { name: '', email: '', avatar: '', _id: '' };
       state.token = null;
       state.isLoggedIn = false;
     },
@@ -35,6 +36,18 @@ export const authSlice = createSlice({
     updateUserAvatar(state, action) {
       state.user.avatar = action.payload.data.avatar;
     },
+
+    setUserId(state, action) {
+      state.user._id = action.payload._id;
+    },
+  },
+  extraReducers: builder => {
+    builder.addMatcher(
+      authApi.endpoints.getUserById.matchFulfilled,
+      (state, action) => {
+        state.user = action.payload;
+      }
+    );
   },
 });
 
@@ -44,4 +57,7 @@ export const {
   logOutUser,
   fetchUser,
   updateUserAvatar,
+  setUserId,
 } = authSlice.actions;
+
+export default authSlice.reducer;

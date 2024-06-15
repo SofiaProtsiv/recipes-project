@@ -4,8 +4,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 import { useDispatch } from 'react-redux';
-import { useLogInMutation } from '../../../redux/auth/AuthApi';
-import { logInUser } from '../../../redux/auth/AuthSlice';
+import {
+  useLogInMutation,
+  useFetchCurrentUserQuery,
+} from '../../../redux/auth/AuthApi';
+import { logInUser, setUserId } from '../../../redux/auth/AuthSlice';
 
 import TextInput from '../../ui/TextInput';
 import PasswordInput from '../../ui/PasswordInput';
@@ -25,6 +28,9 @@ const SignInForm = ({ onClose }) => {
   const [modalError, setModalError] = useState(null);
   const dispatch = useDispatch();
   const [logIn] = useLogInMutation();
+  const { refetch: fetchCurrentUser } = useFetchCurrentUserQuery(undefined, {
+    skip: true,
+  });
 
   const {
     register,
@@ -40,9 +46,13 @@ const SignInForm = ({ onClose }) => {
     try {
       const result = await logIn(data).unwrap();
       dispatch(logInUser({ data: result }));
+
+      const currentUserResponse = await fetchCurrentUser().unwrap();
+      // dispatch(fetchUser({ data: currentUserResponse }));
+      dispatch(setUserId({ _id: currentUserResponse._id }));
       onClose();
     } catch (error) {
-      setModalError(error.data.message);
+      setModalError(error?.data?.message || 'An error occurred during login.');
     }
   };
 

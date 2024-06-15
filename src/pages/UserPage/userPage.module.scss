@@ -1,1 +1,57 @@
+.userWrap {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+}
 
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 30px 54px;
+  max-width: 343px;
+  border-radius: 30px;
+  border: 1px solid rgba(5, 5, 5, 0.20);
+}
+
+.userInfoImage {
+  width: 80px;
+  height: 80px;
+  border-radius: 50px;
+}
+
+.userInfoText {
+  color: rgba(5, 5, 5, 0.60);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: -0.24px;
+}
+
+.userInfoSpan {
+  font-family: Mulish;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.43;
+  letter-spacing: -0.28px;
+  color: rgba(5, 5, 5, 0.90);
+}
+
+.logoutBtn {
+  display: flex;
+  padding: 14px 14px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.43;
+  letter-spacing: -0.28px;
+  border-radius: 30px;
+  text-transform: uppercase;
+  color: #FFF;
+  background: rgba(5, 5, 5, 0.85);
+}
