@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import scrollUpToSection from '../../../utils/scrollUpToSection';
 
-const CategoryItem = ({ name, categoryId, isWide }) => {
+export default function CategoryItem({ name, categoryId, isWide }) {
   const IS_HIRESOLUTION = useMediaPredicate('(min-resolution: 192dpi)');
   const ext = IS_HIRESOLUTION ? 'webp' : 'jpg';
   const IS_ALL = name === 'All categories';
@@ -13,7 +13,7 @@ const CategoryItem = ({ name, categoryId, isWide }) => {
   const bgStyle = IS_ALL
     ? { backgroundColor: 'var(--primary-text-color' }
     : {
-        backgroundImage: `url(./images/categories/${name.toLowerCase()}.${ext}), linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)`,
+        backgroundImage: `url(./images/categories/${name.toLowerCase()}.${ext})`,
       };
 
   return (
@@ -49,12 +49,10 @@ const CategoryItem = ({ name, categoryId, isWide }) => {
       </li>
     </>
   );
-};
+}
 
 CategoryItem.propTypes = {
   name: PropTypes.string.isRequired,
   categoryId: PropTypes.string.isRequired,
   isWide: PropTypes.bool,
 };
-export default CategoryItem;
-

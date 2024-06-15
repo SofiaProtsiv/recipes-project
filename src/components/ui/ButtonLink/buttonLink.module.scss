@@ -25,29 +25,25 @@ $desktop: 1440px;
   &:focus {
     background-color: var(--primary-text-color);
     border-color: var(--primary-text-color);
+
+    svg {
+      --stroke: var(--white-color);
+    }
   }
 
   svg {
-    --fill: none;
-    --stroke: var(--primary-text-color);
-
     @media screen and ($tablet <= width) {
       width: 18px;
       height: 18px;
     }
   }
 
-  &:hover svg,
-  :focus svg {
-    --stroke: var(--white-color);
-  }
-
-  @media screen and (768px <= width) {
+  @media screen and ($tablet <= width) {
     width: 42px;
     height: 42px;
   }
 
-  @media screen and (1440px <= width) {
+  @media screen and ($desktop <= width) {
     width: 44px;
     height: 44px;
   }
