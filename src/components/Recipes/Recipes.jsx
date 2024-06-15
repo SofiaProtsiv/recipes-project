@@ -121,14 +121,14 @@ const Recipes = () => {
         ) : isError ? (
           <p className={cl.error}>{error.data.message}</p>
         ) : (
-          <>
+          <div className={cl.recipesContainer}>
             <RecipeList recipeList={recipeList} />
             <RecipePagination
               handlePage={handlePage}
               page={page}
               totalPages={totalPages}
             />
-          </>
+          </div>
         )}
       </div>
     </>
