@@ -1,6 +1,6 @@
 import cl from './categorySkeleton.module.scss';
 
-const CategoryItem = ({ isWide }) => {
+const CategoryCard = ({ isWide }) => {
   return (
     <>
       <li
@@ -18,4 +18,4 @@ const CategoryItem = ({ isWide }) => {
   );
 };
 
-export default CategoryItem;
+export default CategoryCard;

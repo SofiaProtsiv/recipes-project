@@ -1,6 +1,6 @@
 import cl from './categoriesList.module.scss';
 import { useGetCategoriesQuery } from '../../../redux/categories/categoriesApi';
-import CategoryItem from '../CategoryItem';
+import CategoryCard from '../CategoryCard';
 import { useMediaPredicate } from 'react-media-hook';
 import BREAKPOINTS from '../../../assets/constants/breakpoints';
 import CategorySkeleton from '../CategorySkeleton';
@@ -46,7 +46,7 @@ const CategoryList = () => {
           {categories?.map((item, idx) => {
             const isWide = isElementWide(idx, IS_TABLET, IS_DESKTOP);
             return (
-              <CategoryItem
+              <CategoryCard
                 key={item._id}
                 categoryId={item._id}
                 name={item.name}
