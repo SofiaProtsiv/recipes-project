@@ -40,11 +40,11 @@
 
 @keyframes textAnimation {
   0% {
-    color: black;
+    color: var(--primary-text-color);
     opacity: 0;
   }
   100% {
-    color: white;
+    color: var(--white-color);
     opacity: 1;
   }
 }
