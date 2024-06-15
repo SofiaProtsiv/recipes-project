@@ -15,7 +15,11 @@ const MobileNavigation = () => {
     <nav className={cl.mobileNavigation}>
       <div
         className={`${cl.burgerMenu} ${isOpen ? cl.open : ''}
-        ${location.pathname != '/' ? cl.black : ''}`}
+        ${
+          location.pathname === '/' || location.pathname.includes('/categories')
+            ? ''
+            : cl.black
+        }`}
         onClick={handleToggle}
       >
         <svg
@@ -27,30 +31,30 @@ const MobileNavigation = () => {
           <path
             d="M24.5 7H3.5"
             stroke="white"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
           <path
             d="M24.5 11.6665H3.5"
             stroke="white"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
           <path
             d="M24.5 16.3335H3.5"
             stroke="white"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
           <path
             d="M24.5 21H3.5"
             stroke="white"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
       </div>
@@ -68,35 +72,67 @@ const MobileNavigation = () => {
               <path
                 d="M21 7L7 21"
                 stroke="white"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
               <path
                 d="M7 7L21 21"
                 stroke="white"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </button>
         </div>
         <ul className={cl.menuWrapper}>
           <li>
-            <NavLink onClick={handleToggle} to="/" activeClassName={cl.active}>
+            <NavLink onClick={handleToggle} to="/" className={cl.active}>
               Home
             </NavLink>
           </li>
           <li>
-            <NavLink onClick={handleToggle} to="recipe/add" activeClassName={cl.active}>
+            <NavLink
+              onClick={handleToggle}
+              to="recipe/add"
+              className={cl.active}
+            >
               Add Recipe
             </NavLink>
           </li>
         </ul>
         <div className={cl.imgContainer}>
-          <img src="/public/images/categories/Breakfast.jpg" alt="cake" />
-          <img src="/public/images/categories/Beef.jpg" alt="meat dish" />
+          <picture>
+            <source
+              media="(max-width: 768px)"
+              srcSet="/images/hero/desert@1x.jpg"
+            />
+            <source
+              media="(min-width: 769px)"
+              srcSet="/images/hero/desert@2x.jpg"
+            />
+            <img
+              className={cl.firstImg}
+              src="/images/hero/desert.jpg"
+              alt="desert"
+            />
+          </picture>
+          <picture>
+            <source
+              media="(max-width: 768px)"
+              srcSet="/images/hero/meat-and-vine@1x.jpg"
+            />
+            <source
+              media="(min-width: 769px)"
+              srcSet="/images/hero/meat-and-vine@2x.jpg"
+            />
+            <img
+              className={cl.lastImg}
+              src="/images/hero/meat-and-vine.jpg"
+              alt="meat and bottle of vine"
+            />
+          </picture>
         </div>
       </div>
     </nav>

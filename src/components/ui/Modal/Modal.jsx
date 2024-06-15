@@ -17,7 +17,8 @@ const Modal = ({ onClose, type = 'LogOutModal' }) => {
   const [show, setShow] = useState(true);
   const modalRef = useRef(null);
 
-  const { name } = useSelector(state => state.authSlice?.user);
+  // const { name } = useSelector(state => state.authSlice?.user);
+  const name = 'User Name';
 
   const closeWithAnimation = () => {
     setShow(false);
