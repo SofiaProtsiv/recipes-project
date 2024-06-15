@@ -48,7 +48,6 @@ const SignInForm = ({ onClose }) => {
       dispatch(logInUser({ data: result }));
 
       const currentUserResponse = await fetchCurrentUser().unwrap();
-      // dispatch(fetchUser({ data: currentUserResponse }));
       dispatch(setUserId({ _id: currentUserResponse._id }));
       onClose();
     } catch (error) {

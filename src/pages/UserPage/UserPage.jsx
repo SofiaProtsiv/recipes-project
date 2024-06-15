@@ -38,12 +38,6 @@ const UserPage = () => {
     skip: !user._id,
   });
 
-  useEffect(() => {
-    console.log('User:', user);
-    console.log('User ID:', user?._id);
-    console.log('Fetched userData:', userData);
-  }, [user, userData]);
-
   const handleLogOut = async () => {
     dispatch(logOutUser());
   };
@@ -51,8 +45,6 @@ const UserPage = () => {
   if (isLoading || isLoadingCurrentUser) return <div>Loading user data...</div>;
   if (error || currentUserError)
     return <div>Error: {error?.message || currentUserError?.message}</div>;
-
-  console.log('userData', userData);
 
   return (
     <>
