@@ -36,7 +36,7 @@ const Recipes = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    if (!(category === 'all')) {
+    if (category !== 'all') {
       setCategory(category);
     }
   }, [category]);
@@ -110,7 +110,7 @@ const Recipes = () => {
           handleIngredient={handleIngredient}
           handleArea={handleArea}
           handleCategories={handleCategories}
-          category={category}
+          category={categoryState}
         />
         {isFetching ? (
           <ul className={cl.skeletonList}>
@@ -121,14 +121,14 @@ const Recipes = () => {
         ) : isError ? (
           <p className={cl.error}>{error.data.message}</p>
         ) : (
-          <>
+          <div className={cl.recipesContainer}>
             <RecipeList recipeList={recipeList} />
             <RecipePagination
               handlePage={handlePage}
               page={page}
               totalPages={totalPages}
             />
-          </>
+          </div>
         )}
       </div>
     </>

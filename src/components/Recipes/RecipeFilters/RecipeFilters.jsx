@@ -33,7 +33,6 @@ const RecipeFilters = ({
     isFetching: isCategoriesFetching,
     isSuccess: isCategoriesSuccess,
   } = categoriesApi.useGetCategoriesQuery();
-
   useEffect(() => {
     if (isIngredientsSuccess && ingredientsResp) {
       setIngredientsList(ingredientsResp);
@@ -49,39 +48,45 @@ const RecipeFilters = ({
   }, [isAreasSuccess, areasResp]);
 
   useEffect(() => {
-    if (isCategoriesSuccess && categoriesResp) {
+    if (isCategoriesSuccess && categoriesResp.length > 0) {
       setCategoriesList(categoriesResp);
-      setSelectList(prevSelectList => [...prevSelectList, 'category']);
       if (category) {
-        const { name } = categoriesResp.filter(
-          elem => elem._id === category
-        )[0];
-        setCategory(name);
+        const elem = categoriesResp.find(el => el._id === category);
+        if (elem) {
+          setCategory(elem.name);
+        }
       }
+      setSelectList(prevSelectList => [...prevSelectList, settedCategory]);
     }
-  }, [isCategoriesSuccess, category, categoriesResp]);
+  }, [isCategoriesSuccess, category, categoriesResp, settedCategory]);
 
   const renderSelect = item => {
-    let options, onChange, className, isLoading;
+    let options, onChange, className, isLoading, value, isSuccess;
 
     switch (item) {
       case 'ingredients':
         options = ingredientsList;
         onChange = handleIngredient;
-        className = 'ingredients';
+        className = item;
         isLoading = isIngredientsFetching;
+        value = item;
+        isSuccess = isIngredientsSuccess;
         break;
       case 'area':
         options = areasList;
         onChange = handleArea;
-        className = 'area';
+        className = item;
         isLoading = isAreasFetching;
+        value = item;
+        isSuccess = isAreasSuccess;
         break;
-      case 'category':
+      case settedCategory:
         options = categoriesList;
         onChange = handleCategories;
-        className = 'category';
+        className = item;
         isLoading = isCategoriesFetching;
+        value = settedCategory;
+        isSuccess = isCategoriesSuccess;
         break;
       default:
         return null;
@@ -91,16 +96,14 @@ const RecipeFilters = ({
       <li key={item}>
         {isLoading ? (
           <SkeletonSelect />
-        ) : (
+        ) : isSuccess ? (
           <Select
             options={options}
             onChange={onChange}
-            value={
-              settedCategory && item === 'category' ? settedCategory : item
-            }
             className={className}
+            value={value}
           />
-        )}
+        ) : null}
       </li>
     );
   };
