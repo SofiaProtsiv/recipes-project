@@ -15,7 +15,7 @@ export default function NotFoundPage() {
             <svg className={cl.foodies404} width={320} height={320}>
               <use href={`${image404}#foodies404`}></use>
             </svg>
-            <ButtonLink addClass={cl.to_home} to={'/'}>
+            <ButtonLink addClass={'to_home'} to={'/'}>
               Back to Home
             </ButtonLink>
           </div>

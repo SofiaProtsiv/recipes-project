@@ -36,7 +36,7 @@
   line-height: 1.286;
   letter-spacing: -0.28px;
 
-  @media only screen and (min-width: 768px) {
+  @include tablet {
     font-size: 14px;
   }
 }
@@ -48,11 +48,11 @@
   font-weight: 500;
   line-height: 1.42857;
   letter-spacing: -0.28px;
-  @media only screen and (min-width: 375px) {
+  @include mobile {
     max-width: 283px;
   }
 
-  @media only screen and (min-width: 768px) {
+  @include tablet {
     max-width: 400px;
   }
 }

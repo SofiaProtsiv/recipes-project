@@ -1,9 +1,4 @@
 /* Breakpoints */
-$mobile: 375px;
-$mobile-max: 767.99px;
-$tablet: 768px;
-$tablet-max: 1439.99px;
-$desktop: 1440px;
 
 .button-link {
   display: flex;
@@ -31,7 +26,7 @@ $desktop: 1440px;
     --fill: none;
     --stroke: var(--primary-text-color);
 
-    @media screen and ($tablet <= width) {
+    @include tablet {
       width: 18px;
       height: 18px;
     }
@@ -42,13 +37,37 @@ $desktop: 1440px;
     --stroke: var(--white-color);
   }
 
-  @media screen and (768px <= width) {
+  @include tablet {
     width: 42px;
     height: 42px;
   }
 
-  @media screen and (1440px <= width) {
+  @include desktop {
     width: 44px;
     height: 44px;
+  }
+}
+
+.to_home {
+  padding: 4px;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.42857;
+  letter-spacing: -0.28px;
+  text-transform: uppercase;
+  width: 283px;
+
+  &:hover {
+    background-color: var(--white-color);
+  }
+
+  @include tablet {
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: -0.32px;
   }
 }
