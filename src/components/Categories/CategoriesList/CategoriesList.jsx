@@ -4,10 +4,11 @@ import CategoryItem from '../CategoryItem';
 import { useMediaPredicate } from 'react-media-hook';
 import BREAKPOINTS from '../../../assets/constants/breakpoints';
 import CategorySkeleton from '../CategorySkeleton';
+import PropTypes from 'prop-types';
 
 const { MOBILE, MOBILE_MAX, TABLET, DESKTOP } = BREAKPOINTS;
 
-const CategoryList = () => {
+const CategoryList = ({ handleCategories }) => {
   const IS_TABLET = useMediaPredicate(`(min-width: ${TABLET})`);
   const IS_DESKTOP = useMediaPredicate(`(min-width: ${DESKTOP})`);
   const IS_MOBILE = useMediaPredicate(
@@ -28,6 +29,7 @@ const CategoryList = () => {
   if (isSuccess) {
     categories = allCategories.slice(0, toRenderNumber);
     categories.push({ _id: 'all_categories', name: 'All categories' });
+    handleCategories(categories);
   }
 
   return (
@@ -84,4 +86,7 @@ const isElementWide = (idx, tablet, desktop) => {
   return isWide;
 };
 
+CategoryList.propTypes = {
+  handleCategories: PropTypes.func.isRequired,
+};
 export default CategoryList;

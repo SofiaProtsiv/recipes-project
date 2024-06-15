@@ -18,6 +18,7 @@ import { authSlice } from './auth/AuthSlice';
 import { authApi } from './auth/AuthApi';
 import { recipesApi } from './recipes/recipesApi';
 import { categoriesApi } from './categories/categoriesApi';
+import { categoriesSlice } from './categories/categoriesSlice';
 
 const persistConfig = {
   key: 'authSlice',
@@ -27,12 +28,13 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   authSlice: authSlice.reducer,
+  categoriesSlice: categoriesSlice.reducer,
   [recipesApi.reducerPath]: recipesApi.reducer,
   [authApi.reducerPath]: authApi.reducer,
   [testimonialsApi.reducerPath]: testimonialsApi.reducer,
   [ingredientsApi.reducerPath]: ingredientsApi.reducer,
   [areasApi.reducerPath]: areasApi.reducer,
-  [categoriesApi.reducerPath]: categoriesApi.reducer
+  [categoriesApi.reducerPath]: categoriesApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

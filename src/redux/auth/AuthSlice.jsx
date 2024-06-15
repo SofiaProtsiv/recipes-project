@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  user: { name: '', email: '', avatar: '' },
+  user: { name: '', email: '', avatar: '', _id: '' },
   token: null,
   isLoggedIn: false,
 };
@@ -35,6 +35,11 @@ export const authSlice = createSlice({
     updateUserAvatar(state, action) {
       state.user.avatar = action.payload.data.avatar;
     },
+
+    updateUser(state, action) {
+      console.log(action);
+      state.user = action.payload.user;
+    },
   },
 });
 
@@ -44,4 +49,5 @@ export const {
   logOutUser,
   fetchUser,
   updateUserAvatar,
+  updateUser,
 } = authSlice.actions;

@@ -49,11 +49,15 @@ export const recipesApi = createApi({
     }),
 
     getPopularRecipes: builder.query({
-      query: ({ page = 1, limit = 4 } = {}) => {
+      query: ({ page = 1, limit = 4, userId = null } = {}) => {
+        const filter = { page, limit };
+        if (userId) {
+          filter.userId = userId;
+        }
         return {
           url: '/recipes/popular/list',
           method: 'GET',
-          params: { page, limit },
+          params: filter,
         };
       },
       providesTags: ['Recipe'],

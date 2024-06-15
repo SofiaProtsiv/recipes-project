@@ -7,61 +7,63 @@ import PropTypes from 'prop-types';
 import getLimitForViewport from '../../utils/getLimitForViewport';
 import cl from './recipes.module.scss';
 import SkeletonRecipeCard from './RecipeCard/SkeletonRecipeCard';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import authApi from '../../redux/auth/AuthApi';
 import { useParams } from 'react-router-dom';
 import scrollUpToSection from '../../utils/scrollUpToSection';
 import Subtitle from '../ui/Subtitle';
 import ButtonLink from '../ui/ButtonLink';
 import MainTitle from '../ui/MainTitle';
+import { authSlice } from '../../redux/auth/AuthSlice';
 
 const Recipes = () => {
   const SKELETON_AMOUNT = 6;
-  const ALL_RECIPES = 'all';
+  const ALL_CATEGORIES = 'all';
   const limit = getLimitForViewport();
   const { name: category } = useParams();
-  const [categoryState, setCategory] = useState(null);
+  const [currentCategory, setCategory] = useState({
+    id: '',
+    name: ALL_CATEGORIES,
+  });
   const [recipeList, setRecipeList] = useState([]);
   const [totalElements, setTotalElements] = useState(0);
   const [page, setPage] = useState(1);
   const [ingredients, setIngredient] = useState(null);
   const [area, setArea] = useState(null);
-  const [categoryName, setCategoryName] = useState(null);
   const isLoggedIn = useSelector(state => state.authSlice.isLoggedIn);
   const { data: userData } = authApi.useFetchCurrentUserQuery();
   const { data, isFetching, isSuccess, isError } =
     recipesApi.useGetRecipesQuery({
       page,
       limit,
-      category: categoryState,
+      category: currentCategory ? currentCategory.id : null,
       area,
       ingredients,
       userId: userData?._id,
     });
   const [user, setUser] = useState(null);
+  const categories = useSelector(state => state.categoriesSlice.categories);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (category !== ALL_RECIPES) {
-      setCategory(category);
+    if (category !== ALL_CATEGORIES && categories.length > 0) {
+      const currentCategory = categories.find(item => item._id === category);
+      setCategory(currentCategory);
     }
-    setCategoryName(ALL_RECIPES);
-  }, [category]);
+  }, [category, categories]);
 
   useEffect(() => {
     if (isLoggedIn) {
       setUser(userData);
+      dispatch(authSlice.actions.updateUser({ user: userData }));
     }
-  }, [userData, isLoggedIn, user]);
+  }, [userData, isLoggedIn, user, dispatch]);
 
   useEffect(() => {
     if (isSuccess && data) {
       const { recipes, total } = data;
       setRecipeList(recipes);
       setTotalElements(total);
-      if (categoryName !== ALL_RECIPES && recipes.length > 0) {
-        const { category } = recipes[0];
-        setCategoryName(category.name);
-      }
     }
   }, [
     isSuccess,
@@ -72,9 +74,7 @@ const Recipes = () => {
     page,
     area,
     ingredients,
-    categoryState,
     category,
-    categoryName,
   ]);
 
   const handlePage = clickedPage => {
@@ -99,12 +99,10 @@ const Recipes = () => {
   };
 
   const handleCategories = ({ _id: id, name }) => {
-    if (id === categoryState) {
-      setCategory(null);
-      setCategoryName(ALL_RECIPES);
+    if (id === currentCategory.id) {
+      setCategory({ id: null, name: ALL_CATEGORIES });
     } else {
-      setCategory(id);
-      setCategoryName(name);
+      setCategory({ id, name });
     }
   };
 
@@ -122,7 +120,13 @@ const Recipes = () => {
       <ButtonLink icon="arrow-back" addClass={cl.recipeBack} to={'/'}>
         <span>Back</span>
       </ButtonLink>
-      <MainTitle>{isFetching ? 'Loading...' : categoryName}</MainTitle>
+      <MainTitle>
+        {isFetching
+          ? 'Loading...'
+          : currentCategory
+          ? currentCategory.name
+          : ALL_CATEGORIES}
+      </MainTitle>
       <Subtitle>
         Go on a taste journey, where every sip is a sophisticated creative
         chord, and every dessert is an expression of the most refined
@@ -133,7 +137,7 @@ const Recipes = () => {
           handleIngredient={handleIngredient}
           handleArea={handleArea}
           handleCategories={handleCategories}
-          category={categoryState}
+          category={currentCategory ? currentCategory.name : ALL_CATEGORIES}
         />
         {isFetching ? (
           <ul className={cl.skeletonList}>
