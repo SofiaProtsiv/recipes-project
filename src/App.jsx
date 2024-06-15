@@ -25,6 +25,7 @@ export default function App() {
               <Route path="categories/:name" element={<Recipes />} />
             </Route>
           </Route>
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
 
         <Route element={<PrivateRoute redirectTo="/" />}>

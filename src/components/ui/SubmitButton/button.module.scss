@@ -24,7 +24,9 @@
     cursor: default;
   }
 
-  // @media only screen and (min-width: 375px) {
-  //   min-width: 283px;
-  // }
+  @media only screen and (min-width: 768px) {
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: -0.32px;
+  }
 }

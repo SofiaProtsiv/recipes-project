@@ -19,6 +19,12 @@
   line-height: 1.42857;
   letter-spacing: -0.28px;
 
+  @media only screen and (min-width: 768px) {
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: -0.32px;
+  }
+
   &__error {
     border: 1px solid var(--error-color);
   }
