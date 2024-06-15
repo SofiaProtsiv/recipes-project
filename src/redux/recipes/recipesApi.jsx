@@ -60,16 +60,19 @@ export const recipesApi = createApi({
     }),
 
     getRecipeById: builder.query({
-      query: ({ page = 1, limit = 12, userId = null }) => {
-        const filter = { page, limit };
+      query: ({ id, userId = null }) => {
         if (userId) {
-          filter.userId = userId;
+          return {
+            url: `/recipes/${id}`,
+            method: 'GET',
+            query: { userId },
+          };
+        } else {
+          return {
+            url: `/recipes/${id}`,
+            method: 'GET',
+          };
         }
-        return {
-          url: '/recipes',
-          method: 'GET',
-          params: filter,
-        };
       },
       providesTags: ['Recipe'],
     }),

@@ -10,12 +10,13 @@ $desktop: 1440px;
   grid-template-columns: repeat(1, minmax(343px, 1fr));
   width: 343px;
   row-gap: 32px;
+  position: relative;
 
-  .recipeListWrapper {
+  .recipesContainer {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
   }
 
   @media screen and (min-width: $tablet) and (max-width: $tablet-max) {
@@ -31,22 +32,44 @@ $desktop: 1440px;
 }
 
 .error {
-  text-align: center;
+  position: absolute;
+  top: 120%;
+  left: 37%;
+  width: 100%;
   font-size: 16px;
   font-weight: 500;
   line-height: 1.5;
   letter-spacing: 0.02em;
   color: var(--secondary-text-color);
 
-  @media screen and (min-width: $mobile) and (max-width: $mobile-max) {
-    width: 343px;
+  @media screen and (min-width: $tablet) and (max-width: $tablet-max) {
+    top: 150%;
+    left: 45%;
   }
 
+  @media screen and (min-width: $desktop) {
+    top: 50%;
+    left: 200%;
+  }
+}
+
+.skeletonList {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(343px, 1fr));
+  width: 343px;
+  row-gap: 32px;
+
   @media screen and (min-width: $tablet) and (max-width: $tablet-max) {
+    grid-template-columns: repeat(2, minmax(342px, 1fr));
+    row-gap: 40px;
+    column-gap: 20px;
     width: 704px;
   }
 
   @media screen and (min-width: $desktop) {
-    width: 902px;
+    grid-template-columns: repeat(3, minmax(290px, 1fr));
+    row-gap: 40px;
+    column-gap: 20px;
+    width: 910px;
   }
 }
