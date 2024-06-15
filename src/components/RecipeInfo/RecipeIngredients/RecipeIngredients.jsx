@@ -6,7 +6,7 @@ import IngredientCard from '../../IngredientCard';
 
 const RecipeIngredients = () => {
   const { recipeId } = useParams();
-  const { data: recipe } = useGetRecipeByIdQuery(recipeId);
+  const { data: recipe } = useGetRecipeByIdQuery({ id: recipeId });
   return (
     <div className={cl.container}>
       <h2 className={cl.title}>Ingredients</h2>

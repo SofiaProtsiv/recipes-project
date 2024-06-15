@@ -4,12 +4,44 @@ import RecipePreparation from './RecipePreparation';
 import { useGetRecipeByIdQuery } from '../../redux/recipes/recipesApi';
 import cl from './recipeInfo.module.scss';
 import Button from '../ui/Button';
+import {
+  useAddRecipeToFavoritesListMutation,
+  useFetchCurrentUserQuery,
+  useRemoveRecipeFromFavoritesListMutation,
+} from '../../redux/auth/AuthApi';
+import { useSelector } from 'react-redux';
+import { useState } from 'react';
 
 const RecipeInfo = () => {
   const { recipeId } = useParams();
-  const { data: recipe } = useGetRecipeByIdQuery(recipeId);
-  const navigate = useNavigate();
+  const isLoggedIn = useSelector(state => state.authSlice.isLoggedIn);
+  let userData = null;
+  if (isLoggedIn) {
+    userData = useFetchCurrentUserQuery().data;
+  }
+  const reqData = {
+    id: recipeId,
+    userId: userData ? userData._id : null,
+  };
+  const { data: recipe } = useGetRecipeByIdQuery(reqData);
+  const isFavorite = recipe?.isFavorite;
 
+  const [favorite, setFavorite] = useState(isFavorite);
+  const [addRecipeToFavoritesList] = useAddRecipeToFavoritesListMutation();
+  const [removeRecipeFromFavoritesList] =
+    useRemoveRecipeFromFavoritesListMutation();
+
+  const handleFavorite = () => {
+    if (!favorite) {
+      setFavorite(true);
+      addRecipeToFavoritesList(recipeId);
+    } else {
+      setFavorite(false);
+      removeRecipeFromFavoritesList(recipeId);
+    }
+  };
+
+  const navigate = useNavigate();
   const handleOwnerClick = ownerId => {
     navigate(`/user/${ownerId}`);
   };
@@ -31,7 +63,7 @@ const RecipeInfo = () => {
                 src={
                   recipe?.owner?.avatar
                     ? recipe?.owner?.avatar
-                    : '/images/recipe/avatar-3814049_640.webp'
+                    : '/images/user/avatar-3814049_640.webp'
                 }
                 alt={recipe?.owner?.name}
                 className={cl['owner-image']}
@@ -44,6 +76,15 @@ const RecipeInfo = () => {
           </Button>
           <RecipeIngredients />
           <RecipePreparation />
+          <Button
+            disabled={!isLoggedIn}
+            onClick={() => {
+              handleFavorite();
+            }}
+            addClass={isLoggedIn ? `${cl.button}` : `${cl['button-disabled']}`}
+          >
+            {isFavorite ? 'REMOVE FROM FAVORITES' : 'ADD TO FAVORITES'}
+          </Button>
         </div>
       </div>
     </>
