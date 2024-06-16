@@ -20,7 +20,12 @@ const RecipeExtra = ({
   const [removeRecipeFromFavoritesList] =
     authApi.useRemoveRecipeFromFavoritesListMutation();
   const { isLoggedIn } = useSelector(state => state.authSlice);
+  const [modalType, setModalType] = useState('SignInModal');
   const [showModal, setShowModal] = useState(false);
+  const toggleModal = type => {
+    setModalType(type);
+    setShowModal(!showModal);
+  };
 
   const handleFavorite = ({ target }) => {
     target.blur();
@@ -46,11 +51,7 @@ const RecipeExtra = ({
 
   return (
     <>
-      {showModal && (
-        <div className={cl.modal} onClick={() => setShowModal(false)}>
-          <Modal />
-        </div>
-      )}
+      {showModal && <Modal onClose={toggleModal} type={modalType} />}
       <div className={cl.recipeExtra}>
         <div className={cl.recipeOwner}>
           <ButtonLink

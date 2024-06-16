@@ -19,30 +19,32 @@ import { authSlice } from '../../redux/auth/AuthSlice';
 const Recipes = () => {
   const SKELETON_AMOUNT = 6;
   const ALL_CATEGORIES = 'all';
+  const DEFAULT_CURRENT_CATEGORY = { _id: null, name: ALL_CATEGORIES };
+  const DEFAULT_USER = { _id: null, name: null, avatar: null };
   const limit = getLimitForViewport();
   const { name: category } = useParams();
-  const [currentCategory, setCategory] = useState({
-    id: '',
-    name: ALL_CATEGORIES,
-  });
+  const [currentCategory, setCategory] = useState(DEFAULT_CURRENT_CATEGORY);
   const [recipeList, setRecipeList] = useState([]);
   const [totalElements, setTotalElements] = useState(0);
   const [page, setPage] = useState(1);
   const [ingredients, setIngredient] = useState(null);
   const [area, setArea] = useState(null);
+  const [user, setUser] = useState(DEFAULT_USER);
   const isLoggedIn = useSelector(state => state.authSlice.isLoggedIn);
   const { data: userData } = authApi.useFetchCurrentUserQuery();
-  const { data, refetch, isFetching, isSuccess, isError } =
-    recipesApi.useGetRecipesQuery({
-      page,
-      limit,
-      category: currentCategory ? currentCategory.id : null,
-      area,
-      ingredients,
-      userId: userData?._id,
-    });
-  const [user, setUser] = useState(null);
   const categories = useSelector(state => state.categoriesSlice.categories);
+  const { data, isFetching, isSuccess, isError } =
+    recipesApi.useGetRecipesQuery(
+      {
+        page,
+        limit,
+        category: currentCategory?._id,
+        area,
+        ingredients,
+        userId: user?._id,
+      },
+      { refetchOnMountOrArgChange: true }
+    );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -54,12 +56,12 @@ const Recipes = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      console.log('user', isLoggedIn);
-      setUser(userData);
-      dispatch(authSlice.actions.updateUser({ user: userData }));
-      refetch();
+      if (userData?._id !== user?._id) {
+        setUser(userData);
+        dispatch(authSlice.actions.updateUser({ user: userData }));
+      }
     }
-  }, [userData, isLoggedIn, user, refetch, dispatch]);
+  }, [userData, isLoggedIn, user, dispatch]);
 
   useEffect(() => {
     if (isSuccess && data) {
@@ -72,11 +74,11 @@ const Recipes = () => {
     isError,
     isFetching,
     data,
-    recipeList,
     page,
     area,
     ingredients,
-    category,
+    currentCategory,
+    user,
   ]);
 
   const handlePage = clickedPage => {
@@ -97,14 +99,16 @@ const Recipes = () => {
       setIngredient(null);
     } else {
       setIngredient(id);
+      setPage(1);
     }
   };
 
   const handleCategories = ({ _id: id, name }) => {
-    if (id === currentCategory.id) {
-      setCategory({ id: null, name: ALL_CATEGORIES });
+    if (id === currentCategory._id) {
+      setCategory(DEFAULT_CURRENT_CATEGORY);
     } else {
-      setCategory({ id, name });
+      setCategory({ _id: id, name });
+      setPage(1);
     }
   };
 
@@ -113,6 +117,7 @@ const Recipes = () => {
       setArea(null);
     } else {
       setArea(id);
+      setPage(1);
     }
   };
 
@@ -125,7 +130,7 @@ const Recipes = () => {
       <MainTitle>
         {isFetching
           ? 'Loading...'
-          : currentCategory
+          : currentCategory._id
           ? currentCategory.name
           : ALL_CATEGORIES}
       </MainTitle>
@@ -139,7 +144,7 @@ const Recipes = () => {
           handleIngredient={handleIngredient}
           handleArea={handleArea}
           handleCategories={handleCategories}
-          category={currentCategory ? currentCategory.name : ALL_CATEGORIES}
+          category={currentCategory._id ? currentCategory.name : ALL_CATEGORIES}
         />
         {isFetching ? (
           <ul className={cl.skeletonList}>
