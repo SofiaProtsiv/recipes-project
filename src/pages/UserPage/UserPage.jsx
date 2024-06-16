@@ -14,6 +14,7 @@ import { setUserId, updateUserAvatar } from '../../redux/auth/AuthSlice.jsx';
 import cl from './userPage.module.scss';
 import Icon from '../../components/ui/Icon/index.js';
 import LogOutModal from '../../components/LogOutModal/index.js';
+import Container from '../../components/ui/Container/index.js';
 
 const UserPage = () => {
   const dispatch = useDispatch();
@@ -76,70 +77,76 @@ const UserPage = () => {
 
   return (
     <>
-      <PathInfo />
-      <MainTitle>Profile</MainTitle>
-      <Subtitle>
-        Reveal your culinary art, share your favorite recipe and create
-        gastronomic masterpieces with us.
-      </Subtitle>
+      <section>
+        <Container addClass={cl.container}>
+          <PathInfo />
+          <MainTitle>Profile</MainTitle>
+          <Subtitle>
+            Reveal your culinary art, share your favorite recipe and create
+            gastronomic masterpieces with us.
+          </Subtitle>
 
-      <div className={cl.userWrap}>
-        {userData && (
-          <div className={cl.userInfo}>
-            <img
-              className={cl.userInfoImage}
-              src={userData?.avatar}
-              alt={`${userData?.name}'s avatar`}
-            />
-            <Button addClass={cl.plusBtn} onClick={handleClick}>
-              <Icon icon="whitePlus" />
+          <div className={cl.userWrap}>
+            {userData && (
+              <div className={cl.userInfo}>
+                <img
+                  className={cl.userInfoImage}
+                  src={userData?.avatar}
+                  alt={`${userData?.name}'s avatar`}
+                />
+                <Button addClass={cl.plusBtn} onClick={handleClick}>
+                  <Icon icon="whitePlus" />
+                </Button>
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  style={{ display: 'none' }}
+                  onChange={handleFileChange}
+                />
+
+                <h1>{userData?.name}</h1>
+                <div className={cl.userTextWrap}>
+                  <p className={cl.userInfoText}>
+                    Email:{' '}
+                    <span className={cl.userInfoSpan}>{userData?.email}</span>
+                  </p>
+                  <p className={cl.userInfoText}>
+                    Added recipes:{' '}
+                    <span className={cl.userInfoSpan}>
+                      {userData?.recipesQty}
+                    </span>{' '}
+                  </p>
+                  <p className={cl.userInfoText}>
+                    Favorites:{' '}
+                    <span className={cl.userInfoSpan}>
+                      {userData?.favRecipesQty}
+                    </span>{' '}
+                  </p>
+                  <p className={cl.userInfoText}>
+                    Followers:{' '}
+                    <span className={cl.userInfoSpan}>
+                      {userData?.followersQty}
+                    </span>{' '}
+                  </p>
+                  <p className={cl.userInfoText}>
+                    Following:{' '}
+                    <span className={cl.userInfoSpan}>
+                      {userData?.followingQty}
+                    </span>{' '}
+                  </p>
+                </div>
+              </div>
+            )}
+            <Button addClass={cl.logoutBtn} onClick={handleLogOut}>
+              Log out
             </Button>
-            <input
-              type="file"
-              ref={fileInputRef}
-              style={{ display: 'none' }}
-              onChange={handleFileChange}
-            />
-
-            <h1>{userData?.name}</h1>
-            <div className={cl.userTextWrap}>
-              <p className={cl.userInfoText}>
-                Email:{' '}
-                <span className={cl.userInfoSpan}>{userData?.email}</span>
-              </p>
-              <p className={cl.userInfoText}>
-                Added recipes:{' '}
-                <span className={cl.userInfoSpan}>{userData?.recipesQty}</span>{' '}
-              </p>
-              <p className={cl.userInfoText}>
-                Favorites:{' '}
-                <span className={cl.userInfoSpan}>
-                  {userData?.favRecipesQty}
-                </span>{' '}
-              </p>
-              <p className={cl.userInfoText}>
-                Followers:{' '}
-                <span className={cl.userInfoSpan}>
-                  {userData?.followersQty}
-                </span>{' '}
-              </p>
-              <p className={cl.userInfoText}>
-                Following:{' '}
-                <span className={cl.userInfoSpan}>
-                  {userData?.followingQty}
-                </span>{' '}
-              </p>
-            </div>
           </div>
-        )}
-        <Button addClass={cl.logoutBtn} onClick={handleLogOut}>
-          Log out
-        </Button>
-      </div>
 
-      <TabsList />
+          <TabsList />
 
-      {isLogOutModalOpen && <LogOutModal onClose={closeLogOutModal} />}
+          {isLogOutModalOpen && <LogOutModal onClose={closeLogOutModal} />}
+        </Container>
+      </section>
     </>
   );
 };
