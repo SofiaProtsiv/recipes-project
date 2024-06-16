@@ -24,8 +24,6 @@ const ListItems = ({
       </div>
     );
   }
-
-  console.log('data', data);
   return (
     <ul className={cl.listWrapper}>
       {data.map(cardData => {

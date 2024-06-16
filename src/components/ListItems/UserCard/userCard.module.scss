@@ -11,12 +11,15 @@ $desktop: 1440px;
   padding-top: 20px;
   padding-bottom: 20px;
   border-bottom: 1px solid var(--pagination-border-color);
+
+
+
   @media screen and (min-width: $tablet) {
     padding-top: 40px;
     padding-bottom: 40px;
   }
   &:last-child {
-    border-bottom: 0px;
+    border-bottom: 0;
   }
 }
 

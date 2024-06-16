@@ -10,38 +10,36 @@ import { TypeOfList } from '../constants';
 import cl from './userCard.module.scss';
 import Button from '../../ui/Button';
 import ButtonLink from '../../ui/ButtonLink';
-import { useSelector } from 'react-redux';
-import { useState } from 'react';
+// import { useSelector } from 'react-redux';
+// import { useState } from 'react';
 
 const defaultAvatar = '/images/recipe/avatar-3814049_640.webp';
 
 const UserCard = ({ cardData, typeOfList }) => {
-  const token = useSelector(state => state.authSlice.token);
-  const [isRemoving, setIsRemoving] = useState(false);
-  const [unfollowUser] = useRemoveUserFromFollowingListMutation();
+  // const token = useSelector(state => state.authSlice.token);
+  // const [isRemoving, setIsRemoving] = useState(false);
+  // const [unfollowUser] = useRemoveUserFromFollowingListMutation();
 
-  // const [removeUserFromFollowingList, { isLoading: isRemoving }] =
-  //   useRemoveUserFromFollowingListMutation();
+  const [removeUserFromFollowingList, { isLoading: isRemoving }] =
+    useRemoveUserFromFollowingListMutation();
 
   const [addUserToFollowingList, { isLoading: isAdding }] =
     useAddUserToFollowingListMutation();
 
   const removeUserHandler = async id => {
-    // await removeUserFromFollowingList(id);
-    setIsRemoving(true);
-    try {
-      await unfollowUser({ id, token }).unwrap();
-    } catch (error) {
-      console.error('Failed to unfollow user:', error);
-    } finally {
-      setIsRemoving(false);
-    }
+    await removeUserFromFollowingList(id);
+    // setIsRemoving(true);
+    // try {
+    //   await unfollowUser({ id, token }).unwrap();
+    // } catch (error) {
+    //   console.error('Failed to unfollow user:', error);
+    // } finally {
+    //   setIsRemoving(false);
+    // }
   };
   const addUserHandler = async id => {
     await addUserToFollowingList(id);
   };
-
-  console.log('cardData', cardData);
 
   return (
     <li className={cl.cardContainer}>

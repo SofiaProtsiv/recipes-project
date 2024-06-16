@@ -102,7 +102,7 @@ const UserPage = () => {
           data={favoriteRecipes.recipes}
           isLoading={isLoadingFavoriteRecipes}
           typeOfCard="RecipeCard"
-          typeOfList="MyFavorites"
+          typeOfList="MyFavoritesRecipes"
         />
       ) : (
         <p>You have no favorite recipes yet. Start exploring and add some!</p>
@@ -229,7 +229,9 @@ const UserPage = () => {
           </div>
 
           <TabsList activeTab={activeTab} setActiveTab={setActiveTab} />
-          <ListItems />
+
+          {/*<ListItems />*/}
+
           <div className={cl.tabContent}>{renderContent()}</div>
 
           {isLogOutModalOpen && <LogOutModal onClose={closeLogOutModal} />}

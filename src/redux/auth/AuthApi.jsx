@@ -88,12 +88,9 @@ export const authApi = createApi({
       invalidatesTags: ['User'],
     }),
     removeUserFromFollowingList: builder.mutation({
-      query: ({ id, token }) => ({
+      query: id => ({
         url: `/users/followings/${id}`,
         method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       }),
       invalidatesTags: ['User'],
     }),
@@ -106,42 +103,23 @@ export const authApi = createApi({
       invalidatesTags: ['User'],
     }),
     removeRecipeFromFavoritesList: builder.mutation({
-      query: ({ id, token }) => ({
+      query: id => ({
         url: `/users/recipes/favorite/${id}`,
         method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       }),
       invalidatesTags: ['User'],
     }),
 
     getFavoriteRecipesList: builder.query({
-      query: token => ({
+      query: () => ({
         url: `/users/recipes/favorite`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       }),
       providesTags: ['User'],
     }),
 
     getPersonalRecipes: builder.query({
-      query: token => ({
+      query: () => ({
         url: '/users/recipes/personal',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }),
-    }),
-
-    removePersonalRecipe: builder.mutation({
-      query: ({ id, token }) => ({
-        url: `/recipes/${id}`,
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       }),
     }),
   }),
@@ -162,7 +140,6 @@ export const {
   useRemoveRecipeFromFavoritesListMutation,
   useGetFavoriteRecipesListQuery,
   useGetPersonalRecipesQuery,
-  useRemovePersonalRecipe,
 } = authApi;
 
 export default authApi;
