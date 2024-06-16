@@ -3,7 +3,7 @@ import ErrorFormMessage from '../ErrorFormMessage';
 import sprite from '../../../assets/icons/sprite.svg';
 import cl from './input.module.scss';
 
-const PasswordInput = ({ register, onBlur, errors }) => {
+const PasswordInput = ({ register, onBlur, autoComplete, errors }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -17,6 +17,7 @@ const PasswordInput = ({ register, onBlur, errors }) => {
         type={showPassword ? 'text' : 'password'}
         placeholder="Password*"
         aria-label="Enter your password"
+        autoComplete={autoComplete}
         {...register('password')}
         onBlur={() => onBlur()}
       />
