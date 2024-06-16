@@ -131,8 +131,8 @@ const Recipes = () => {
         {isFetching
           ? 'Loading...'
           : currentCategory._id
-          ? currentCategory.name
-          : ALL_CATEGORIES}
+            ? currentCategory.name
+            : ALL_CATEGORIES}
       </MainTitle>
       <Subtitle addClass={cl.recipeSubtitle}>
         Go on a taste journey, where every sip is a sophisticated creative

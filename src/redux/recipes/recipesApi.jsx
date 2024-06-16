@@ -111,7 +111,7 @@ export const recipesApi = createApi({
 
         formData.append('description', description);
         ingredients.forEach((ingredient, index) => {
-          formData.append(`ingredients[${index}][id]`, ingredient.id);
+          formData.append(`ingredients[${index}][ingredient]`, ingredient.id);
           formData.append(`ingredients[${index}][measure]`, ingredient.measure);
         });
         formData.append('time', time);
