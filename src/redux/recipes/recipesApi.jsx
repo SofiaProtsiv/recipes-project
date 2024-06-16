@@ -5,6 +5,7 @@ export const recipesApi = createApi({
   reducerPath: 'recipesApi',
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://project-ssback01.onrender.com',
+    refetchOnMountOrArgChange: 3,
     prepareHeaders: (headers, { getState }) => {
       const token = getState().authSlice.token;
       if (token) {
@@ -69,7 +70,7 @@ export const recipesApi = createApi({
           return {
             url: `/recipes/${id}`,
             method: 'GET',
-            query: { userId },
+            params: { id, userId },
           };
         } else {
           return {
