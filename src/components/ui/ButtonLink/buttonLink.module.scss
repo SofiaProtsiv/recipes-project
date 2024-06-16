@@ -27,9 +27,6 @@
   }
 
   svg {
-    --fill: none;
-    --stroke: var(--primary-text-color);
-
     @include tablet {
       width: 18px;
       height: 18px;
