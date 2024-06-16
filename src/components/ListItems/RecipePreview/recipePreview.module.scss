@@ -7,6 +7,11 @@ $desktop: 1440px;
 .cardContainer {
   display: flex;
   align-items: start;
+
+  padding: 32px 0;
+  @media screen and (min-width: $tablet) {
+    padding: 40px 0;
+  }
 }
 .cardWrapper {
   display: flex;

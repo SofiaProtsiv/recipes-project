@@ -29,12 +29,14 @@ const ListItems = ({
       {data.map(cardData => {
         return typeOfCard === TypeOfCard.RecipeCard ? (
           <RecipePreview
+            key={cardData._id}
             isLoading={isLoading}
             cardData={cardData}
             typeOfList={typeOfList}
           />
         ) : (
           <UserCard
+            key={cardData._id}
             isLoading={isLoading}
             cardData={cardData}
             typeOfList={typeOfList}

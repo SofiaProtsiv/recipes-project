@@ -42,7 +42,11 @@ const RecipePreview = ({ cardData, typeOfList }) => {
             to={`recipe/${cardData._id}`}
           ></ButtonLink>
         </li>
-        <li className={typeOfList === TypeOfList.Recipes && cl.hiddenButton}>
+        <li
+          className={
+            typeOfList === TypeOfList.Recipes ? cl.hiddenButton : undefined
+          }
+        >
           <ButtonIcon
             onClick={
               typeOfList === TypeOfList.MyFavoritesRecipes

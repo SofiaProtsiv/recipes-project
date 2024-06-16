@@ -133,6 +133,7 @@ export const {
   useAddRecipeToFavoritesListMutation,
   useRemoveRecipeFromFavoritesListMutation,
   useGetFavoriteRecipesListQuery,
+  useGetPersonalRecipesQuery,
 } = authApi;
 
 export default authApi;
