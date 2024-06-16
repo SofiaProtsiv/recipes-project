@@ -29,11 +29,14 @@ const UserBar = ({ user }) => {
   const handleUserInfoClick = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-
   return (
     <div className={cl.userBar}>
       <div className={cl.userInfo} onClick={handleUserInfoClick}>
-        <img className={cl.avatar} src={user?.avatar} alt="User avatar" />
+        <img
+          className={cl.avatar}
+          src={ user?.avatar || '/images/user/avatar-3814049_640.webp'}
+          alt="User avatar"
+        />
         <div className={cl.name}>
           <span className={cl.username}>{user?.name}</span>
           <svg
