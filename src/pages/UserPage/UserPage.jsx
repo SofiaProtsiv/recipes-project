@@ -9,14 +9,11 @@ import {
   useGetUserByIdQuery,
   useUpdateAvatarMutation,
 } from '../../redux/auth/AuthApi.jsx';
-import { useEffect, useRef } from 'react';
-import {
-  logOutUser,
-  setUserId,
-  updateUserAvatar,
-} from '../../redux/auth/AuthSlice.jsx';
+import { useEffect, useRef, useState } from 'react';
+import { setUserId, updateUserAvatar } from '../../redux/auth/AuthSlice.jsx';
 import cl from './userPage.module.scss';
 import Icon from '../../components/ui/Icon/index.js';
+import LogOutModal from '../../components/LogOutModal/index.js';
 
 const UserPage = () => {
   const dispatch = useDispatch();
@@ -24,6 +21,7 @@ const UserPage = () => {
   const token = useSelector(state => state.authSlice.token);
   const [updateAvatar] = useUpdateAvatarMutation();
   const fileInputRef = useRef(null);
+  const [isLogOutModalOpen, setIsLogOutModalOpen] = useState(false);
 
   const {
     data: currentUser,
@@ -65,7 +63,11 @@ const UserPage = () => {
   };
 
   const handleLogOut = async () => {
-    dispatch(logOutUser());
+    setIsLogOutModalOpen(true);
+  };
+
+  const closeLogOutModal = () => {
+    setIsLogOutModalOpen(false);
   };
 
   if (isLoading || isLoadingCurrentUser) return <div>Loading user data...</div>;
@@ -136,6 +138,8 @@ const UserPage = () => {
       </div>
 
       <TabsList />
+
+      {isLogOutModalOpen && <LogOutModal onClose={closeLogOutModal} />}
     </>
   );
 };
