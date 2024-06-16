@@ -23,6 +23,7 @@ const UserPage = () => {
   const [updateAvatar] = useUpdateAvatarMutation();
   const fileInputRef = useRef(null);
   const [isLogOutModalOpen, setIsLogOutModalOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('My recipes');
 
   const {
     data: currentUser,
@@ -74,6 +75,21 @@ const UserPage = () => {
   if (isLoading || isLoadingCurrentUser) return <div>Loading user data...</div>;
   if (error || currentUserError)
     return <div>Error: {error?.message || currentUserError?.message}</div>;
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'My recipes':
+        return <div>My recipes content</div>;
+      case 'My favorites':
+        return <div>My favorites content</div>;
+      case 'Followers':
+        return <div>Followers content</div>;
+      case 'Following':
+        return <div>Following content</div>;
+      default:
+        return null;
+    }
+  };
 
   return (
     <>
@@ -142,7 +158,8 @@ const UserPage = () => {
             </Button>
           </div>
 
-          <TabsList />
+          <TabsList activeTab={activeTab} setActiveTab={setActiveTab} />
+          <div className={cl.tabContent}>{renderContent()}</div>
 
           {isLogOutModalOpen && <LogOutModal onClose={closeLogOutModal} />}
         </Container>

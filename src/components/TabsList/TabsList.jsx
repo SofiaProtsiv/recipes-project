@@ -2,11 +2,17 @@ import cl from './tabsList.module.scss';
 
 const TABS = ['My recipes', 'My favorites', 'Followers', 'Following'];
 
-const TabsList = () => {
+const TabsList = ({ activeTab, setActiveTab }) => {
   return (
-    <ul className={cl.className}>
+    <ul className={cl.tabsList}>
       {TABS.map(tab => (
-        <li key={tab}>{tab}</li>
+        <li
+          key={tab}
+          className={activeTab === tab ? cl.active : ''}
+          onClick={() => setActiveTab(tab)}
+        >
+          {tab}
+        </li>
       ))}
     </ul>
   );
