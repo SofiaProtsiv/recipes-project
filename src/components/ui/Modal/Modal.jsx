@@ -40,22 +40,6 @@ const Modal = ({ onClose, type = 'LogOutModal' }) => {
   };
 
   useEffect(() => {
-    document.addEventListener('keydown', handleEscape, false);
-    document.addEventListener('mousedown', handleClickOutside, false);
-    document.body.style.overflow = 'hidden';
-    document.body.style.paddingRight = '1.01em';
-
-    disableBodyTabbing(modalRef);
-
-    return () => {
-      document.removeEventListener('keydown', handleEscape, false);
-      document.removeEventListener('mousedown', handleClickOutside, false);
-      document.body.style.overflow = 'auto';
-      document.body.style.paddingRight = '0';
-    };
-  }, []);
-
-  useEffect(() => {
     const updateModalHeight = () => {
       setModalHeight(window.innerHeight);
     };
@@ -65,6 +49,25 @@ const Modal = ({ onClose, type = 'LogOutModal' }) => {
 
     return () => {
       window.removeEventListener('resize', updateModalHeight);
+    };
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleEscape, false);
+    document.addEventListener('mousedown', handleClickOutside, false);
+
+    document.body.style.paddingRight = `${
+      window.innerWidth - document.documentElement.offsetWidth
+    }px`;
+    document.body.style.overflow = 'hidden';
+
+    disableBodyTabbing(modalRef);
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape, false);
+      document.removeEventListener('mousedown', handleClickOutside, false);
+      document.body.style.overflow = 'auto';
+      document.body.style.paddingRight = '0';
     };
   }, []);
 
