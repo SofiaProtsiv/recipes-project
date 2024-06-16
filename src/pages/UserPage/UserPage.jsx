@@ -13,7 +13,7 @@ import {
   useUpdateAvatarMutation,
 } from '../../redux/auth/AuthApi.jsx';
 import { useEffect, useRef, useState } from 'react';
-import { setUserId, updateUserAvatar } from '../../redux/auth/AuthSlice.jsx';
+import { updateUserAvatar } from '../../redux/auth/AuthSlice.jsx';
 import cl from './userPage.module.scss';
 import Icon from '../../components/ui/Icon/index.js';
 import LogOutModal from '../../components/LogOutModal/index.js';
@@ -21,9 +21,8 @@ import Container from '../../components/ui/Container/index.js';
 import ListItems from '../../components/ListItems/index.js';
 import { useGetOwnRecipesQuery } from '../../redux/recipes/recipesApi.jsx';
 
-const UserPage = () => {
+const UserPage = ({ userId }) => {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.authSlice.user);
   const token = useSelector(state => state.authSlice.token);
   const [updateAvatar] = useUpdateAvatarMutation();
   const fileInputRef = useRef(null);
@@ -53,19 +52,7 @@ const UserPage = () => {
     isLoading: isLoadingCurrentUser,
   } = useFetchCurrentUserQuery(undefined, { skip: !token });
 
-  useEffect(() => {
-    if (currentUser && currentUser._id) {
-      dispatch(setUserId({ _id: currentUser._id }));
-    }
-  }, [currentUser, dispatch]);
-
-  const {
-    data: userData,
-    error,
-    isLoading,
-  } = useGetUserByIdQuery(user._id, {
-    skip: !user._id,
-  });
+  const { data: userData, error, isLoading } = useGetUserByIdQuery(userId);
 
   const handleFileChange = async event => {
     const file = event.target.files[0];
