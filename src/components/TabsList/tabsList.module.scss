@@ -1,0 +1,16 @@
+.tabsList {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+.tabsList li {
+  cursor: pointer;
+  padding: 10px 20px;
+  border-bottom: 2px solid transparent;
+}
+
+.tabsList li.active {
+  border-bottom: 2px solid #000;
+}

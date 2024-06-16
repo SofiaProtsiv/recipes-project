@@ -1,8 +1,41 @@
+.container {
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 20px;
+  margin-top: 126px;
+  margin-bottom: 80px;
+
+  @media (375px<=width) {
+    max-width: var(--mobile);
+  }
+
+  @media (768px<=width) {
+    max-width: var(--tablet);
+    padding: 0 32px;
+    margin-top: 150px;
+    margin-bottom: 100 px;
+  }
+
+  @media (1440px<=width) {
+    max-width: 1280px;
+    margin-top: 170px;
+    margin-bottom: 120px;
+  }
+}
+
+
 .userWrap {
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 20px;
+}
+
+.userTextWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
 }
 
 .userInfo {
@@ -14,6 +47,11 @@
   max-width: 343px;
   border-radius: 30px;
   border: 1px solid rgba(5, 5, 5, 0.20);
+
+  @media (768px <= width) {
+    gap: 20px;
+    padding: 40px 80px;
+  }
 }
 
 .userInfoImage {
@@ -28,6 +66,11 @@
   font-weight: 500;
   line-height: 1.5;
   letter-spacing: -0.24px;
+
+  @media (768px<=width) {
+    font-size: 14px;
+    line-height: 1.43;
+  }
 }
 
 .userInfoSpan {
@@ -36,6 +79,18 @@
   line-height: 1.43;
   letter-spacing: -0.28px;
   color: rgba(5, 5, 5, 0.90);
+
+  @media (768px<=width) {
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: -0.32px;
+  }
+}
+
+.icon {
+  fill: #cccccc;
+  stroke: #fff;
+  color: #FFFFFF;
 }
 
 .logoutBtn {
@@ -54,3 +109,11 @@
   color: #FFF;
   background: rgba(5, 5, 5, 0.85);
 }
+
+.plusBtn {
+  padding: 10px;
+  border-radius: 50px;
+  background: #050505;
+}
+
+.tabContent {}
