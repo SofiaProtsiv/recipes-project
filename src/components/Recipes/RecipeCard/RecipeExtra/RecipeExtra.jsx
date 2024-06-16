@@ -5,7 +5,6 @@ import ButtonIcon from '../../../ui/ButtonIcon';
 import authApi from '../../../../redux/auth/AuthApi';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 import Modal from '../../../ui/Modal';
 
 const DEFAULT_AVATAR = '/images/user/avatar-3814049_640.webp';
@@ -20,17 +19,16 @@ const RecipeExtra = ({
   const [removeRecipeFromFavoritesList] =
     authApi.useRemoveRecipeFromFavoritesListMutation();
   const { isLoggedIn } = useSelector(state => state.authSlice);
-  const [modalType, setModalType] = useState('SignInModal');
+  const modalType = 'SignInModal';
   const [showModal, setShowModal] = useState(false);
-  const toggleModal = type => {
-    setModalType(type);
+  const toggleModal = () => {
     setShowModal(!showModal);
   };
 
   const handleFavorite = ({ target }) => {
     target.blur();
     if (!isLoggedIn) {
-      toast.error('Please login to add recipes to your favorites');
+      setShowModal(true);
       return;
     }
     if (!favorite) {

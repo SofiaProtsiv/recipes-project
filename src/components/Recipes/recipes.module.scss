@@ -111,3 +111,9 @@
     margin: 10px 0 8px 0;
   }
 }
+
+.recipeSubtitle {
+  @include tablet {
+    width: 540px;
+  }
+}

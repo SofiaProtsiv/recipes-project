@@ -134,7 +134,7 @@ const Recipes = () => {
           ? currentCategory.name
           : ALL_CATEGORIES}
       </MainTitle>
-      <Subtitle>
+      <Subtitle addClass={cl.recipeSubtitle}>
         Go on a taste journey, where every sip is a sophisticated creative
         chord, and every dessert is an expression of the most refined
         gastronomic desires.
