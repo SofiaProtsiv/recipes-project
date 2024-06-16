@@ -1,24 +1,17 @@
-/* Breakpoints */
-$mobile: 375px;
-$mobile-max: 767.99px;
-$tablet: 768px;
-$tablet-max: 1439.99px;
-$desktop: 1440px;
-
 .recipeList {
   display: grid;
   grid-template-columns: repeat(1, minmax(343px, 1fr));
   width: 343px;
   row-gap: 32px;
 
-  @media screen and (min-width: $tablet) and (max-width: $tablet-max) {
+  @include tablet {
     grid-template-columns: repeat(2, minmax(342px, 1fr));
     row-gap: 40px;
     column-gap: 20px;
     width: 704px;
   }
 
-  @media screen and (min-width: $desktop) {
+  @include desktop {
     grid-template-columns: repeat(3, minmax(290px, 1fr));
     row-gap: 40px;
     column-gap: 20px;

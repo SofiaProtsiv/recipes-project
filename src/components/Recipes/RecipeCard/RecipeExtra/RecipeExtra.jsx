@@ -6,6 +6,7 @@ import authApi from '../../../../redux/auth/AuthApi';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import Modal from '../../../ui/Modal';
 
 const DEFAULT_AVATAR = '/images/user/avatar-3814049_640.webp';
 const RecipeExtra = ({
@@ -18,11 +19,12 @@ const RecipeExtra = ({
     authApi.useAddRecipeToFavoritesListMutation();
   const [removeRecipeFromFavoritesList] =
     authApi.useRemoveRecipeFromFavoritesListMutation();
-  const user = useSelector(state => state.authSlice.user);
+  const { isLoggedIn } = useSelector(state => state.authSlice);
+  const [showModal, setShowModal] = useState(false);
 
   const handleFavorite = ({ target }) => {
     target.blur();
-    if (!user?._id) {
+    if (!isLoggedIn) {
       toast.error('Please login to add recipes to your favorites');
       return;
     }
@@ -34,31 +36,50 @@ const RecipeExtra = ({
       removeRecipeFromFavoritesList(recipeId);
     }
   };
+
+  const handleButtonClick = e => {
+    if (!isLoggedIn) {
+      e.preventDefault();
+      setShowModal(true);
+    }
+  };
+
   return (
-    <div className={cl.recipeExtra}>
-      <div className={cl.recipeOwner}>
-        <ButtonLink to={`/user/${_id}`} addClass={cl.recipeOwner}>
-          <img
-            className={`${cl.recipeOwnerImg} ${cl.skeleton}`}
-            src={avatar ? avatar : DEFAULT_AVATAR}
-            alt={name}
-          />
-        </ButtonLink>
-        <h4 className={cl.recipeOwnerName}>{name}</h4>
+    <>
+      {showModal && (
+        <div className={cl.modal} onClick={() => setShowModal(false)}>
+          <Modal />
+        </div>
+      )}
+      <div className={cl.recipeExtra}>
+        <div className={cl.recipeOwner}>
+          <ButtonLink
+            to={`/user/${_id}`}
+            onClick={handleButtonClick}
+            addClass={cl.recipeOwner}
+          >
+            <img
+              className={`${cl.recipeOwnerImg} ${cl.skeleton}`}
+              src={avatar ? avatar : DEFAULT_AVATAR}
+              alt={name}
+            />
+          </ButtonLink>
+          <h4 className={cl.recipeOwnerName}>{name}</h4>
+        </div>
+        <div className={cl.recipeButtons} data-id={recipeId}>
+          <ButtonIcon
+            icon="heart"
+            isActive={favorite}
+            onClick={handleFavorite}
+          ></ButtonIcon>
+          <ButtonLink
+            to={`/recipe/${recipeId}`}
+            icon="arrow_up_right"
+            addClass={cl.recipeLink}
+          ></ButtonLink>
+        </div>
       </div>
-      <div className={cl.recipeButtons} data-id={recipeId}>
-        <ButtonIcon
-          icon="heart"
-          isActive={favorite}
-          onClick={handleFavorite}
-        ></ButtonIcon>
-        <ButtonLink
-          to={`/recipe/${recipeId}`}
-          icon="arrow_up_right"
-          addClass={cl.recipeLink}
-        ></ButtonLink>
-      </div>
-    </div>
+    </>
   );
 };
 

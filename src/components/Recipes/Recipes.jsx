@@ -32,7 +32,7 @@ const Recipes = () => {
   const [area, setArea] = useState(null);
   const isLoggedIn = useSelector(state => state.authSlice.isLoggedIn);
   const { data: userData } = authApi.useFetchCurrentUserQuery();
-  const { data, isFetching, isSuccess, isError } =
+  const { data, refetch, isFetching, isSuccess, isError } =
     recipesApi.useGetRecipesQuery({
       page,
       limit,
@@ -54,10 +54,12 @@ const Recipes = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
+      console.log('user', isLoggedIn);
       setUser(userData);
       dispatch(authSlice.actions.updateUser({ user: userData }));
+      refetch();
     }
-  }, [userData, isLoggedIn, user, dispatch]);
+  }, [userData, isLoggedIn, user, refetch, dispatch]);
 
   useEffect(() => {
     if (isSuccess && data) {
