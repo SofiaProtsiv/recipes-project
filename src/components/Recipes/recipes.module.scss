@@ -1,10 +1,3 @@
-/* Breakpoints */
-$mobile: 375px;
-$mobile-max: 767.99px;
-$tablet: 768px;
-$tablet-max: 1439.99px;
-$desktop: 1440px;
-
 .recipesWrapper {
   display: grid;
   grid-template-columns: repeat(1, minmax(343px, 1fr));
@@ -19,13 +12,13 @@ $desktop: 1440px;
     align-items: center;
   }
 
-  @media screen and (min-width: $tablet) and (max-width: $tablet-max) {
+  @include tablet {
     grid-template-columns: repeat(1, minmax(704px, 1fr));
     row-gap: 40px;
     width: 704px;
   }
 
-  @media screen and (min-width: $desktop) {
+  @include desktop {
     display: flex;
     gap: 40px;
   }
@@ -42,12 +35,12 @@ $desktop: 1440px;
   letter-spacing: 0.02em;
   color: var(--secondary-text-color);
 
-  @media screen and (min-width: $tablet) and (max-width: $tablet-max) {
+  @include tablet {
     top: 150%;
     left: 45%;
   }
 
-  @media screen and (min-width: $desktop) {
+  @include desktop {
     top: 50%;
     left: 200%;
   }
@@ -59,14 +52,14 @@ $desktop: 1440px;
   width: 343px;
   row-gap: 32px;
 
-  @media screen and (min-width: $tablet) and (max-width: $tablet-max) {
+  @include tablet {
     grid-template-columns: repeat(2, minmax(342px, 1fr));
     row-gap: 40px;
     column-gap: 20px;
     width: 704px;
   }
 
-  @media screen and (min-width: $desktop) {
+  @include desktop {
     grid-template-columns: repeat(3, minmax(290px, 1fr));
     row-gap: 40px;
     column-gap: 20px;
@@ -97,7 +90,7 @@ $desktop: 1440px;
     border-color: var(--primary-text-color);
     color: var(--white-color);
   }
-  @media screen and (min-width: $tablet) {
+  @include tablet {
     width: 80px;
     gap: 6px;
     font-size: 14px;
@@ -108,7 +101,7 @@ $desktop: 1440px;
     width: 16px;
     height: 16px;
 
-    @media screen and (min-width: $tablet) {
+    @include tablet {
       width: 18px;
       height: 18px;
     }
@@ -116,5 +109,11 @@ $desktop: 1440px;
 
   span {
     margin: 10px 0 8px 0;
+  }
+}
+
+.recipeSubtitle {
+  @include tablet {
+    width: 540px;
   }
 }
