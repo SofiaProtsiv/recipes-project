@@ -77,8 +77,8 @@ const Modal = ({ onClose, type = 'LogOutModal' }) => {
   return createPortal(
     <div
       className={`${cl.wrapper} ${modalHeight < 600 ? cl.wrapper_scroll : ''} ${
-        show ? cl.wrapper_show : ''
-      } ${cl.scroll_hidden}`}
+        show && cl.wrapper_show
+      }`}
     >
       <div
         className={`${cl.modal} ${show ? cl.modal_show : ''}`}

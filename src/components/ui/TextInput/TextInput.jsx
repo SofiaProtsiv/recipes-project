@@ -1,7 +1,15 @@
 import cl from './input.module.scss';
 import ErrorFormMessage from '../ErrorFormMessage';
 
-const TextInput = ({ type, placeholder, register, onBlur, errors, name }) => {
+const TextInput = ({
+  type,
+  placeholder,
+  register,
+  onBlur,
+  autoComplete,
+  errors,
+  name,
+}) => {
   return (
     <div className={cl.input_container}>
       <input
@@ -14,6 +22,7 @@ const TextInput = ({ type, placeholder, register, onBlur, errors, name }) => {
         placeholder={placeholder}
         aria-label={`Enter your ${name}`}
         {...register(name)}
+        autoComplete={autoComplete}
         onBlur={() => onBlur()}
       />
       {errors[name] && <ErrorFormMessage message={errors[name].message} />}

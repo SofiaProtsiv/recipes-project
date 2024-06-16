@@ -7,20 +7,13 @@ import cl from './notFoundPage.module.scss';
 
 export default function NotFoundPage() {
   return (
-    <>
-      <Container>
-        <Suspense fallback={<div>Loading main content...</div>}>
-          <Outlet />
-          <div className={cl.wrapper}>
-            <svg className={cl.foodies404} width={320} height={320}>
-              <use href={`${image404}#foodies404`}></use>
-            </svg>
-            <ButtonLink addClass={'to_home'} to={'/'}>
-              Back to Home
-            </ButtonLink>
-          </div>
-        </Suspense>
-      </Container>
-    </>
+    <div className={cl.wrapper}>
+      <svg className={cl.foodies404} width={320} height={320}>
+        <use href={`${image404}#foodies404`}></use>
+      </svg>
+      <ButtonLink addClass={cl.to_home} to={'/'}>
+        Back to Home
+      </ButtonLink>
+    </div>
   );
 }
