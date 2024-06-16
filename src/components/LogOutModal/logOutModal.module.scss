@@ -20,7 +20,7 @@
   padding-block: 14px;
   gap: 10px;
   border-radius: 30px;
-  color: #fff;
+  color: var(--white-color);
   background-color: var(--button-bg);
 
   font-size: 14px;
@@ -41,7 +41,7 @@
 
 .logout:hover,
 .logout:active {
-  background-color: #050505;
+  background-color: var(--primary-text-color);
 }
 
 .title_center {

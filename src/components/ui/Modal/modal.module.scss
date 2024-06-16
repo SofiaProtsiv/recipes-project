@@ -71,10 +71,10 @@
   justify-content: center;
   align-items: stretch;
   border-radius: 30px;
-  background-color: #fff;
+  background-color: var(--white-color);
   animation: fadeIn 0.4s ease-out;
 
-  @media only screen and (min-width: 768px) {
+  @include tablet {
     padding: 80px;
   }
 }
@@ -127,7 +127,7 @@
   letter-spacing: -0.28px;
   text-transform: uppercase;
 
-  @media only screen and (min-width: 768px) {
+  @include tablet {
     font-size: 16px;
     line-height: 1.5;
     letter-spacing: -0.32px;
