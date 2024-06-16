@@ -14,7 +14,7 @@ import storage from 'redux-persist/lib/storage';
 import { testimonialsApi } from './testimonials/testimonialsApi';
 import { ingredientsApi } from './ingredients/ingredientsApi';
 import { areasApi } from './areas/areasApi';
-import { authSlice } from './auth/AuthSlice';
+import authReducer from './auth/AuthSlice';
 import { authApi } from './auth/AuthApi';
 import { recipesApi } from './recipes/recipesApi';
 import { categoriesApi } from './categories/categoriesApi';
@@ -23,11 +23,11 @@ import { categoriesSlice } from './categories/categoriesSlice';
 const persistConfig = {
   key: 'authSlice',
   storage,
-  whitelist: [authSlice.reducerPath],
+  whitelist: ['authSlice'],
 };
 
 const rootReducer = combineReducers({
-  authSlice: authSlice.reducer,
+  authSlice: authReducer,
   categoriesSlice: categoriesSlice.reducer,
   [recipesApi.reducerPath]: recipesApi.reducer,
   [authApi.reducerPath]: authApi.reducer,
