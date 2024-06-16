@@ -1,6 +1,7 @@
 .wrapper {
   width: 100%;
   height: calc(100vh - 238px);
+  min-height: 240px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -8,6 +9,12 @@
 
   @include tablet {
     height: calc(100vh - 272px);
+    min-height: 350px;
+  }
+
+  @include desktop {
+    height: calc(100vh - 308px);
+    min-height: 400px;
   }
 }
 
