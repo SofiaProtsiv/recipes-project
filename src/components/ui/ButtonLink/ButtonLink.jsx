@@ -3,9 +3,19 @@ import Icon from '../Icon';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-export default function ButtonLink({ to, addClass = '', icon, children }) {
+export default function ButtonLink({
+  to,
+  addClass = '',
+  onClick = () => {},
+  icon,
+  children,
+}) {
   return (
-    <Link className={`${cl['button-link']} ${addClass}`} to={to}>
+    <Link
+      className={`${cl['button-link']} ${addClass}`}
+      to={to}
+      onClick={onClick}
+    >
       {icon && <Icon icon={icon} />}
 
       {children}
@@ -18,4 +28,5 @@ ButtonLink.propTypes = {
   addClass: PropTypes.string,
   icon: PropTypes.string,
   children: PropTypes.node,
+  onCLick: PropTypes.func,
 };
