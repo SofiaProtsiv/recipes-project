@@ -16,45 +16,45 @@ export const useRecipeLogic = (setValue, getValues, setError, reset) => {
   const { data: area } = useGetAreasQuery();
   const [addRecipe] = useAddRecipeMutation();
 
-  const categoryOptions = categories?.map(({ _id, name }) => ({
-    value: _id,
-    label: name,
-  })) || [];
+  const categoryOptions =
+    categories?.map(({ _id, name }) => ({
+      value: _id,
+      label: name,
+    })) || [];
 
-  const ingredientOptions = ingredients?.map(({ _id, name }) => ({
-    value: _id,
-    label: name,
-  })) || [];
+  const ingredientOptions =
+    ingredients?.map(({ _id, name }) => ({
+      value: _id,
+      label: name,
+    })) || [];
 
-  const areaOptions = area?.map(({ _id, name }) => ({
-    value: _id,
-    label: name,
-  })) || [];
+  const areaOptions =
+    area?.map(({ _id, name }) => ({
+      value: _id,
+      label: name,
+    })) || [];
 
-  const handleClear = (reset) => {
+  const handleClear = reset => {
     reset();
     setImagePreview(null);
     setSelectedIngredients([]);
   };
 
-  const handleImageChange = (event) => {
+  const handleImageChange = event => {
     const file = event.target.files[0];
 
     if (file && file.type.startsWith('image/')) {
       const reader = new FileReader();
       setImageFile(file);
-      setValue('thumb', file)
+      setValue('thumb', file);
       reader.onload = () => setImagePreview(reader.result);
       reader.readAsDataURL(file);
       setError('thumb', null);
     }
   };
 
-
   const removeIngredient = id => {
-    setSelectedIngredients(prev =>
-      prev.filter(el => el._id !== id)
-    );
+    setSelectedIngredients(prev => prev.filter(el => el._id !== id));
   };
 
   const addIngredient = () => {
@@ -116,14 +116,14 @@ export const useRecipeLogic = (setValue, getValues, setError, reset) => {
       })),
       instructions: data.instructions,
       time: data.time.toString(),
-      thumb: imageFile
+      thumb: imageFile,
     };
 
     try {
       await addRecipe(formattedData);
-      toast.success(`Recipe was succesfully added`)
+      toast.success(`Recipe was succesfully added`);
     } catch (error) {
-      toast.error(`Error adding recipe: ${error.message}`)
+      toast.error(`Error adding recipe: ${error.message}`);
       console.error('Error adding recipe:', error.message);
     } finally {
       setLoading(false);
@@ -142,6 +142,6 @@ export const useRecipeLogic = (setValue, getValues, setError, reset) => {
     removeIngredient,
     addIngredient,
     onSubmit,
-    loading
+    loading,
   };
 };

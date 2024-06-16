@@ -9,7 +9,6 @@ import {
   useGetFavoriteRecipesListQuery,
   useGetFollowersQuery,
   useGetFollowingsQuery,
-  useGetPersonalRecipesQuery,
   useGetUserByIdQuery,
   useUpdateAvatarMutation,
 } from '../../redux/auth/AuthApi.jsx';
@@ -20,6 +19,7 @@ import Icon from '../../components/ui/Icon/index.js';
 import LogOutModal from '../../components/LogOutModal/index.js';
 import Container from '../../components/ui/Container/index.js';
 import ListItems from '../../components/ListItems/index.js';
+import { useGetOwnRecipesQuery } from '../../redux/recipes/recipesApi.jsx';
 
 const UserPage = () => {
   const dispatch = useDispatch();
@@ -30,8 +30,11 @@ const UserPage = () => {
   const [isLogOutModalOpen, setIsLogOutModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('My recipes');
 
-  const { data: personalRecipes, isLoading: isLoadingPersonalRecipes } =
-    useGetPersonalRecipesQuery(token, { skip: activeTab !== 'My recipes' });
+  const {
+    data: personalRecipes,
+    isLoading: isLoadingPersonalRecipes,
+    refetch: refetchPersonalRecipes,
+  } = useGetOwnRecipesQuery();
 
   const { data: favoriteRecipes, isLoading: isLoadingFavoriteRecipes } =
     useGetFavoriteRecipesListQuery(token, {
@@ -143,6 +146,12 @@ const UserPage = () => {
     }
   };
 
+  useEffect(() => {
+    if (activeTab === 'My recipes') {
+      refetchPersonalRecipes();
+    }
+  }, [activeTab, refetchPersonalRecipes]);
+
   const handleClick = () => {
     fileInputRef.current.click();
   };
@@ -229,8 +238,6 @@ const UserPage = () => {
           </div>
 
           <TabsList activeTab={activeTab} setActiveTab={setActiveTab} />
-
-          {/*<ListItems />*/}
 
           <div className={cl.tabContent}>{renderContent()}</div>
 

@@ -116,12 +116,6 @@ export const authApi = createApi({
       }),
       providesTags: ['User'],
     }),
-
-    getPersonalRecipes: builder.query({
-      query: () => ({
-        url: '/users/recipes/personal',
-      }),
-    }),
   }),
 });
 
