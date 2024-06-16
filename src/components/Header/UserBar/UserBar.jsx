@@ -2,12 +2,15 @@ import cl from './userBar.module.scss';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../../ui/Modal';
+import { useFetchCurrentUserQuery } from '../../../redux/auth/AuthApi';
 
-const UserBar = ({ user }) => {
+const UserBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const [modalType, setModalType] = useState(null);
   const [showModal, setShowModal] = useState(false);
+
+  const { data: user, isSuccess } = useFetchCurrentUserQuery();
 
   const navigate = useNavigate();
 
@@ -34,7 +37,7 @@ const UserBar = ({ user }) => {
       <div className={cl.userInfo} onClick={handleUserInfoClick}>
         <img
           className={cl.avatar}
-          src={ user?.avatar || '/images/user/avatar-3814049_640.webp'}
+          src={user?.avatar || '/images/user/avatar-3814049_640.webp'}
           alt="User avatar"
         />
         <div className={cl.name}>
