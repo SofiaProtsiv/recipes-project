@@ -5,6 +5,7 @@ import { useMediaPredicate } from 'react-media-hook';
 import BREAKPOINTS from '../../../assets/constants/breakpoints';
 import CategorySkeleton from '../CategorySkeleton';
 import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 
 const { MOBILE, MOBILE_MAX, TABLET, DESKTOP } = BREAKPOINTS;
 
@@ -23,14 +24,26 @@ const CategoryList = ({ handleCategories }) => {
     error,
   } = useGetCategoriesQuery();
 
-  let categories;
+  const [categories, setCategories] = useState([]);
+  const [categoriesSet, setCategoriesSet] = useState(false);
   const toRenderNumber = IS_MOBILE ? 8 : 11;
 
-  if (isSuccess) {
-    categories = allCategories.slice(0, toRenderNumber);
-    categories.push({ _id: 'all_categories', name: 'All categories' });
-    handleCategories(categories);
-  }
+  useEffect(() => {
+    if (isSuccess && !categoriesSet) {
+      const list = allCategories.slice(0, toRenderNumber);
+      list.push({ _id: 'all_categories', name: 'All categories' });
+      setCategories(list);
+      handleCategories(list);
+      setCategoriesSet(true);
+    }
+  }, [
+    isSuccess,
+    allCategories,
+    toRenderNumber,
+    handleCategories,
+    categories,
+    categoriesSet,
+  ]);
 
   return (
     <>

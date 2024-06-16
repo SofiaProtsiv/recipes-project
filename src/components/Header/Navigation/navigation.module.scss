@@ -5,14 +5,16 @@
 }
 
 .link {
+  box-sizing: border-box;
   position: relative;
   font-weight: 500;
   font-size: 16px;
   line-height: 1.25;
   padding: 14px;
+  border: 1px solid transparent;
+  border-radius: 30px;
 
-  &.active::after {
-    content: '';
-    position: absolute;
+  &.active {
+    border-color: var(--border-color-light-dark);
   }
 }

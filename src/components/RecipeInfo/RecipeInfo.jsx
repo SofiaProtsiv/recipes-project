@@ -10,7 +10,7 @@ import {
   useRemoveRecipeFromFavoritesListMutation,
 } from '../../redux/auth/AuthApi';
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const RecipeInfo = () => {
   const { recipeId } = useParams();
@@ -27,9 +27,14 @@ const RecipeInfo = () => {
   const isFavorite = recipe?.isFavorite;
 
   const [favorite, setFavorite] = useState(isFavorite);
+
   const [addRecipeToFavoritesList] = useAddRecipeToFavoritesListMutation();
   const [removeRecipeFromFavoritesList] =
     useRemoveRecipeFromFavoritesListMutation();
+
+  useEffect(() => {
+    setFavorite(isFavorite);
+  }, [isFavorite]);
 
   const handleFavorite = () => {
     if (!favorite) {
@@ -83,7 +88,7 @@ const RecipeInfo = () => {
             }}
             addClass={isLoggedIn ? `${cl.button}` : `${cl['button-disabled']}`}
           >
-            {isFavorite ? 'REMOVE FROM FAVORITES' : 'ADD TO FAVORITES'}
+            {favorite ? 'REMOVE FROM FAVORITES' : 'ADD TO FAVORITES'}
           </Button>
         </div>
       </div>
