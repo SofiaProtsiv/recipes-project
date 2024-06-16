@@ -5,6 +5,13 @@
   gap: 20px;
 }
 
+.userTextWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
 .userInfo {
   display: flex;
   flex-direction: column;
@@ -14,6 +21,11 @@
   max-width: 343px;
   border-radius: 30px;
   border: 1px solid rgba(5, 5, 5, 0.20);
+
+  @media (768px <= width) {
+    gap: 20px;
+    padding: 40px 80px;
+  }
 }
 
 .userInfoImage {
@@ -28,6 +40,11 @@
   font-weight: 500;
   line-height: 1.5;
   letter-spacing: -0.24px;
+
+  @media (768px<=width) {
+    font-size: 14px;
+    line-height: 1.43;
+  }
 }
 
 .userInfoSpan {
@@ -36,6 +53,18 @@
   line-height: 1.43;
   letter-spacing: -0.28px;
   color: rgba(5, 5, 5, 0.90);
+
+  @media (768px<=width) {
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: -0.32px;
+  }
+}
+
+.icon {
+  fill: #cccccc;
+  stroke: #fff;
+  color: #FFFFFF;
 }
 
 .logoutBtn {
@@ -53,4 +82,10 @@
   text-transform: uppercase;
   color: #FFF;
   background: rgba(5, 5, 5, 0.85);
+}
+
+.plusBtn {
+  padding: 10px;
+  border-radius: 50px;
+  background: #050505;
 }

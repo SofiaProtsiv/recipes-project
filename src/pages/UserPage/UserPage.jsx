@@ -7,16 +7,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   useFetchCurrentUserQuery,
   useGetUserByIdQuery,
+  useUpdateAvatarMutation,
 } from '../../redux/auth/AuthApi.jsx';
-import { useEffect } from 'react';
-import { logOutUser, setUserId } from '../../redux/auth/AuthSlice.jsx';
+import { useEffect, useRef } from 'react';
+import {
+  logOutUser,
+  setUserId,
+  updateUserAvatar,
+} from '../../redux/auth/AuthSlice.jsx';
 import cl from './userPage.module.scss';
+import Icon from '../../components/ui/Icon/index.js';
 
 const UserPage = () => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.authSlice.user);
   const token = useSelector(state => state.authSlice.token);
-  console.log('token', token);
+  const [updateAvatar] = useUpdateAvatarMutation();
+  const fileInputRef = useRef(null);
 
   const {
     data: currentUser,
@@ -37,6 +44,25 @@ const UserPage = () => {
   } = useGetUserByIdQuery(user._id, {
     skip: !user._id,
   });
+
+  const handleFileChange = async event => {
+    const file = event.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('avatar', file);
+
+      try {
+        const result = await updateAvatar({ formData, token }).unwrap();
+        dispatch(updateUserAvatar({ data: result }));
+      } catch (error) {
+        console.error('Failed to update avatar:', error);
+      }
+    }
+  };
+
+  const handleClick = () => {
+    fileInputRef.current.click();
+  };
 
   const handleLogOut = async () => {
     dispatch(logOutUser());
@@ -63,26 +89,45 @@ const UserPage = () => {
               src={userData?.avatar}
               alt={`${userData?.name}'s avatar`}
             />
+            <Button addClass={cl.plusBtn} onClick={handleClick}>
+              <Icon icon="whitePlus" />
+            </Button>
+            <input
+              type="file"
+              ref={fileInputRef}
+              style={{ display: 'none' }}
+              onChange={handleFileChange}
+            />
+
             <h1>{userData?.name}</h1>
-            <p className={cl.userInfoText}>
-              Email: <span className={cl.userInfoSpan}>{userData?.email}</span>
-            </p>
-            <p className={cl.userInfoText}>
-              Added recipes:{' '}
-              <span className={cl.userInfoSpan}>{userData?.recipesQty}</span>{' '}
-            </p>
-            <p className={cl.userInfoText}>
-              Favorites:{' '}
-              <span className={cl.userInfoSpan}>{userData?.favRecipesQty}</span>{' '}
-            </p>
-            <p className={cl.userInfoText}>
-              Followers:{' '}
-              <span className={cl.userInfoSpan}>{userData?.followersQty}</span>{' '}
-            </p>
-            <p className={cl.userInfoText}>
-              Following:{' '}
-              <span className={cl.userInfoSpan}>{userData?.followingQty}</span>{' '}
-            </p>
+            <div className={cl.userTextWrap}>
+              <p className={cl.userInfoText}>
+                Email:{' '}
+                <span className={cl.userInfoSpan}>{userData?.email}</span>
+              </p>
+              <p className={cl.userInfoText}>
+                Added recipes:{' '}
+                <span className={cl.userInfoSpan}>{userData?.recipesQty}</span>{' '}
+              </p>
+              <p className={cl.userInfoText}>
+                Favorites:{' '}
+                <span className={cl.userInfoSpan}>
+                  {userData?.favRecipesQty}
+                </span>{' '}
+              </p>
+              <p className={cl.userInfoText}>
+                Followers:{' '}
+                <span className={cl.userInfoSpan}>
+                  {userData?.followersQty}
+                </span>{' '}
+              </p>
+              <p className={cl.userInfoText}>
+                Following:{' '}
+                <span className={cl.userInfoSpan}>
+                  {userData?.followingQty}
+                </span>{' '}
+              </p>
+            </div>
           </div>
         )}
         <Button addClass={cl.logoutBtn} onClick={handleLogOut}>

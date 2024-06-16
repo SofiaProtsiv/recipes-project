@@ -41,14 +41,17 @@ export const authApi = createApi({
       invalidatesTags: ['User'],
     }),
     updateAvatar: builder.mutation({
-      query: avatar => {
-        const formData = new FormData();
-        formData.append('avatar', avatar);
+      query: ({ formData, token }) => {
+        // const formData = new FormData();
+        // formData.append('avatar', avatar);
 
         return {
           url: '/users/avatar',
           method: 'PATCH',
           body: formData,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         };
       },
       invalidatesTags: ['User'],
