@@ -24,8 +24,8 @@ export default function App() {
               <Route index element={<Categories />} />
               <Route path="categories/:name" element={<Recipes />} />
             </Route>
+            <Route path="*" element={<NotFoundPage />} />
           </Route>
-          <Route path="*" element={<NotFoundPage />} />
         </Route>
 
         <Route element={<PrivateRoute redirectTo="/" />}>
@@ -34,9 +34,8 @@ export default function App() {
             <Route path="user/:id" element={<UserPage />} />
             <Route path="recipe/add" element={<AddRecipePage />} />
           </Route>
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
-
-        <Route path="*" element={<NotFoundPage />} />
       </Routes>
 
       <ToastContainer

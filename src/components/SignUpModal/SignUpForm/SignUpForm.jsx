@@ -59,6 +59,7 @@ const SignUpForm = () => {
           register={formRegister}
           errors={errors}
           name="name"
+          autoComplete="username"
           onBlur={() => trigger('name')}
         />
         <TextInput
@@ -67,11 +68,13 @@ const SignUpForm = () => {
           register={formRegister}
           errors={errors}
           name="email"
+          autoComplete="email"
           onBlur={() => trigger('email')}
         />
         <PasswordInput
           register={formRegister}
           errors={errors}
+          autoComplete="new-password"
           onBlur={() => trigger('password')}
         />
       </div>

@@ -64,11 +64,13 @@ const SignInForm = ({ onClose }) => {
           register={register}
           errors={errors}
           name="email"
+          autoComplete="email"
           onBlur={() => trigger('email')}
         />
         <PasswordInput
           register={register}
           errors={errors}
+          autoComplete="current-password webauthn"
           onBlur={() => trigger('password')}
         />
       </div>
