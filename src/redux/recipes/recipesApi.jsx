@@ -69,7 +69,7 @@ export const recipesApi = createApi({
           return {
             url: `/recipes/${id}`,
             method: 'GET',
-            query: { userId },
+            params: { id, userId },
           };
         } else {
           return {
