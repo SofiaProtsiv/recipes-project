@@ -1,9 +1,7 @@
 .container {
-  margin: 0 auto;
+  margin: 126px auto 80px;
   width: 100%;
   padding: 0 20px;
-  margin-top: 126px;
-  margin-bottom: 80px;
 
   @media (375px<=width) {
     max-width: var(--mobile);
@@ -13,7 +11,7 @@
     max-width: var(--tablet);
     padding: 0 32px;
     margin-top: 150px;
-    margin-bottom: 100 px;
+    margin-bottom: 100px;
   }
 
   @media (1440px<=width) {
@@ -110,10 +108,31 @@
   background: rgba(5, 5, 5, 0.85);
 }
 
+.imgWrap {
+  position: relative;
+}
+
 .plusBtn {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -15%;
   padding: 10px;
   border-radius: 50px;
   background: #050505;
+}
+
+.listTabText {
+  overflow: hidden;
+  color: rgba(5, 5, 5, 0.80);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px; /* 142.857% */
+  letter-spacing: -0.28px;
 }
 
 .tabContent {}

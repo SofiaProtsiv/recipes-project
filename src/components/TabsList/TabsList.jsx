@@ -1,4 +1,5 @@
 import cl from './tabsList.module.scss';
+import PropTypes from 'prop-types';
 
 const TABS = ['My recipes', 'My favorites', 'Followers', 'Following'];
 
@@ -16,6 +17,11 @@ const TabsList = ({ activeTab, setActiveTab }) => {
       ))}
     </ul>
   );
+};
+
+TabsList.propTypes = {
+  activeTab: PropTypes.string.isRequired,
+  setActiveTab: PropTypes.func.isRequired,
 };
 
 export default TabsList;

@@ -10,22 +10,38 @@ import { TypeOfList } from '../constants';
 import cl from './userCard.module.scss';
 import Button from '../../ui/Button';
 import ButtonLink from '../../ui/ButtonLink';
+import { useSelector } from 'react-redux';
+import { useState } from 'react';
 
 const defaultAvatar = '/images/recipe/avatar-3814049_640.webp';
 
 const UserCard = ({ cardData, typeOfList }) => {
-  const [removeUserFromFollowingList, { isLoading: isRemoving }] =
-    useRemoveUserFromFollowingListMutation();
+  const token = useSelector(state => state.authSlice.token);
+  const [isRemoving, setIsRemoving] = useState(false);
+  const [unfollowUser] = useRemoveUserFromFollowingListMutation();
+
+  // const [removeUserFromFollowingList, { isLoading: isRemoving }] =
+  //   useRemoveUserFromFollowingListMutation();
 
   const [addUserToFollowingList, { isLoading: isAdding }] =
     useAddUserToFollowingListMutation();
 
   const removeUserHandler = async id => {
-    await removeUserFromFollowingList(id);
+    // await removeUserFromFollowingList(id);
+    setIsRemoving(true);
+    try {
+      await unfollowUser({ id, token }).unwrap();
+    } catch (error) {
+      console.error('Failed to unfollow user:', error);
+    } finally {
+      setIsRemoving(false);
+    }
   };
   const addUserHandler = async id => {
     await addUserToFollowingList(id);
   };
+
+  console.log('cardData', cardData);
 
   return (
     <li className={cl.cardContainer}>
@@ -63,6 +79,42 @@ const UserCard = ({ cardData, typeOfList }) => {
               {isAdding ? 'Loading' : 'Follow'}
             </Button>
           )}
+          {/*{typeOfList === TypeOfList.Followers ? (*/}
+          {/*  cardData.isFollowing ? (*/}
+          {/*    <Button*/}
+          {/*      addClass={*/}
+          {/*        isRemoving*/}
+          {/*          ? `${cl.skeleton} ${cl.cardButtonUnFollow}`*/}
+          {/*          : `${cl.cardButtonUnFollow}`*/}
+          {/*      }*/}
+          {/*      onClick={() => removeUserHandler(cardData._id)}*/}
+          {/*    >*/}
+          {/*      {isRemoving ? 'Loading' : 'Following'}*/}
+          {/*    </Button>*/}
+          {/*  ) : (*/}
+          {/*    <Button*/}
+          {/*      addClass={*/}
+          {/*        isAdding*/}
+          {/*          ? `${cl.skeleton} ${cl.cardButtonFollow}`*/}
+          {/*          : `${cl.cardButtonFollow}`*/}
+          {/*      }*/}
+          {/*      onClick={() => addUserHandler(cardData._id)}*/}
+          {/*    >*/}
+          {/*      {isAdding ? 'Loading' : 'Follow'}*/}
+          {/*    </Button>*/}
+          {/*  )*/}
+          {/*) : (*/}
+          {/*  <Button*/}
+          {/*    addClass={*/}
+          {/*      isRemoving*/}
+          {/*        ? `${cl.skeleton} ${cl.cardButtonUnFollow}`*/}
+          {/*        : `${cl.cardButtonUnFollow}`*/}
+          {/*    }*/}
+          {/*    onClick={() => removeUserHandler(cardData._id)}*/}
+          {/*  >*/}
+          {/*    {isRemoving ? 'Loading' : 'Following'}*/}
+          {/*  </Button>*/}
+          {/*)}*/}
         </div>
         <ul className={cl.listRecipes}>
           {cardData.recipes.slice(0, 3).map((recipe, index) => {

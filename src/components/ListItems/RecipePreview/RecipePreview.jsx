@@ -7,19 +7,33 @@ import { TypeOfList } from '../constants';
 import cl from './recipePreview.module.scss';
 import ButtonIcon from '../../ui/ButtonIcon';
 import ButtonLink from '../../ui/ButtonLink';
+import { useSelector } from 'react-redux';
 
 const RecipePreview = ({ cardData, typeOfList }) => {
+  const token = useSelector(state => state.authSlice.token);
+
   const [removeRecipeFromFavoritesList] =
     useRemoveRecipeFromFavoritesListMutation();
 
-  const [removeRecipe] = useRemoveRecipeMutation();
+  const [removePersonalRecipe] = useRemoveRecipeMutation();
 
-  const removeFavoriteRecipeHandler = id => {
-    removeRecipeFromFavoritesList(id);
+  const removeFavoriteRecipeHandler = async id => {
+    // removeRecipeFromFavoritesList(id);
+    try {
+      await removeRecipeFromFavoritesList({ id, token }).unwrap();
+    } catch (error) {
+      console.error('Failed to remove favorite recipe:', error);
+    }
   };
 
-  const removeOwnRecipeHandler = id => {
-    removeRecipe(id);
+  const removeOwnRecipeHandler = async id => {
+    // removeRecipe(id);
+    try {
+      await removePersonalRecipe({ id, token }).unwrap();
+      // Handle successful removal (e.g., update state or show success message)
+    } catch (error) {
+      console.error('Failed to remove own recipe:', error);
+    }
   };
 
   return (
