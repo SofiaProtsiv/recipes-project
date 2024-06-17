@@ -30,7 +30,7 @@ const UserCard = ({ cardData, typeOfList }) => {
   return (
     <li className={cl.cardContainer}>
       <div className={cl.cardWrapper}>
-        <Link to={`user/${cardData._id}`}>
+        <Link to={`/user/${cardData._id}`}>
           <img
             src={cardData.avatar ? cardData.avatar : defaultAvatar}
             alt={cardData.name}
@@ -76,7 +76,7 @@ const UserCard = ({ cardData, typeOfList }) => {
       </div>
       <ButtonLink
         icon="arrow_up_right"
-        to={`user/${cardData._id}`}
+        to={`/user/${cardData._id}`}
       ></ButtonLink>
     </li>
   );

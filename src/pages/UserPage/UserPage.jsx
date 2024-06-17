@@ -11,6 +11,7 @@ import {
   useGetFollowingsQuery,
   useGetUserByIdQuery,
   useUpdateAvatarMutation,
+  useAddUserToFollowingListMutation,
 } from '../../redux/auth/AuthApi.jsx';
 import { useEffect, useRef, useState } from 'react';
 import { updateUserAvatar } from '../../redux/auth/AuthSlice.jsx';
@@ -20,6 +21,8 @@ import LogOutModal from '../../components/LogOutModal/index.js';
 import Container from '../../components/ui/Container/index.js';
 import ListItems from '../../components/ListItems/index.js';
 import { useGetOwnRecipesQuery } from '../../redux/recipes/recipesApi.jsx';
+import { useGetUserRecipesQuery } from '../../redux/recipes/recipesApi.jsx';
+
 import { useParams } from 'react-router-dom';
 import useScrollToTop from '../../utils/scrollToTop';
 
@@ -28,6 +31,9 @@ const UserPage = () => {
   const dispatch = useDispatch();
   const { token } = useSelector(state => state.authSlice.user);
   const [updateAvatar] = useUpdateAvatarMutation();
+  const [addUserToFollowingList, { isSuccess: isAdded }] =
+    useAddUserToFollowingListMutation();
+
   const fileInputRef = useRef(null);
   const [isLogOutModalOpen, setIsLogOutModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('My recipes');
@@ -61,6 +67,14 @@ const UserPage = () => {
 
   const { data: userData, error, isLoading } = useGetUserByIdQuery(userId);
 
+  const page = 1;
+  const limit = 10;
+  const { data: externalUserRecipes, isLoading: isLoadingExternalUserRecipes } =
+    useGetUserRecipesQuery(
+      { id: userId, page, limit },
+      { skip: activeTab !== 'Recipes' }
+    );
+
   const handleFileChange = async event => {
     const file = event.target.files[0];
     if (file) {
@@ -77,7 +91,7 @@ const UserPage = () => {
   };
 
   const renderContent = () => {
-    if (activeTab === 'My recipes') {
+    if (!currentUser && activeTab === 'My recipes') {
       if (isLoadingPersonalRecipes) return <div>Loading...</div>;
       return personalRecipes?.recipes?.length ? (
         <ListItems
@@ -92,7 +106,7 @@ const UserPage = () => {
           recipes and add your favorites for easy access in the future.
         </p>
       );
-    } else if (activeTab === 'My favorites') {
+    } else if (!currentUser && activeTab === 'My favorites') {
       if (isLoadingFavoriteRecipes) return <div>Loading...</div>;
       return favoriteRecipes?.recipes?.length ? (
         <ListItems
@@ -103,6 +117,18 @@ const UserPage = () => {
         />
       ) : (
         <p>You have no favorite recipes yet. Start exploring and add some!</p>
+      );
+    } else if (activeTab === 'Recipes') {
+      if (isLoadingExternalUserRecipes) return <div>Loading...</div>;
+      return externalUserRecipes?.recipes?.length ? (
+        <ListItems
+          data={externalUserRecipes.recipes}
+          isLoading={isLoadingExternalUserRecipes}
+          typeOfCard="RecipeCard"
+          typeOfList="Recipes"
+        />
+      ) : (
+        <p>User does not have Recipes</p>
       );
     } else if (activeTab === 'Followers') {
       if (isLoadingFollowers) return <div>Loading...</div>;
@@ -152,6 +178,10 @@ const UserPage = () => {
 
   const handleLogOut = async () => {
     setIsLogOutModalOpen(true);
+  };
+
+  const addUserToFollowingListHandler = async id => {
+    addUserToFollowingList(id);
   };
 
   const closeLogOutModal = () => {
@@ -235,14 +265,21 @@ const UserPage = () => {
                 </Button>
               )}
               {!isCurrentUser && (
-                <Button addClass={cl.logoutBtn} onClick={() => {}}>
-                  Follow
+                <Button
+                  addClass={cl.logoutBtn}
+                  onClick={() => addUserToFollowingListHandler(userId)}
+                >
+                  {isAdded ? 'Added' : 'Follow'}
                 </Button>
               )}
             </div>
 
             <div className={cl.tablistBox}>
-              <TabsList activeTab={activeTab} setActiveTab={setActiveTab} />
+              <TabsList
+                isCurrentUser={isCurrentUser}
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+              />
 
               <div className={cl.tabContent}>{renderContent()}</div>
             </div>
