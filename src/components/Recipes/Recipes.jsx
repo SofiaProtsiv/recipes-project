@@ -91,7 +91,7 @@ const Recipes = () => {
       setPage(page - 1);
     }
 
-    scrollUpToSection('#recipes');
+    scrollUpToSection('#categories');
   };
 
   const handleIngredient = ({ _id: id }) => {
@@ -131,8 +131,8 @@ const Recipes = () => {
         {isFetching
           ? 'Loading...'
           : currentCategory._id
-            ? currentCategory.name
-            : ALL_CATEGORIES}
+          ? currentCategory.name
+          : ALL_CATEGORIES}
       </MainTitle>
       <Subtitle addClass={cl.recipeSubtitle}>
         Go on a taste journey, where every sip is a sophisticated creative
@@ -153,7 +153,9 @@ const Recipes = () => {
             ))}
           </ul>
         ) : isError || recipeList.length === 0 ? (
-          <p className={cl.error}>{'No recipies found'}</p>
+          <div className={cl.recipesContainer}>
+            <p className={cl.error}>{'No recipies found'}</p>
+          </div>
         ) : (
           <div className={cl.recipesContainer}>
             <RecipeList recipeList={recipeList} />

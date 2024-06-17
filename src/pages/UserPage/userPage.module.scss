@@ -1,5 +1,5 @@
 .container {
-  margin: 126px auto 80px;
+  margin: 64px auto 80px;
   width: 100%;
   padding: 0 20px;
 
@@ -10,17 +10,16 @@
   @media (768px<=width) {
     max-width: var(--tablet);
     padding: 0 32px;
-    margin-top: 150px;
+    margin-top: 64px;
     margin-bottom: 100px;
   }
 
   @media (1440px<=width) {
     max-width: 1280px;
-    margin-top: 170px;
+    margin-top: 80px;
     margin-bottom: 120px;
   }
 }
-
 
 .userWrap {
   display: inline-flex;
@@ -44,7 +43,7 @@
   padding: 30px 54px;
   max-width: 343px;
   border-radius: 30px;
-  border: 1px solid rgba(5, 5, 5, 0.20);
+  border: 1px solid rgba(5, 5, 5, 0.2);
 
   @media (768px <= width) {
     gap: 20px;
@@ -59,7 +58,7 @@
 }
 
 .userInfoText {
-  color: rgba(5, 5, 5, 0.60);
+  color: rgba(5, 5, 5, 0.6);
   font-size: 12px;
   font-weight: 500;
   line-height: 1.5;
@@ -76,7 +75,7 @@
   font-weight: 700;
   line-height: 1.43;
   letter-spacing: -0.28px;
-  color: rgba(5, 5, 5, 0.90);
+  color: rgba(5, 5, 5, 0.9);
 
   @media (768px<=width) {
     font-size: 16px;
@@ -88,7 +87,7 @@
 .icon {
   fill: #cccccc;
   stroke: #fff;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .logoutBtn {
@@ -104,7 +103,7 @@
   letter-spacing: -0.28px;
   border-radius: 30px;
   text-transform: uppercase;
-  color: #FFF;
+  color: #fff;
   background: rgba(5, 5, 5, 0.85);
 }
 
@@ -124,7 +123,7 @@
 
 .listTabText {
   overflow: hidden;
-  color: rgba(5, 5, 5, 0.80);
+  color: rgba(5, 5, 5, 0.8);
   text-overflow: ellipsis;
   white-space: nowrap;
 

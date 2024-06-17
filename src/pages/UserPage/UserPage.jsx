@@ -23,8 +23,7 @@ import { useGetOwnRecipesQuery } from '../../redux/recipes/recipesApi.jsx';
 
 const UserPage = () => {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.authSlice.user);
-  const token = useSelector(state => state.authSlice.token);
+  const { user, token } = useSelector(state => state.authSlice);
   const [updateAvatar] = useUpdateAvatarMutation();
   const fileInputRef = useRef(null);
   const [isLogOutModalOpen, setIsLogOutModalOpen] = useState(false);

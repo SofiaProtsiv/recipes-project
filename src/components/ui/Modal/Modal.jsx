@@ -17,7 +17,7 @@ const Modal = ({ onClose, type = 'LogOutModal' }) => {
   const [show, setShow] = useState(true);
   const modalRef = useRef(null);
 
-  const { name } = useSelector(state => state.authSlice?.user);
+  const { user } = useSelector(state => state.authSlice);
 
   const closeWithAnimation = () => {
     setShow(false);
@@ -97,7 +97,7 @@ const Modal = ({ onClose, type = 'LogOutModal' }) => {
           <LogOutModal onClose={closeWithAnimation} />
         )}
 
-        {(isLogOutModal || (name && isSignUpModal)) && (
+        {(isLogOutModal || (user?.name && isSignUpModal)) && (
           <Button addClass={cl.cancel_button} onClick={closeWithAnimation}>
             {isLogOutModal && `Cancel`}
             {isSignUpModal && `Close`}

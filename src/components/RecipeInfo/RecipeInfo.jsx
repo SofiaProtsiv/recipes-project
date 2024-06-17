@@ -11,22 +11,27 @@ import {
 } from '../../redux/auth/AuthApi';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
+import Modal from '../ui/Modal';
 
 const RecipeInfo = () => {
   const { recipeId } = useParams();
   const isLoggedIn = useSelector(state => state.authSlice.isLoggedIn);
-  let userData = null;
-  if (isLoggedIn) {
-    userData = useFetchCurrentUserQuery().data;
-  }
+  const { data: userData } = useFetchCurrentUserQuery();
+
   const reqData = {
     id: recipeId,
     userId: userData ? userData._id : null,
   };
+
   const { data: recipe } = useGetRecipeByIdQuery(reqData);
   const isFavorite = recipe?.isFavorite;
 
   const [favorite, setFavorite] = useState(isFavorite);
+  const modalType = 'SignInModal';
+  const [showModal, setShowModal] = useState(false);
+  const toggleModal = () => {
+    setShowModal(!showModal);
+  };
 
   const [addRecipeToFavoritesList] = useAddRecipeToFavoritesListMutation();
   const [removeRecipeFromFavoritesList] =
@@ -37,6 +42,11 @@ const RecipeInfo = () => {
   }, [isFavorite]);
 
   const handleFavorite = () => {
+    console.log(isLoggedIn);
+    if (!isLoggedIn) {
+      setShowModal(true);
+      return;
+    }
     if (!favorite) {
       setFavorite(true);
       addRecipeToFavoritesList(recipeId);
@@ -53,6 +63,8 @@ const RecipeInfo = () => {
 
   return (
     <>
+      {showModal && <Modal onClose={toggleModal} type={modalType} />}
+
       <div className={cl.container}>
         <img src={recipe?.thumb} alt={recipe?.title} className={cl.image} />
         <div>
@@ -82,11 +94,12 @@ const RecipeInfo = () => {
           <RecipeIngredients />
           <RecipePreparation />
           <Button
-            disabled={!isLoggedIn}
             onClick={() => {
               handleFavorite();
             }}
-            addClass={isLoggedIn ? `${cl.button}` : `${cl['button-disabled']}`}
+            addClass={cl.button}
+            // disabled={!isLoggedIn}
+            // addClass={isLoggedIn ? `${cl.button}` : `${cl['button-disabled']}`}
           >
             {favorite ? 'REMOVE FROM FAVORITES' : 'ADD TO FAVORITES'}
           </Button>

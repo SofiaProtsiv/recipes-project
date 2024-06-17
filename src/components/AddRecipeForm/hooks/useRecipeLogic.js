@@ -4,12 +4,14 @@ import { useGetCategoriesQuery } from '../../../redux/categories/categoriesApi';
 import { useGetIngredientsQuery } from '../../../redux/ingredients/ingredientsApi';
 import { useGetAreasQuery } from '../../../redux/areas/areasApi';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 export const useRecipeLogic = (setValue, getValues, setError, reset) => {
   const [imagePreview, setImagePreview] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate()
 
   const { data: categories } = useGetCategoriesQuery();
   const { data: ingredients } = useGetIngredientsQuery();
@@ -120,8 +122,9 @@ export const useRecipeLogic = (setValue, getValues, setError, reset) => {
     };
 
     try {
-      await addRecipe(formattedData);
+      const { data } = await addRecipe(formattedData);
       toast.success(`Recipe was succesfully added`);
+      navigate(`/recipe/${data._id}`)
     } catch (error) {
       toast.error(`Error adding recipe: ${error.message}`);
       console.error('Error adding recipe:', error.message);

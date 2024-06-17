@@ -31,10 +31,11 @@ const Header = () => {
   }, [isLoggedIn]);
 
   const location = useLocation();
-  const isMainLocation = location.pathname === '/';
+  const isMainLocation =
+    location.pathname === '/' || location.pathname.includes('/categories');
   const isWhiteHeader =
     location.pathname === '/' || location.pathname.includes('/categories');
-    
+
   return (
     <header className={`${cl.header} ${isWhiteHeader ? '' : cl.black}`}>
       <Logo />
