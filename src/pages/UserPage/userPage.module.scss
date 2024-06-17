@@ -21,6 +21,18 @@
   }
 }
 
+.userData {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @include desktop {
+    flex-direction: row;
+    justify-content: center;
+    align-items: start;
+    column-gap: 40px;
+  }
+}
 
 .userWrap {
   display: inline-flex;
@@ -44,11 +56,13 @@
   padding: 30px 54px;
   max-width: 343px;
   border-radius: 30px;
-  border: 1px solid rgba(5, 5, 5, 0.20);
+  border: 1px solid rgba(5, 5, 5, 0.2);
 
-  @media (768px <= width) {
+  @include tablet {
     gap: 20px;
     padding: 40px 80px;
+
+    width: 394px;
   }
 }
 
@@ -59,7 +73,7 @@
 }
 
 .userInfoText {
-  color: rgba(5, 5, 5, 0.60);
+  color: rgba(5, 5, 5, 0.6);
   font-size: 12px;
   font-weight: 500;
   line-height: 1.5;
@@ -76,7 +90,7 @@
   font-weight: 700;
   line-height: 1.43;
   letter-spacing: -0.28px;
-  color: rgba(5, 5, 5, 0.90);
+  color: rgba(5, 5, 5, 0.9);
 
   @media (768px<=width) {
     font-size: 16px;
@@ -88,7 +102,7 @@
 .icon {
   fill: #cccccc;
   stroke: #fff;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .logoutBtn {
@@ -104,7 +118,7 @@
   letter-spacing: -0.28px;
   border-radius: 30px;
   text-transform: uppercase;
-  color: #FFF;
+  color: #fff;
   background: rgba(5, 5, 5, 0.85);
 }
 
@@ -124,7 +138,7 @@
 
 .listTabText {
   overflow: hidden;
-  color: rgba(5, 5, 5, 0.80);
+  color: rgba(5, 5, 5, 0.8);
   text-overflow: ellipsis;
   white-space: nowrap;
 
@@ -133,6 +147,10 @@
   font-weight: 500;
   line-height: 20px; /* 142.857% */
   letter-spacing: -0.28px;
+}
+
+.tablistBox {
+  flex-grow: 1;
 }
 
 //.tabContent {}

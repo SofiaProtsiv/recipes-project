@@ -8,6 +8,7 @@ import SignInModal from '../../SignInModal';
 import Button from '../Button';
 import sprite from '../../../assets/icons/sprite.svg';
 import cl from './modal.module.scss';
+import Icon from '../Icon';
 
 const Modal = ({ onClose, type = 'LogOutModal' }) => {
   //type = 'LogOutModal', 'SignUpModal', 'SignInModal'
@@ -108,9 +109,7 @@ const Modal = ({ onClose, type = 'LogOutModal' }) => {
           aria-label="Close modal window"
           onClick={closeWithAnimation}
         >
-          <svg className={cl.close_icon} width={24} height={24}>
-            <use href={`${sprite}#close`}></use>
-          </svg>
+          <Icon icon="close" addClass={cl.close_icon} width={24} height={24} />
         </button>
       </div>
     </div>,
