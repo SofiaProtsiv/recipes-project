@@ -143,26 +143,45 @@ const UserPage = () => {
         ) : (
           <p>You have no favorite recipes yet. Start exploring and add some!</p>
         );
+      } else if (activeTab === 'Following') {
+        if (isLoadingFollowing) return <div>Loading...</div>;
+        return following?.length ? (
+          <ListItems
+            data={following}
+            isLoading={isLoadingFollowing}
+            typeOfCard="UserCard"
+            typeOfList="Following"
+          />
+        ) : (
+          <p>
+            You&#39;re not following anyone yet. Start following people to see
+            their latest updates!
+          </p>
+        );
       }
     }
 
-    if (!isCurrentUser && activeTab === 'Recipes') {
-      if (isLoadingExternalUserRecipes) return <div>Loading...</div>;
-      return externalUserRecipes?.recipes?.length ? (
-        <ListItems
-          data={externalUserRecipes.recipes}
-          isLoading={isLoadingExternalUserRecipes}
-          typeOfCard="RecipeCard"
-          typeOfList="Recipes"
-        />
-      ) : (
-        <p>User does not have Recipes</p>
-      );
-    } else if (!isCurrentUser && activeTab === 'Followers') {
+    if (!isCurrentUser) {
+      if (activeTab === 'Recipes') {
+        if (isLoadingExternalUserRecipes) return <div>Loading...</div>;
+        return externalUserRecipes?.recipes?.length ? (
+          <ListItems
+            data={externalUserRecipes.recipes}
+            isLoading={isLoadingExternalUserRecipes}
+            typeOfCard="RecipeCard"
+            typeOfList="Recipes"
+          />
+        ) : (
+          <p>User does not have Recipes</p>
+        );
+      }
+    }
+
+    if (activeTab === 'Followers') {
       if (isLoadingFollowers) return <div>Loading...</div>;
-      return followers?.followers?.length ? (
+      return followers?.length ? (
         <ListItems
-          data={followers.followers}
+          data={followers}
           isLoading={isLoadingFollowers}
           typeOfCard="UserCard"
           typeOfList="Followers"
@@ -172,21 +191,6 @@ const UserPage = () => {
           There are currently no followers on your account. Please engage our
           visitors with interesting content and draw their attention to your
           profile.
-        </p>
-      );
-    } else if (activeTab === 'Following') {
-      if (isLoadingFollowing) return <div>Loading...</div>;
-      return following?.following?.length ? (
-        <ListItems
-          data={following.following}
-          isLoading={isLoadingFollowing}
-          typeOfCard="UserCard"
-          typeOfList="Following"
-        />
-      ) : (
-        <p>
-          You&#39;re not following anyone yet. Start following people to see
-          their latest updates!
         </p>
       );
     }
@@ -224,13 +228,11 @@ const UserPage = () => {
         <div>Loading user data...</div>
       )}
 
-      {error?.status === 401 && <Navigate to='/' />}
+      {error?.status === 401 && <Navigate to="/" />}
 
       {error && (
         <ErrorFormMessage
-          message={`Error: ${
-            error?.data?.message || error?. || 'unknown error'
-          }`}
+          message={`Error: ${error?.data?.message || error || 'unknown error'}`}
         />
       )}
 
