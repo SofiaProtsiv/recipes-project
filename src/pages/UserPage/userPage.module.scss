@@ -39,6 +39,16 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 20px;
+
+  margin-bottom: 64px;
+
+  @include tablet {
+    margin-bottom: 80px;
+  }
+
+  @include desktop {
+    margin-bottom: 0;
+  }
 }
 
 .userTextWrap {

@@ -162,93 +162,91 @@ const UserPage = () => {
 
   return (
     <>
-      <section className="section">
-        <Container data-label="userProfile">
-          <PathInfo />
-          <MainTitle>Profile</MainTitle>
-          <Subtitle>
-            Reveal your culinary art, share your favorite recipe and create
-            gastronomic masterpieces with us.
-          </Subtitle>
+      <Container data-label="userProfile" addClass="section">
+        <PathInfo />
+        <MainTitle>Profile</MainTitle>
+        <Subtitle>
+          Reveal your culinary art, share your favorite recipe and create
+          gastronomic masterpieces with us.
+        </Subtitle>
 
-          <div className={cl.userData}>
-            <div className={cl.userWrap}>
-              {userData && (
-                <div className={cl.userInfo}>
-                  <div className={cl.imgWrap}>
-                    <img
-                      className={cl.userInfoImage}
-                      src={userData?.avatar}
-                      alt={`${userData?.name}'s avatar`}
-                    />
-                    {isCurrentUser && (
-                      <Button addClass={cl.plusBtn} onClick={handleClick}>
-                        <Icon icon="whitePlus" />
-                      </Button>
-                    )}
-                    <input
-                      type="file"
-                      ref={fileInputRef}
-                      style={{ display: 'none' }}
-                      onChange={handleFileChange}
-                    />
-                  </div>
-
-                  <h1>{userData?.name}</h1>
-                  <div className={cl.userTextWrap}>
-                    <p className={cl.userInfoText}>
-                      Email:{' '}
-                      <span className={cl.userInfoSpan}>{userData?.email}</span>
-                    </p>
-                    <p className={cl.userInfoText}>
-                      Added recipes:{' '}
-                      <span className={cl.userInfoSpan}>
-                        {userData?.recipesQty}
-                      </span>{' '}
-                    </p>
-                    <p className={cl.userInfoText}>
-                      Favorites:{' '}
-                      <span className={cl.userInfoSpan}>
-                        {userData?.favRecipesQty}
-                      </span>{' '}
-                    </p>
-                    <p className={cl.userInfoText}>
-                      Followers:{' '}
-                      <span className={cl.userInfoSpan}>
-                        {userData?.followersQty}
-                      </span>{' '}
-                    </p>
-                    <p className={cl.userInfoText}>
-                      Following:{' '}
-                      <span className={cl.userInfoSpan}>
-                        {userData?.followingQty}
-                      </span>{' '}
-                    </p>
-                  </div>
+        <div className={cl.userData}>
+          <div className={cl.userWrap}>
+            {userData && (
+              <div className={cl.userInfo}>
+                <div className={cl.imgWrap}>
+                  <img
+                    className={cl.userInfoImage}
+                    src={userData?.avatar}
+                    alt={`${userData?.name}'s avatar`}
+                  />
+                  {isCurrentUser && (
+                    <Button addClass={cl.plusBtn} onClick={handleClick}>
+                      <Icon icon="whitePlus" />
+                    </Button>
+                  )}
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    style={{ display: 'none' }}
+                    onChange={handleFileChange}
+                  />
                 </div>
-              )}
-              {isCurrentUser && (
-                <Button addClass={cl.logoutBtn} onClick={handleLogOut}>
-                  Log out
-                </Button>
-              )}
-              {!isCurrentUser && (
-                <Button addClass={cl.logoutBtn} onClick={() => {}}>
-                  Follow
-                </Button>
-              )}
-            </div>
 
-            <div className={cl.tablistBox}>
-              <TabsList activeTab={activeTab} setActiveTab={setActiveTab} />
-
-              <div className={cl.tabContent}>{renderContent()}</div>
-            </div>
+                <h1>{userData?.name}</h1>
+                <div className={cl.userTextWrap}>
+                  <p className={cl.userInfoText}>
+                    Email:{' '}
+                    <span className={cl.userInfoSpan}>{userData?.email}</span>
+                  </p>
+                  <p className={cl.userInfoText}>
+                    Added recipes:{' '}
+                    <span className={cl.userInfoSpan}>
+                      {userData?.recipesQty}
+                    </span>{' '}
+                  </p>
+                  <p className={cl.userInfoText}>
+                    Favorites:{' '}
+                    <span className={cl.userInfoSpan}>
+                      {userData?.favRecipesQty}
+                    </span>{' '}
+                  </p>
+                  <p className={cl.userInfoText}>
+                    Followers:{' '}
+                    <span className={cl.userInfoSpan}>
+                      {userData?.followersQty}
+                    </span>{' '}
+                  </p>
+                  <p className={cl.userInfoText}>
+                    Following:{' '}
+                    <span className={cl.userInfoSpan}>
+                      {userData?.followingQty}
+                    </span>{' '}
+                  </p>
+                </div>
+              </div>
+            )}
+            {isCurrentUser && (
+              <Button addClass={cl.logoutBtn} onClick={handleLogOut}>
+                Log out
+              </Button>
+            )}
+            {!isCurrentUser && (
+              <Button addClass={cl.logoutBtn} onClick={() => {}}>
+                Follow
+              </Button>
+            )}
           </div>
 
-          {isLogOutModalOpen && <LogOutModal onClose={closeLogOutModal} />}
-        </Container>
-      </section>
+          <div className={cl.tablistBox}>
+            <TabsList activeTab={activeTab} setActiveTab={setActiveTab} />
+
+            <div className={cl.tabContent}>{renderContent()}</div>
+          </div>
+        </div>
+
+        {isLogOutModalOpen && <LogOutModal onClose={closeLogOutModal} />}
+      </Container>
     </>
   );
 };
