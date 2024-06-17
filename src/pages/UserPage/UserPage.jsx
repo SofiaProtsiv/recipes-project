@@ -62,8 +62,6 @@ const UserPage = () => {
     setActiveTab(isCurrentUser ? 'My recipes' : 'Recipes');
   }, [currentUser]);
 
-  console.log('isCurrentUser outside useEffect: ', isCurrentUser);
-
   const page = 1;
   const limit = 10;
 
