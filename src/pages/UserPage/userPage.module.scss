@@ -136,6 +136,10 @@
   position: relative;
 }
 
+.subtitle {
+  max-width: 443px;
+}
+
 .plusBtn {
   position: absolute;
   left: 50%;
@@ -161,6 +165,8 @@
 
 .tablistBox {
   flex-grow: 1;
+  overflow-x: auto;
+  max-width: 100%;
 }
 
 //.tabContent {}

@@ -11,15 +11,21 @@ $desktop: 1440px;
   padding-top: 20px;
   padding-bottom: 20px;
   border-bottom: 1px solid var(--pagination-border-color);
-
-
+  @media ($mobile <= width < $tablet) {
+    max-width: 343px;
+  }
 
   @media screen and (min-width: $tablet) {
     padding-top: 40px;
     padding-bottom: 40px;
+    max-width: 704px;
   }
   &:last-child {
     border-bottom: 0;
+  }
+
+  @media ($desktop <= width) {
+    max-width: 846px;
   }
 }
 
@@ -88,6 +94,7 @@ $desktop: 1440px;
   transition-property: border, color, background;
   transition-duration: var(--transition-time);
   transition-timing-function: var(--transition-effect);
+  text-transform: uppercase;
 
   &:hover,
   &:focus {
@@ -109,12 +116,7 @@ $desktop: 1440px;
 
   display: flex;
   align-items: center;
-  margin-left: 40px;
   gap: 12px;
-
-  @media screen and (min-width: $desktop) {
-    margin-left: 60px;
-  }
 
   & img {
     width: 100px;
@@ -207,4 +209,6 @@ $desktop: 1440px;
   border-radius: 100%;
 }
 
-.cardButtonFollow {}
+.cardButtonFollow {
+  text-transform: uppercase;
+}

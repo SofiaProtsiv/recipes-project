@@ -2,7 +2,12 @@
   display: flex;
   gap: 30px;
   margin-bottom: 32px;
-  // padding: 0;
+  max-width: 100%;
+
+  overflow-x: auto;
+  white-space: nowrap;
+  padding-left: 20px;
+  scrollbar-width: none;
 
   width: 546px;
   list-style: none;

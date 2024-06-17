@@ -240,7 +240,7 @@ const UserPage = () => {
         <>
           <PathInfo />
           <MainTitle>Profile</MainTitle>
-          <Subtitle>
+          <Subtitle addClass={cl.subtitle}>
             Reveal your culinary art, share your favorite recipe and create
             gastronomic masterpieces with us.
           </Subtitle>
