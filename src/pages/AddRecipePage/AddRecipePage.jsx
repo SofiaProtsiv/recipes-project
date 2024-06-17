@@ -2,9 +2,11 @@ import AddRecipeForm from '../../components/AddRecipeForm';
 import PathInfo from '../../components/PathInfo/PathInfo';
 import MainTitle from '../../components/ui/MainTitle';
 import Subtitle from '../../components/ui/Subtitle/Subtitle';
+import useScrollToTop from '../../utils/scrollToTop';
 import cl from './addRecipePage.module.scss';
 
 const AddRecipePage = () => {
+  useScrollToTop();
   return (
     <div className={cl.section}>
       <div className={cl.container}>
