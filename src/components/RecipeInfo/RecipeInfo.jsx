@@ -16,7 +16,10 @@ import Modal from '../ui/Modal';
 const RecipeInfo = () => {
   const { recipeId } = useParams();
   const isLoggedIn = useSelector(state => state.authSlice.isLoggedIn);
-  const { data: userData } = useFetchCurrentUserQuery();
+  const { data: userData } = useFetchCurrentUserQuery(
+    {},
+    { skip: !isLoggedIn }
+  );
 
   const reqData = {
     id: recipeId,
