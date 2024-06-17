@@ -60,7 +60,7 @@ const UserPage = () => {
 
   useEffect(() => {
     setActiveTab(isCurrentUser ? 'My recipes' : 'Recipes');
-  }, [currentUser]);
+  }, [isCurrentUser]);
 
   console.log('isCurrentUser outside useEffect: ', isCurrentUser);
 
