@@ -13,7 +13,7 @@ import {
   useUpdateAvatarMutation,
 } from '../../redux/auth/AuthApi.jsx';
 import { useEffect, useRef, useState } from 'react';
-import { updateUserAvatar } from '../../redux/auth/AuthSlice.jsx';
+import { setUserId, updateUserAvatar } from '../../redux/auth/AuthSlice.jsx';
 import cl from './userPage.module.scss';
 import Icon from '../../components/ui/Icon/index.js';
 import LogOutModal from '../../components/LogOutModal/index.js';
@@ -24,7 +24,7 @@ import { useParams } from 'react-router-dom';
 
 const UserPage = () => {
   const dispatch = useDispatch();
-  const token = useSelector(state => state.authSlice.token);
+  const { user, token } = useSelector(state => state.authSlice.user);
   const [updateAvatar] = useUpdateAvatarMutation();
   const fileInputRef = useRef(null);
   const [isLogOutModalOpen, setIsLogOutModalOpen] = useState(false);
@@ -55,9 +55,19 @@ const UserPage = () => {
     isLoading: isLoadingCurrentUser,
   } = useFetchCurrentUserQuery(undefined, { skip: !token });
 
-  const isCurrentUser = currentUser?._id === userId;
+  useEffect(() => {
+    if (currentUser && currentUser._id) {
+      dispatch(setUserId({ _id: currentUser._id }));
+    }
+  }, [currentUser, dispatch]);
 
-  const { data: userData, error, isLoading } = useGetUserByIdQuery(userId);
+  const {
+    data: userData,
+    error,
+    isLoading,
+  } = useGetUserByIdQuery(user._id, {
+    skip: !user._id,
+  });
 
   const handleFileChange = async event => {
     const file = event.target.files[0];

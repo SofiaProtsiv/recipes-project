@@ -1,5 +1,5 @@
 import cl from './userBar.module.scss';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../../ui/Modal';
 import Icon from '../../ui/Icon';
@@ -7,13 +7,13 @@ import { useFetchCurrentUserQuery } from '../../../redux/auth/AuthApi';
 
 const UserBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   const [modalType, setModalType] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
   const { data: user, isSuccess } = useFetchCurrentUserQuery();
 
   const navigate = useNavigate();
+  const menuRef = useRef(null); // Ref for the user menu
 
   const toggleModal = type => {
     setModalType(type);
@@ -21,8 +21,10 @@ const UserBar = () => {
   };
 
   const handleProfileClick = () => {
-    navigate(`/user/${user._id}`);
-    setIsMenuOpen(false);
+    if (user) {
+      navigate(`/user/${user._id}`);
+      setIsMenuOpen(false);
+    }
   };
 
   const handleLogoutClick = () => {
@@ -33,8 +35,28 @@ const UserBar = () => {
   const handleUserInfoClick = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  // Handle clicks outside of the user menu
+  useEffect(() => {
+    const handleClickOutside = event => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    if (isMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isMenuOpen]);
+
   return (
-    <div className={cl.userBar}>
+    <div className={cl.userBar} ref={menuRef}>
       <div className={cl.userInfo} onClick={handleUserInfoClick}>
         <img
           className={cl.avatar}

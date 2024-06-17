@@ -1,5 +1,5 @@
 .container {
-  margin: 126px auto 80px;
+  margin: 64px auto 80px;
   width: 100%;
   padding: 0 20px;
 
@@ -10,13 +10,13 @@
   @media (768px<=width) {
     max-width: var(--tablet);
     padding: 0 32px;
-    margin-top: 150px;
+    margin-top: 64px;
     margin-bottom: 100px;
   }
 
   @media (1440px<=width) {
     max-width: 1280px;
-    margin-top: 170px;
+    margin-top: 80px;
     margin-bottom: 120px;
   }
 }

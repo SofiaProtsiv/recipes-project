@@ -20,15 +20,12 @@ const PathInfo = () => {
     }
   };
 
-  const isRecipeFound = path.startsWith('/recipe/') && !recipeId;
-
   return (
     <div className={cl.breadcrumb}>
       <Link to="/" className={cl['home-link']}>
         Home
       </Link>
-
-      {isRecipeFound ? <span>/</span> : null}
+      <span>/</span>
 
       <p className={cl.link}>{generateBreadcrumb()}</p>
     </div>
