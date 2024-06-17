@@ -42,7 +42,7 @@ const RecipePreview = ({ cardData, typeOfList }) => {
         <li>
           <ButtonLink
             icon="arrow_up_right"
-            to={`recipe/${cardData._id}`}
+            to={`/recipe/${cardData._id}`}
           ></ButtonLink>
         </li>
         <li
