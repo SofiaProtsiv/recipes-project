@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import authApi from '../../redux/auth/AuthApi.jsx';
 
 const initialState = {
-  user: { name: '', email: '', avatar: '', _id: '' },
+  user: { name: '', email: '', avatar: '' },
   token: null,
   isLoggedIn: false,
 };
@@ -36,10 +36,6 @@ export const authSlice = createSlice({
 
     updateUserAvatar(state, action) {
       state.user.avatar = action.payload.data.avatar;
-    },
-
-    updateUser(state, action) {
-      state.user = action.payload.user;
     },
   },
   extraReducers: builder => {

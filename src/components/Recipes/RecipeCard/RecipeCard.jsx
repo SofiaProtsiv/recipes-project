@@ -3,7 +3,14 @@ import cl from './recipeCard.module.scss';
 import PropTypes from 'prop-types';
 
 const RecipeCard = ({ recipe }) => {
-  const { thumb, title, instructions, owner, _id: recipeId } = recipe;
+  const {
+    thumb,
+    title,
+    instructions,
+    owner,
+    _id: recipeId,
+    isFavorite,
+  } = recipe;
   return (
     <>
       <li className={cl.recipeItem}>
@@ -17,7 +24,7 @@ const RecipeCard = ({ recipe }) => {
         <RecipeExtra
           owner={owner}
           recipeId={recipeId}
-          isFavorite={recipe.isFavorite}
+          isFavorite={isFavorite}
         />
       </li>
     </>

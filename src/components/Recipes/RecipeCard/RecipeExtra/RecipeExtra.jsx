@@ -3,7 +3,7 @@ import cl from './recipeExtra.module.scss';
 import PropTypes from 'prop-types';
 import ButtonIcon from '../../../ui/ButtonIcon';
 import authApi from '../../../../redux/auth/AuthApi';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Modal from '../../../ui/Modal';
 import scrollUpToSection from '../../../../utils/scrollUpToSection';
@@ -12,9 +12,9 @@ const DEFAULT_AVATAR = '/images/user/avatar-3814049_640.webp';
 const RecipeExtra = ({
   owner: { _id, name, avatar },
   recipeId,
-  isFavorite = false,
+  isFavorite,
 }) => {
-  const [favorite, setFavorite] = useState(isFavorite);
+  const [favorite, setFavorite] = useState(false);
   const [addRecipeToFavoritesList] =
     authApi.useAddRecipeToFavoritesListMutation();
   const [removeRecipeFromFavoritesList] =
@@ -25,6 +25,10 @@ const RecipeExtra = ({
   const toggleModal = () => {
     setShowModal(!showModal);
   };
+
+  useEffect(() => {
+    setFavorite(isFavorite);
+  }, [isFavorite]);
 
   const handleFavorite = ({ target }) => {
     target.blur();
