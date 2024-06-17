@@ -60,7 +60,9 @@ const Recipes = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
+      console.log('Log in');
       if (userData?._id !== user?._id) {
+        console.log('Set user');
         setUser(userData);
       }
     } else if (!isLoggedIn && user._id) {
@@ -71,10 +73,11 @@ const Recipes = () => {
   useEffect(() => {
     if (isSuccess && data) {
       const { recipes, total } = data;
+      console.log('recipes else');
       setRecipeList(recipes);
       setTotalElements(total);
     }
-  }, [isSuccess, data]);
+  }, [isSuccess, data, isLoggedIn]);
 
   const handlePage = useCallback(
     clickedPage => {

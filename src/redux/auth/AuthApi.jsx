@@ -7,8 +7,10 @@ export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
     baseUrl,
+    refetchOnMountOrArgChange: 3,
     prepareHeaders: (headers, { getState }) => {
       const token = getState().authSlice.token;
+      console.log(token);
       if (token) {
         headers.set('authorization', `Bearer ${token}`);
       }
@@ -94,7 +96,6 @@ export const authApi = createApi({
       }),
       invalidatesTags: ['User'],
     }),
-
     addRecipeToFavoritesList: builder.mutation({
       query: id => ({
         url: `/users/recipes/favorite/${id}`,
@@ -133,7 +134,6 @@ export const {
   useAddRecipeToFavoritesListMutation,
   useRemoveRecipeFromFavoritesListMutation,
   useGetFavoriteRecipesListQuery,
-  useGetPersonalRecipesQuery,
 } = authApi;
 
 export default authApi;
