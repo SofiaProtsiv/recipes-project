@@ -29,7 +29,7 @@ import useScrollToTop from '../../utils/scrollToTop';
 const UserPage = () => {
   useScrollToTop();
   const dispatch = useDispatch();
-  const { token } = useSelector(state => state.authSlice.user);
+  const { token } = useSelector(state => state.authSlice);
   const [updateAvatar] = useUpdateAvatarMutation();
   const [addUserToFollowingList, { isSuccess: isAdded }] =
     useAddUserToFollowingListMutation();
@@ -194,7 +194,7 @@ const UserPage = () => {
 
   return (
     <>
-      <Container data-label="userProfile" addClass="section">
+      <Container data-label="userProfile" addClass={cl.container}>
         <PathInfo />
         <MainTitle>Profile</MainTitle>
         <Subtitle>

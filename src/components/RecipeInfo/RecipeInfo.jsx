@@ -42,7 +42,6 @@ const RecipeInfo = () => {
   }, [isFavorite]);
 
   const handleFavorite = () => {
-    console.log(isLoggedIn);
     if (!isLoggedIn) {
       setShowModal(true);
       return;
