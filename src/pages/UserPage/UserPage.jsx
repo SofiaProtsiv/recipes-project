@@ -138,54 +138,53 @@ const UserPage = () => {
         );
       }
     }
-    if (!isCurrentUser) {
-      if (!isCurrentUser && activeTab === 'Recipes') {
-        if (isLoadingExternalUserRecipes) return <div>Loading...</div>;
-        return externalUserRecipes?.recipes?.length ? (
-          <ListItems
-            data={externalUserRecipes.recipes}
-            isLoading={isLoadingExternalUserRecipes}
-            typeOfCard="RecipeCard"
-            typeOfList="Recipes"
-          />
-        ) : (
-          <p>User does not have Recipes</p>
-        );
-      } else if (!isCurrentUser && activeTab === 'Followers') {
-        if (isLoadingFollowers) return <div>Loading...</div>;
-        return followers?.followers?.length ? (
-          <ListItems
-            data={followers.followers}
-            isLoading={isLoadingFollowers}
-            typeOfCard="UserCard"
-            typeOfList="Followers"
-          />
-        ) : (
-          <p>
-            There are currently no followers on your account. Please engage our
-            visitors with interesting content and draw their attention to your
-            profile.
-          </p>
-        );
-      } else if (activeTab === 'Following') {
-        if (isLoadingFollowing) return <div>Loading...</div>;
-        return following?.followings?.length ? (
-          <ListItems
-            data={following.followings}
-            isLoading={isLoadingFollowing}
-            typeOfCard="UserCard"
-            typeOfList="Following"
-          />
-        ) : (
-          <p>
-            You&#39;re not following anyone yet. Start following people to see
-            their latest updates!
-          </p>
-        );
-      }
+
+    if (!isCurrentUser && activeTab === 'Recipes') {
+      if (isLoadingExternalUserRecipes) return <div>Loading...</div>;
+      return externalUserRecipes?.recipes?.length ? (
+        <ListItems
+          data={externalUserRecipes.recipes}
+          isLoading={isLoadingExternalUserRecipes}
+          typeOfCard="RecipeCard"
+          typeOfList="Recipes"
+        />
+      ) : (
+        <p>User does not have Recipes</p>
+      );
+    } else if (!isCurrentUser && activeTab === 'Followers') {
+      if (isLoadingFollowers) return <div>Loading...</div>;
+      return followers?.followers?.length ? (
+        <ListItems
+          data={followers.followers}
+          isLoading={isLoadingFollowers}
+          typeOfCard="UserCard"
+          typeOfList="Followers"
+        />
+      ) : (
+        <p>
+          There are currently no followers on your account. Please engage our
+          visitors with interesting content and draw their attention to your
+          profile.
+        </p>
+      );
+    } else if (activeTab === 'Following') {
+      if (isLoadingFollowing) return <div>Loading...</div>;
+      return following?.following?.length ? (
+        <ListItems
+          data={following.following}
+          isLoading={isLoadingFollowing}
+          typeOfCard="UserCard"
+          typeOfList="Following"
+        />
+      ) : (
+        <p>
+          You&#39;re not following anyone yet. Start following people to see
+          their latest updates!
+        </p>
+      );
     }
 
-    return null;
+    return <></>;
   };
 
   useEffect(() => {
