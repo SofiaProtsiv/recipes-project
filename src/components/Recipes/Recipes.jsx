@@ -1,38 +1,43 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { recipesApi } from '../../redux/recipes/recipesApi';
 import RecipeFilters from './RecipeFilters';
 import RecipeList from './RecipeList';
 import RecipePagination from './RecipePagination';
-import PropTypes from 'prop-types';
 import getLimitForViewport from '../../utils/getLimitForViewport';
 import cl from './recipes.module.scss';
 import SkeletonRecipeCard from './RecipeCard/SkeletonRecipeCard';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import authApi from '../../redux/auth/AuthApi';
 import { useParams } from 'react-router-dom';
 import scrollUpToSection from '../../utils/scrollUpToSection';
 import Subtitle from '../ui/Subtitle';
 import ButtonLink from '../ui/ButtonLink';
 import MainTitle from '../ui/MainTitle';
-import { authSlice } from '../../redux/auth/AuthSlice';
+
+const SKELETON_AMOUNT = 6;
+const ALL_CATEGORIES = 'all';
+const DEFAULT_CURRENT_CATEGORY = { _id: null, name: ALL_CATEGORIES };
+const DEFAULT_USER = { _id: null, name: null, avatar: null };
 
 const Recipes = () => {
-  const SKELETON_AMOUNT = 6;
-  const ALL_CATEGORIES = 'all';
-  const DEFAULT_CURRENT_CATEGORY = { _id: null, name: ALL_CATEGORIES };
-  const DEFAULT_USER = { _id: null, name: null, avatar: null };
+  // amount of elements
   const limit = getLimitForViewport();
-  const { name: category } = useParams();
-  const [currentCategory, setCategory] = useState(DEFAULT_CURRENT_CATEGORY);
-  const [recipeList, setRecipeList] = useState([]);
   const [totalElements, setTotalElements] = useState(0);
   const [page, setPage] = useState(1);
+  const totalPages = Math.ceil(totalElements / limit);
+  //categories
+  const { name: category } = useParams();
+  const [currentCategory, setCategory] = useState(DEFAULT_CURRENT_CATEGORY);
+  const categories = useSelector(state => state.categoriesSlice.categories);
+  //add filters
   const [ingredients, setIngredient] = useState(null);
   const [area, setArea] = useState(null);
+  //user
   const [user, setUser] = useState(DEFAULT_USER);
   const isLoggedIn = useSelector(state => state.authSlice.isLoggedIn);
   const { data: userData } = authApi.useFetchCurrentUserQuery();
-  const categories = useSelector(state => state.categoriesSlice.categories);
+  //recipe list
+  const [recipeList, setRecipeList] = useState([]);
   const { data, isFetching, isSuccess, isError } =
     recipesApi.useGetRecipesQuery(
       {
@@ -45,7 +50,6 @@ const Recipes = () => {
       },
       { refetchOnMountOrArgChange: true }
     );
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if (category !== ALL_CATEGORIES && categories.length > 0) {
@@ -58,10 +62,11 @@ const Recipes = () => {
     if (isLoggedIn) {
       if (userData?._id !== user?._id) {
         setUser(userData);
-        dispatch(authSlice.actions.updateUser({ user: userData }));
       }
+    } else if (!isLoggedIn && user._id) {
+      setUser(DEFAULT_USER);
     }
-  }, [userData, isLoggedIn, user, dispatch]);
+  }, [userData, isLoggedIn, user]);
 
   useEffect(() => {
     if (isSuccess && data) {
@@ -69,30 +74,18 @@ const Recipes = () => {
       setRecipeList(recipes);
       setTotalElements(total);
     }
-  }, [
-    isSuccess,
-    isError,
-    isFetching,
-    data,
-    page,
-    area,
-    ingredients,
-    currentCategory,
-    user,
-  ]);
+  }, [isSuccess, data]);
 
-  const handlePage = clickedPage => {
-    if (clickedPage === page) {
-      return;
-    }
-    if (clickedPage > page) {
-      setPage(page + 1);
-    } else {
-      setPage(page - 1);
-    }
+  const handlePage = useCallback(
+    clickedPage => {
+      if (clickedPage !== page) {
+        setPage(clickedPage);
+      }
 
-    scrollUpToSection('#categories');
-  };
+      scrollUpToSection('#categories');
+    },
+    [page]
+  );
 
   const handleIngredient = ({ _id: id }) => {
     if (id === ingredients) {
@@ -120,8 +113,6 @@ const Recipes = () => {
       setPage(1);
     }
   };
-
-  const totalPages = Math.ceil(totalElements / limit);
   return (
     <>
       <ButtonLink icon="arrow-back" addClass={cl.recipeBack} to={'/'}>
@@ -169,10 +160,6 @@ const Recipes = () => {
       </div>
     </>
   );
-};
-
-Recipes.propTypes = {
-  category: PropTypes.string,
 };
 
 export default Recipes;
