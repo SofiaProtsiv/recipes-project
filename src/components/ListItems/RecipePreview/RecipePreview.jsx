@@ -7,6 +7,7 @@ import { TypeOfList } from '../constants';
 import cl from './recipePreview.module.scss';
 import ButtonIcon from '../../ui/ButtonIcon';
 import ButtonLink from '../../ui/ButtonLink';
+import { toast } from 'react-toastify';
 
 const RecipePreview = ({ cardData, typeOfList }) => {
   const [removeRecipeFromFavoritesList] =
@@ -16,10 +17,12 @@ const RecipePreview = ({ cardData, typeOfList }) => {
 
   const removeFavoriteRecipeHandler = id => {
     removeRecipeFromFavoritesList(id);
+    toast.info(`Recipe was remove from favorites`);
   };
 
   const removeOwnRecipeHandler = id => {
     removeRecipe(id);
+    toast.info(`Recipe was permanently deleted`);
   };
 
   return (

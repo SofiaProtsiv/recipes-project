@@ -28,9 +28,7 @@ const SignInForm = ({ onClose }) => {
   const [modalError, setModalError] = useState(null);
   const dispatch = useDispatch();
   const [logIn] = useLogInMutation();
-  const { refetch: fetchCurrentUser } = useFetchCurrentUserQuery(undefined, {
-    skip: true,
-  });
+  const { data: fetchCurrentUser } = useFetchCurrentUserQuery();
 
   const {
     register,
@@ -72,7 +70,9 @@ const SignInForm = ({ onClose }) => {
         />
       </div>
 
-      {modalError && <ErrorFormMessage message={modalError} />}
+      {modalError && (
+        <ErrorFormMessage addClass={cl['custome-error']} message={modalError} />
+      )}
 
       <SubmitButton disabled={!isValid}>Sign in</SubmitButton>
     </form>
