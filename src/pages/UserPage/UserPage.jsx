@@ -21,10 +21,12 @@ import Container from '../../components/ui/Container/index.js';
 import ListItems from '../../components/ListItems/index.js';
 import { useGetOwnRecipesQuery } from '../../redux/recipes/recipesApi.jsx';
 import { useParams } from 'react-router-dom';
+import useScrollToTop from '../../utils/scrollToTop';
 
 const UserPage = () => {
+  useScrollToTop();
   const dispatch = useDispatch();
-  const token = useSelector(state => state.authSlice.token);
+  const { token } = useSelector(state => state.authSlice.user);
   const [updateAvatar] = useUpdateAvatarMutation();
   const fileInputRef = useRef(null);
   const [isLogOutModalOpen, setIsLogOutModalOpen] = useState(false);
@@ -53,7 +55,7 @@ const UserPage = () => {
     data: currentUser,
     error: currentUserError,
     isLoading: isLoadingCurrentUser,
-  } = useFetchCurrentUserQuery(undefined, { skip: !token });
+  } = useFetchCurrentUserQuery();
 
   const isCurrentUser = currentUser?._id === userId;
 

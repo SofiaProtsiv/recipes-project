@@ -6,6 +6,7 @@ import authApi from '../../../../redux/auth/AuthApi';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import Modal from '../../../ui/Modal';
+import scrollUpToSection from '../../../../utils/scrollUpToSection';
 
 const DEFAULT_AVATAR = '/images/user/avatar-3814049_640.webp';
 const RecipeExtra = ({
@@ -47,6 +48,12 @@ const RecipeExtra = ({
     }
   };
 
+  const handleScrollUp = () => {
+    if (window.location.pathname.includes('/recipe')) {
+      scrollUpToSection('header');
+    }
+  };
+
   return (
     <>
       {showModal && <Modal onClose={toggleModal} type={modalType} />}
@@ -74,6 +81,7 @@ const RecipeExtra = ({
           <ButtonLink
             to={`/recipe/${recipeId}`}
             icon="arrow_up_right"
+            onClick={handleScrollUp}
             addClass={cl.recipeLink}
           ></ButtonLink>
         </div>

@@ -79,7 +79,9 @@ const SignUpForm = () => {
         />
       </div>
 
-      {modalError && <ErrorFormMessage message={modalError} />}
+      {modalError && (
+        <ErrorFormMessage addClass={cl['custome-error']} message={modalError} />
+      )}
 
       <SubmitButton disabled={!isValid}>Create</SubmitButton>
     </form>

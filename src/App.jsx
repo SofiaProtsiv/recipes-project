@@ -24,13 +24,13 @@ export default function App() {
               <Route index element={<Categories />} />
               <Route path="categories/:name" element={<Recipes />} />
             </Route>
+            <Route path="/recipe/:recipeId" element={<RecipePage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Route>
 
         <Route element={<PrivateRoute redirectTo="/" />}>
           <Route path="/" element={<Layout />}>
-            <Route path="recipe/:recipeId" element={<RecipePage />} />
             <Route path="user/:userId" element={<UserPage />} />
             <Route path="recipe/add" element={<AddRecipePage />} />
           </Route>

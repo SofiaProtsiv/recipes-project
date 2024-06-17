@@ -24,7 +24,8 @@ const Header = () => {
   }, [width, mobileMaxNum, isMobile]);
 
   const location = useLocation();
-  const isMainLocation = location.pathname === '/';
+  const isMainLocation =
+    location.pathname === '/' || location.pathname.includes('/categories');
   const isWhiteHeader =
     location.pathname === '/' || location.pathname.includes('/categories');
 

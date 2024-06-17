@@ -1,10 +1,9 @@
-// import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const PrivateRoute = ({ redirectTo }) => {
-  // const { token } = useSelector((state) => state.auth);
-  const token = true;
+  const { token } = useSelector(state => state.authSlice);
   return token ? <Outlet /> : <Navigate to={redirectTo} />;
 };
 

@@ -37,6 +37,7 @@ export default function CategoryCard({ name, categoryId, isWide }) {
               icon="arrow_up_right"
               addClass={cl['button-icon']}
               to={`categories/${categoryId}`}
+              onClick={() => scrollUpToSection('#categories')}
             />
           </div>
         )}

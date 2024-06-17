@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useLogOutMutation } from '../../redux/auth/AuthApi';
 import { logOutUser } from '../../redux/auth/AuthSlice';
 import Button from '../ui/Button';
@@ -11,6 +11,7 @@ import cl from './logOutModal.module.scss';
 const LogOutModal = ({ onClose }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const [logOut] = useLogOutMutation();
 
   const handleLogOut = async () => {
@@ -20,7 +21,9 @@ const LogOutModal = ({ onClose }) => {
       console.error('Logout error:', error);
     } finally {
       dispatch(logOutUser());
-      navigate('/');
+      if (location.pathname.includes('user')) {
+        navigate('/');
+      }
       onClose();
     }
   };
