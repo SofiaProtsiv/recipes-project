@@ -31,7 +31,7 @@ export default function App() {
         <Route element={<PrivateRoute redirectTo="/" />}>
           <Route path="/" element={<Layout />}>
             <Route path="recipe/:recipeId" element={<RecipePage />} />
-            <Route path="user/:id" element={<UserPage />} />
+            <Route path="user/:userId" element={<UserPage />} />
             <Route path="recipe/add" element={<AddRecipePage />} />
           </Route>
           <Route path="*" element={<NotFoundPage />} />

@@ -45,15 +45,6 @@
       text-transform: uppercase;
     }
   }
-
-  svg {
-    width: 18px;
-    height: 18px;
-    transition: transform var(--transition-time) var(--transition-effect);
-    &.active {
-      transform: rotate(180deg);
-    }
-  }
 }
 
 .menu {
@@ -97,5 +88,15 @@
     display: flex;
     gap: 2px;
     align-items: center;
+
+    .icon {
+      --stroke: var(--white-color);
+      width: 18px;
+      height: 18px;
+      transition: transform var(--transition-time) var(--transition-effect);
+      &.active {
+        transform: rotate(180deg);
+      }
+    }
   }
 }

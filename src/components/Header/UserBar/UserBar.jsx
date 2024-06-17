@@ -2,6 +2,7 @@ import cl from './userBar.module.scss';
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../../ui/Modal';
+import Icon from '../../ui/Icon';
 import { useFetchCurrentUserQuery } from '../../../redux/auth/AuthApi';
 
 const UserBar = () => {
@@ -99,28 +100,12 @@ const UserBar = () => {
             onClick={handleLogoutClick}
           >
             <span>Log out</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-              viewBox="0 0 18 18"
-              fill="none"
-            >
-              <path
-                d="M5.25 12.75L12.75 5.25"
-                stroke="white"
-                strokeWidth="1.3"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M5.25 5.25H12.75V12.75"
-                stroke="white"
-                strokeWidth="1.3"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <Icon
+              icon="arrow_up_right"
+              width={18}
+              height={18}
+              addClass={cl.icon}
+            />
           </button>
         </li>
       </ul>

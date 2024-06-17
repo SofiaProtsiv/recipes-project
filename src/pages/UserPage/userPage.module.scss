@@ -21,6 +21,19 @@
   }
 }
 
+.userData {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @include desktop {
+    flex-direction: row;
+    justify-content: center;
+    align-items: start;
+    column-gap: 40px;
+  }
+}
+
 .userWrap {
   display: inline-flex;
   flex-direction: column;
@@ -45,9 +58,11 @@
   border-radius: 30px;
   border: 1px solid rgba(5, 5, 5, 0.2);
 
-  @media (768px <= width) {
+  @include tablet {
     gap: 20px;
     padding: 40px 80px;
+
+    width: 394px;
   }
 }
 
@@ -132,6 +147,10 @@
   font-weight: 500;
   line-height: 20px; /* 142.857% */
   letter-spacing: -0.28px;
+}
+
+.tablistBox {
+  flex-grow: 1;
 }
 
 //.tabContent {}
