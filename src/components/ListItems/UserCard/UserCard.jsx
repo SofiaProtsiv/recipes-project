@@ -65,7 +65,7 @@ const UserCard = ({ cardData, typeOfList }) => {
           )}
         </div>
         <ul className={cl.listRecipes}>
-          {cardData.recipes.slice(0, 3).map((recipe, index) => {
+          {cardData?.recipes?.slice(0, 3).map((recipe, index) => {
             return (
               <li key={index}>
                 <img src={recipe.thumb} alt={recipe.title} />

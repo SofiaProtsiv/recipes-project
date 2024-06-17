@@ -75,8 +75,8 @@ export const authApi = createApi({
       providesTags: ['User'],
     }),
     getFollowers: builder.query({
-      query: () => ({
-        url: `/users/followers`,
+      query: id => ({
+        url: `/users/followers/${id}`,
       }),
       providesTags: ['User'],
     }),
@@ -94,6 +94,7 @@ export const authApi = createApi({
       }),
       invalidatesTags: ['User'],
     }),
+
     addRecipeToFavoritesList: builder.mutation({
       query: id => ({
         url: `/users/recipes/favorite/${id}`,
@@ -132,6 +133,7 @@ export const {
   useAddRecipeToFavoritesListMutation,
   useRemoveRecipeFromFavoritesListMutation,
   useGetFavoriteRecipesListQuery,
+  useGetPersonalRecipesQuery,
 } = authApi;
 
 export default authApi;

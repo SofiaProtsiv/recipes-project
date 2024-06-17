@@ -22,7 +22,7 @@ import Container from '../../components/ui/Container/index.js';
 import ListItems from '../../components/ListItems/index.js';
 import { useGetOwnRecipesQuery } from '../../redux/recipes/recipesApi.jsx';
 import { useGetUserRecipesQuery } from '../../redux/recipes/recipesApi.jsx';
-
+import { useRemoveUserFromFollowingListMutation } from '../../redux/auth/AuthApi.jsx';
 import { Navigate, useParams } from 'react-router-dom';
 import useScrollToTop from '../../utils/scrollToTop';
 import ErrorFormMessage from '../../components/ui/ErrorFormMessage';
@@ -38,9 +38,10 @@ const UserPage = () => {
   const { token } = useSelector(state => state.authSlice);
   const [updateAvatar] = useUpdateAvatarMutation();
 
-  const [addUserToFollowingList, { isSuccess: isAdded }] =
-    useAddUserToFollowingListMutation();
+  const [addUserToFollowingList] = useAddUserToFollowingListMutation();
 
+  const [removeUserFromFollowingList] =
+    useRemoveUserFromFollowingListMutation();
   const [isLogOutModalOpen, setIsLogOutModalOpen] = useState(false);
 
   const [activeTab, setActiveTab] = useState('My recipes');
@@ -216,6 +217,10 @@ const UserPage = () => {
     addUserToFollowingList(id);
   };
 
+  const removeUserFromFollowingListHandler = async id => {
+    removeUserFromFollowingList(id);
+  };
+
   const closeLogOutModal = () => {
     setIsLogOutModalOpen(false);
   };
@@ -306,12 +311,21 @@ const UserPage = () => {
                   Log out
                 </Button>
               )}
-              {!isCurrentUser && (
+              {!isCurrentUser && !userData?.isFollowing && (
                 <Button
                   addClass={cl.logoutBtn}
                   onClick={() => addUserToFollowingListHandler(userId)}
                 >
-                  {isAdded ? 'Added' : 'Follow'}
+                  Follow
+                </Button>
+              )}
+
+              {!isCurrentUser && userData?.isFollowing && (
+                <Button
+                  addClass={cl.logoutBtn}
+                  onClick={() => removeUserFromFollowingListHandler(userId)}
+                >
+                  UnFollow
                 </Button>
               )}
             </div>
