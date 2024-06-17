@@ -23,22 +23,54 @@ import ListItems from '../../components/ListItems/index.js';
 import { useGetOwnRecipesQuery } from '../../redux/recipes/recipesApi.jsx';
 import { useGetUserRecipesQuery } from '../../redux/recipes/recipesApi.jsx';
 
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import useScrollToTop from '../../utils/scrollToTop';
+import ErrorFormMessage from '../../components/ui/ErrorFormMessage';
 
 const UserPage = () => {
   useScrollToTop();
+
+  const { userId } = useParams();
+
+  const fileInputRef = useRef(null);
+
   const dispatch = useDispatch();
   const { token } = useSelector(state => state.authSlice);
   const [updateAvatar] = useUpdateAvatarMutation();
+
   const [addUserToFollowingList, { isSuccess: isAdded }] =
     useAddUserToFollowingListMutation();
 
-  const fileInputRef = useRef(null);
   const [isLogOutModalOpen, setIsLogOutModalOpen] = useState(false);
+
   const [activeTab, setActiveTab] = useState('My recipes');
 
-  const { userId } = useParams();
+  const [isCurrentUser, setIsCurrentUser] = useState(false);
+
+  const {
+    data: currentUser,
+    error: currentUserError,
+    isLoading: isLoadingCurrentUser,
+    isSuccess: isSuccessCurrentUser,
+  } = useFetchCurrentUserQuery();
+
+  const {
+    data: userData,
+    error: userError,
+    isLoading: isLoadingUser,
+    isSuccess: isSuccessUser,
+  } = useGetUserByIdQuery(userId);
+
+  useEffect(() => {
+    setIsCurrentUser(currentUser?._id === userId);
+  }, [currentUser, userId]);
+
+  useEffect(() => {
+    setActiveTab(isCurrentUser ? 'My recipes' : 'Recipes');
+  }, [isCurrentUser]);
+
+  const page = 1;
+  const limit = 10;
 
   const {
     data: personalRecipes,
@@ -47,32 +79,24 @@ const UserPage = () => {
   } = useGetOwnRecipesQuery();
 
   const { data: favoriteRecipes, isLoading: isLoadingFavoriteRecipes } =
-    useGetFavoriteRecipesListQuery(token, {
-      skip: activeTab !== 'My favorites',
+    useGetFavoriteRecipesListQuery(userId, {
+      skip: !isCurrentUser || activeTab !== 'My favorites',
+    });
+
+  const { data: following, isLoading: isLoadingFollowing } =
+    useGetFollowingsQuery(userId, {
+      skip: !isCurrentUser && activeTab !== 'Following',
     });
 
   const { data: followers, isLoading: isLoadingFollowers } =
-    useGetFollowersQuery(token, { skip: activeTab !== 'Followers' });
+    useGetFollowersQuery(userId, {
+      skip: activeTab !== 'Followers',
+    });
 
-  const { data: following, isLoading: isLoadingFollowing } =
-    useGetFollowingsQuery(token, { skip: activeTab !== 'Following' });
-
-  const {
-    data: currentUser,
-    error: currentUserError,
-    isLoading: isLoadingCurrentUser,
-  } = useFetchCurrentUserQuery();
-
-  const isCurrentUser = currentUser?._id === userId;
-
-  const { data: userData, error, isLoading } = useGetUserByIdQuery(userId);
-
-  const page = 1;
-  const limit = 10;
   const { data: externalUserRecipes, isLoading: isLoadingExternalUserRecipes } =
     useGetUserRecipesQuery(
       { id: userId, page, limit },
-      { skip: activeTab !== 'Recipes' }
+      { skip: activeTab !== 'Recipes' && activeTab !== 'My recipes' }
     );
 
   const handleFileChange = async event => {
@@ -91,50 +115,73 @@ const UserPage = () => {
   };
 
   const renderContent = () => {
-    if (!currentUser && activeTab === 'My recipes') {
-      if (isLoadingPersonalRecipes) return <div>Loading...</div>;
-      return personalRecipes?.recipes?.length ? (
-        <ListItems
-          data={personalRecipes.recipes}
-          isLoading={isLoadingPersonalRecipes}
-          typeOfCard="RecipeCard"
-          typeOfList="MyRecipes"
-        />
-      ) : (
-        <p>
-          Nothing has been added to your recipes list yet. Please browse our
-          recipes and add your favorites for easy access in the future.
-        </p>
-      );
-    } else if (!currentUser && activeTab === 'My favorites') {
-      if (isLoadingFavoriteRecipes) return <div>Loading...</div>;
-      return favoriteRecipes?.recipes?.length ? (
-        <ListItems
-          data={favoriteRecipes.recipes}
-          isLoading={isLoadingFavoriteRecipes}
-          typeOfCard="RecipeCard"
-          typeOfList="MyFavoritesRecipes"
-        />
-      ) : (
-        <p>You have no favorite recipes yet. Start exploring and add some!</p>
-      );
-    } else if (activeTab === 'Recipes') {
-      if (isLoadingExternalUserRecipes) return <div>Loading...</div>;
-      return externalUserRecipes?.recipes?.length ? (
-        <ListItems
-          data={externalUserRecipes.recipes}
-          isLoading={isLoadingExternalUserRecipes}
-          typeOfCard="RecipeCard"
-          typeOfList="Recipes"
-        />
-      ) : (
-        <p>User does not have Recipes</p>
-      );
-    } else if (activeTab === 'Followers') {
+    if (isCurrentUser) {
+      if (activeTab === 'My recipes') {
+        if (isLoadingPersonalRecipes) return <div>Loading...</div>;
+        return personalRecipes?.recipes?.length ? (
+          <ListItems
+            data={personalRecipes.recipes}
+            isLoading={isLoadingPersonalRecipes}
+            typeOfCard="RecipeCard"
+            typeOfList="MyRecipes"
+          />
+        ) : (
+          <p>
+            Nothing has been added to your recipes list yet. Please browse our
+            recipes and add your favorites for easy access in the future.
+          </p>
+        );
+      } else if (activeTab === 'My favorites') {
+        if (isLoadingFavoriteRecipes) return <div>Loading...</div>;
+        return favoriteRecipes?.recipes?.length ? (
+          <ListItems
+            data={favoriteRecipes.recipes}
+            isLoading={isLoadingFavoriteRecipes}
+            typeOfCard="RecipeCard"
+            typeOfList="MyFavoritesRecipes"
+          />
+        ) : (
+          <p>You have no favorite recipes yet. Start exploring and add some!</p>
+        );
+      } else if (activeTab === 'Following') {
+        if (isLoadingFollowing) return <div>Loading...</div>;
+        return following?.length ? (
+          <ListItems
+            data={following}
+            isLoading={isLoadingFollowing}
+            typeOfCard="UserCard"
+            typeOfList="Following"
+          />
+        ) : (
+          <p>
+            You&#39;re not following anyone yet. Start following people to see
+            their latest updates!
+          </p>
+        );
+      }
+    }
+
+    if (!isCurrentUser) {
+      if (activeTab === 'Recipes') {
+        if (isLoadingExternalUserRecipes) return <div>Loading...</div>;
+        return externalUserRecipes?.recipes?.length ? (
+          <ListItems
+            data={externalUserRecipes.recipes}
+            isLoading={isLoadingExternalUserRecipes}
+            typeOfCard="RecipeCard"
+            typeOfList="Recipes"
+          />
+        ) : (
+          <p>User does not have Recipes</p>
+        );
+      }
+    }
+
+    if (activeTab === 'Followers') {
       if (isLoadingFollowers) return <div>Loading...</div>;
-      return followers?.followers?.length ? (
+      return followers?.length ? (
         <ListItems
-          data={followers.followers}
+          data={followers}
           isLoading={isLoadingFollowers}
           typeOfCard="UserCard"
           typeOfList="Followers"
@@ -146,24 +193,9 @@ const UserPage = () => {
           profile.
         </p>
       );
-    } else if (activeTab === 'Following') {
-      if (isLoadingFollowing) return <div>Loading...</div>;
-      return following?.followings?.length ? (
-        <ListItems
-          data={following.followings}
-          isLoading={isLoadingFollowing}
-          typeOfCard="UserCard"
-          typeOfList="Following"
-        />
-      ) : (
-        <p>
-          You&#39;re not following anyone yet. Start following people to see
-          their latest updates!
-        </p>
-      );
-    } else {
-      return null;
     }
+
+    return <></>;
   };
 
   useEffect(() => {
@@ -188,105 +220,117 @@ const UserPage = () => {
     setIsLogOutModalOpen(false);
   };
 
-  if (isLoading || isLoadingCurrentUser) return <div>Loading user data...</div>;
-  if (error || currentUserError)
-    return <div>Error: {error?.message || currentUserError?.message}</div>;
+  const error = userError || currentUserError || null;
 
   return (
-    <>
-      <Container data-label="userProfile" addClass={cl.container}>
-        <PathInfo />
-        <MainTitle>Profile</MainTitle>
-        <Subtitle>
-          Reveal your culinary art, share your favorite recipe and create
-          gastronomic masterpieces with us.
-        </Subtitle>
+    <Container data-label="userProfile" addClass={cl.container}>
+      {(isLoadingUser || isLoadingCurrentUser) && (
+        <div>Loading user data...</div>
+      )}
 
-        <div className={cl.userData}>
-          <div className={cl.userWrap}>
-            {userData && (
-              <div className={cl.userInfo}>
-                <div className={cl.imgWrap}>
-                  <img
-                    className={cl.userInfoImage}
-                    src={userData?.avatar}
-                    alt={`${userData?.name}'s avatar`}
-                  />
-                  {isCurrentUser && (
-                    <Button addClass={cl.plusBtn} onClick={handleClick}>
-                      <Icon icon="whitePlus" />
-                    </Button>
-                  )}
-                  <input
-                    type="file"
-                    ref={fileInputRef}
-                    style={{ display: 'none' }}
-                    onChange={handleFileChange}
-                  />
-                </div>
+      {error?.status === 401 && <Navigate to="/" />}
 
-                <h1>{userData?.name}</h1>
-                <div className={cl.userTextWrap}>
-                  <p className={cl.userInfoText}>
-                    Email:{' '}
-                    <span className={cl.userInfoSpan}>{userData?.email}</span>
-                  </p>
-                  <p className={cl.userInfoText}>
-                    Added recipes:{' '}
-                    <span className={cl.userInfoSpan}>
-                      {userData?.recipesQty}
-                    </span>{' '}
-                  </p>
-                  <p className={cl.userInfoText}>
-                    Favorites:{' '}
-                    <span className={cl.userInfoSpan}>
-                      {userData?.favRecipesQty}
-                    </span>{' '}
-                  </p>
-                  <p className={cl.userInfoText}>
-                    Followers:{' '}
-                    <span className={cl.userInfoSpan}>
-                      {userData?.followersQty}
-                    </span>{' '}
-                  </p>
-                  <p className={cl.userInfoText}>
-                    Following:{' '}
-                    <span className={cl.userInfoSpan}>
-                      {userData?.followingQty}
-                    </span>{' '}
-                  </p>
+      {error && (
+        <ErrorFormMessage
+          message={`Error: ${error?.data?.message || error || 'unknown error'}`}
+        />
+      )}
+
+      {(isSuccessCurrentUser || isSuccessUser) && (
+        <>
+          <PathInfo />
+          <MainTitle>Profile</MainTitle>
+          <Subtitle>
+            Reveal your culinary art, share your favorite recipe and create
+            gastronomic masterpieces with us.
+          </Subtitle>
+
+          <div className={cl.userData}>
+            <div className={cl.userWrap}>
+              {userData && (
+                <div className={cl.userInfo}>
+                  <div className={cl.imgWrap}>
+                    <img
+                      className={cl.userInfoImage}
+                      src={userData?.avatar}
+                      alt={`${userData?.name}'s avatar`}
+                    />
+                    {isCurrentUser && (
+                      <Button addClass={cl.plusBtn} onClick={handleClick}>
+                        <Icon icon="whitePlus" />
+                      </Button>
+                    )}
+                    <input
+                      type="file"
+                      ref={fileInputRef}
+                      style={{ display: 'none' }}
+                      onChange={handleFileChange}
+                    />
+                  </div>
+
+                  <h1>{userData?.name}</h1>
+                  <div className={cl.userTextWrap}>
+                    <p className={cl.userInfoText}>
+                      Email:{' '}
+                      <span className={cl.userInfoSpan}>{userData?.email}</span>
+                    </p>
+                    <p className={cl.userInfoText}>
+                      Added recipes:{' '}
+                      <span className={cl.userInfoSpan}>
+                        {userData?.recipesQty}
+                      </span>{' '}
+                    </p>
+                    <p className={cl.userInfoText}>
+                      Favorites:{' '}
+                      <span className={cl.userInfoSpan}>
+                        {userData?.favRecipesQty}
+                      </span>{' '}
+                    </p>
+                    <p className={cl.userInfoText}>
+                      Followers:{' '}
+                      <span className={cl.userInfoSpan}>
+                        {userData?.followersQty}
+                      </span>{' '}
+                    </p>
+                    <p className={cl.userInfoText}>
+                      Following:{' '}
+                      <span className={cl.userInfoSpan}>
+                        {userData?.followingQty}
+                      </span>{' '}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            )}
-            {isCurrentUser && (
-              <Button addClass={cl.logoutBtn} onClick={handleLogOut}>
-                Log out
-              </Button>
-            )}
-            {!isCurrentUser && (
-              <Button
-                addClass={cl.logoutBtn}
-                onClick={() => addUserToFollowingListHandler(userId)}
-              >
-                {isAdded ? 'Added' : 'Follow'}
-              </Button>
-            )}
+              )}
+              {isCurrentUser && (
+                <Button addClass={cl.logoutBtn} onClick={handleLogOut}>
+                  Log out
+                </Button>
+              )}
+              {!isCurrentUser && (
+                <Button
+                  addClass={cl.logoutBtn}
+                  onClick={() => addUserToFollowingListHandler(userId)}
+                >
+                  {isAdded ? 'Added' : 'Follow'}
+                </Button>
+              )}
+            </div>
+
+            <div className={cl.tablistBox}>
+              <TabsList
+                isCurrentUser={isCurrentUser}
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+              />
+
+              <div className={cl.tabContent}>{renderContent()}</div>
+            </div>
           </div>
 
-          <div className={cl.tablistBox}>
-            <TabsList
-              isCurrentUser={isCurrentUser}
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-            />
-
-            <div className={cl.tabContent}>{renderContent()}</div>
-          </div>
-        </div>
-
-        {isLogOutModalOpen && <LogOutModal onClose={closeLogOutModal} />}
-      </Container>
-    </>
+          {isLogOutModalOpen && <LogOutModal onClose={closeLogOutModal} />}
+        </>
+      )}
+    </Container>
   );
 };
 
