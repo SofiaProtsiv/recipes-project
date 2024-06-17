@@ -2,14 +2,9 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-
 import { useDispatch } from 'react-redux';
-import {
-  useLogInMutation,
-  useFetchCurrentUserQuery,
-} from '../../../redux/auth/AuthApi';
+import { useLogInMutation } from '../../../redux/auth/AuthApi';
 import { logInUser } from '../../../redux/auth/AuthSlice';
-
 import TextInput from '../../ui/TextInput';
 import PasswordInput from '../../ui/PasswordInput';
 import SubmitButton from '../../ui/SubmitButton';

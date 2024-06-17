@@ -7,10 +7,8 @@ export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
     baseUrl,
-    refetchOnMountOrArgChange: 3,
     prepareHeaders: (headers, { getState }) => {
       const token = getState().authSlice.token;
-      console.log(token);
       if (token) {
         headers.set('authorization', `Bearer ${token}`);
       }

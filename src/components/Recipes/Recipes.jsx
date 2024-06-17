@@ -35,7 +35,8 @@ const Recipes = () => {
   //user
   const [user, setUser] = useState(DEFAULT_USER);
   const isLoggedIn = useSelector(state => state.authSlice.isLoggedIn);
-  const { data: userData } = authApi.useFetchCurrentUserQuery();
+  const { data: userResp, isSuccess: isUserSuccess } =
+    authApi.useFetchCurrentUserQuery({}, { skip: !isLoggedIn });
   //recipe list
   const [recipeList, setRecipeList] = useState([]);
   const { data, isFetching, isSuccess, isError } =
@@ -60,20 +61,17 @@ const Recipes = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      console.log('Log in');
-      if (userData?._id !== user?._id) {
-        console.log('Set user');
-        setUser(userData);
+      if (isUserSuccess && userResp) {
+        setUser(userResp);
       }
-    } else if (!isLoggedIn && user._id) {
+    } else if (!isLoggedIn) {
       setUser(DEFAULT_USER);
     }
-  }, [userData, isLoggedIn, user]);
+  }, [isLoggedIn, user, isUserSuccess, userResp]);
 
   useEffect(() => {
     if (isSuccess && data) {
       const { recipes, total } = data;
-      console.log('recipes else');
       setRecipeList(recipes);
       setTotalElements(total);
     }
