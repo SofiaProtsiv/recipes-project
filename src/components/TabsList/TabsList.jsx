@@ -1,12 +1,18 @@
 import cl from './tabsList.module.scss';
 import PropTypes from 'prop-types';
 
-const TABS = ['My recipes', 'My favorites', 'Followers', 'Following'];
-
-const TabsList = ({ activeTab, setActiveTab }) => {
+const TabsForCurrentUser = [
+  'My recipes',
+  'My favorites',
+  'Followers',
+  'Following',
+];
+const TabsForUsers = ['Recipes', 'Followers'];
+const TabsList = ({ activeTab, setActiveTab, isCurrentUser }) => {
+  const RenderTabs = isCurrentUser ? TabsForCurrentUser : TabsForUsers;
   return (
     <ul className={cl.tabsList}>
-      {TABS.map(tab => (
+      {RenderTabs.map(tab => (
         <li
           key={tab}
           className={activeTab === tab ? cl.active : ''}
@@ -22,6 +28,7 @@ const TabsList = ({ activeTab, setActiveTab }) => {
 TabsList.propTypes = {
   activeTab: PropTypes.string.isRequired,
   setActiveTab: PropTypes.func.isRequired,
+  isCurrentUser: PropTypes.boolean,
 };
 
 export default TabsList;
