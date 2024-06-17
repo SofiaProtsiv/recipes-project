@@ -1,10 +1,15 @@
+import { useSelector } from 'react-redux';
 import { useFetchCurrentUserQuery } from '../../redux/auth/AuthApi';
 import { useGetPopularRecipesQuery } from '../../redux/recipes/recipesApi';
 import RecipeCard from '../Recipes/RecipeCard/RecipeCard';
 import cl from './popularRecipes.module.scss';
 
 const PopularRecipes = () => {
-  const { data: userData } = useFetchCurrentUserQuery();
+  const isLoggedIn = useSelector(state => state.authSlice.isLoggedIn);
+  const { data: userData } = useFetchCurrentUserQuery(
+    {},
+    { skip: !isLoggedIn }
+  );
   const reqData = {
     userId: userData ? userData._id : null,
   };
