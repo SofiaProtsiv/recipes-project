@@ -28,7 +28,6 @@ const SignInForm = ({ onClose }) => {
   const [modalError, setModalError] = useState(null);
   const dispatch = useDispatch();
   const [logIn] = useLogInMutation();
-  const { data: fetchCurrentUser } = useFetchCurrentUserQuery();
 
   const {
     register,
