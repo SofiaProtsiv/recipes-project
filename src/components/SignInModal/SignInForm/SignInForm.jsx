@@ -8,7 +8,7 @@ import {
   useLogInMutation,
   useFetchCurrentUserQuery,
 } from '../../../redux/auth/AuthApi';
-import { logInUser, setUserId } from '../../../redux/auth/AuthSlice';
+import { logInUser } from '../../../redux/auth/AuthSlice';
 
 import TextInput from '../../ui/TextInput';
 import PasswordInput from '../../ui/PasswordInput';
@@ -44,9 +44,6 @@ const SignInForm = ({ onClose }) => {
     try {
       const result = await logIn(data).unwrap();
       dispatch(logInUser({ data: result }));
-
-      const currentUserResponse = await fetchCurrentUser().unwrap();
-      dispatch(setUserId({ _id: currentUserResponse._id }));
       onClose();
     } catch (error) {
       setModalError(error?.data?.message || 'An error occurred during login.');

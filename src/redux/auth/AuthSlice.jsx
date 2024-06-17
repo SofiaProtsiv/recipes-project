@@ -41,10 +41,6 @@ export const authSlice = createSlice({
     updateUser(state, action) {
       state.user = action.payload.user;
     },
-
-    setUserId(state, action) {
-      state.user._id = action.payload._id;
-    },
   },
   extraReducers: builder => {
     builder.addMatcher(
@@ -62,7 +58,6 @@ export const {
   logOutUser,
   fetchUser,
   updateUserAvatar,
-  setUserId,
   updateUser,
 } = authSlice.actions;
 

@@ -2,11 +2,14 @@ import cl from './userBar.module.scss';
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../../ui/Modal';
+import { useFetchCurrentUserQuery } from '../../../redux/auth/AuthApi';
 
-const UserBar = ({ user }) => {
+const UserBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [modalType, setModalType] = useState(null);
   const [showModal, setShowModal] = useState(false);
+
+  const { data: user, isSuccess } = useFetchCurrentUserQuery();
 
   const navigate = useNavigate();
   const menuRef = useRef(null); // Ref for the user menu
