@@ -18,7 +18,6 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { updateUserAvatar } from '../../redux/auth/AuthSlice.jsx';
 import cl from './userPage.module.scss';
 import Icon from '../../components/ui/Icon/index.js';
-import LogOutModal from '../../components/LogOutModal/index.js';
 import Container from '../../components/ui/Container/index.js';
 import ListItems from '../../components/ListItems/index.js';
 import {
@@ -28,6 +27,7 @@ import {
 import { Navigate, useParams } from 'react-router-dom';
 import useScrollToTop from '../../utils/scrollToTop';
 import ErrorFormMessage from '../../components/ui/ErrorFormMessage';
+import Modal from '../../components/ui/Modal';
 import ListPagination from '../../components/ListPagination';
 import { toast } from 'react-toastify';
 
@@ -58,6 +58,7 @@ const UserPage = () => {
   const [activeTab, setActiveTab] = useState('My recipes');
 
   const [isCurrentUser, setIsCurrentUser] = useState(false);
+  const [modalType, setModalType] = useState(null);
 
   const {
     data: currentUser,
@@ -298,8 +299,13 @@ const UserPage = () => {
     fileInputRef.current.click();
   };
 
-  const handleLogOut = async () => {
-    setIsLogOutModalOpen(true);
+  const toggleModal = type => {
+    setModalType(type);
+    setIsLogOutModalOpen(!isLogOutModalOpen);
+  };
+
+  const handleLogoutClick = () => {
+    toggleModal();
   };
 
   const addUserToFollowingListHandler = async id => {
@@ -308,10 +314,6 @@ const UserPage = () => {
 
   const removeUserFromFollowingListHandler = async id => {
     removeUserFromFollowingList(id);
-  };
-
-  const closeLogOutModal = () => {
-    setIsLogOutModalOpen(false);
   };
 
   const error = userError || currentUserError || null;
@@ -396,7 +398,7 @@ const UserPage = () => {
                 </div>
               )}
               {isCurrentUser && (
-                <Button addClass={cl.logoutBtn} onClick={handleLogOut}>
+                <Button addClass={cl.logoutBtn} onClick={handleLogoutClick}>
                   Log out
                 </Button>
               )}
@@ -430,10 +432,9 @@ const UserPage = () => {
               <div className={cl.tabContent}>{renderContent()}</div>
             </div>
           </div>
-
-          {isLogOutModalOpen && <LogOutModal onClose={closeLogOutModal} />}
         </>
       )}
+      {isLogOutModalOpen && <Modal onClose={toggleModal} type={modalType} />}
     </Container>
   );
 };
