@@ -30,39 +30,42 @@ const UserCard = ({ cardData, typeOfList }) => {
   return (
     <li className={cl.cardContainer}>
       <div className={cl.cardWrapper}>
-        <Link to={`/user/${cardData._id}`}>
-          <img
-            src={cardData.avatar ? cardData.avatar : defaultAvatar}
-            alt={cardData.name}
-            className={cl.cardImage}
-          />
-        </Link>
-        <div>
-          <h3 className={cl.cardTitle}>{cardData.name}</h3>
-          <p className={cl.cardText}>Own recipes: {cardData.recipesCount}</p>
-          {typeOfList === TypeOfList.Following ? (
-            <Button
-              addClass={
-                isRemoving
-                  ? `${cl.skeleton} ${cl.cardButtonUnFollow}`
-                  : `${cl.cardButtonUnFollow}`
-              }
-              onClick={() => removeUserHandler(cardData._id)}
-            >
-              {isRemoving ? 'Loading' : 'Unfollow'}
-            </Button>
-          ) : (
-            <Button
-              addClass={
-                isAdding
-                  ? `${cl.skeleton} ${cl.cardButtonUnFollow}`
-                  : `${cl.cardButtonUnFollow}`
-              }
-              onClick={() => addUserHandler(cardData._id)}
-            >
-              {isAdding ? 'Loading' : 'Follow'}
-            </Button>
-          )}
+        <div className={cl.userInfoWrapper}>
+          <Link to={`/user/${cardData._id}`}>
+            <img
+              src={cardData.avatar ? cardData.avatar : defaultAvatar}
+              alt={cardData.name}
+              className={cl.cardImage}
+            />
+          </Link>
+          <div>
+            <h3 className={cl.cardTitle}>{cardData.name}</h3>
+            <p className={cl.cardText}>Own recipes: {cardData.recipesCount}</p>
+
+            {typeOfList === TypeOfList.Following ? (
+              <Button
+                addClass={
+                  isRemoving
+                    ? `${cl.skeleton} ${cl.cardButtonUnFollow}`
+                    : `${cl.cardButtonUnFollow}`
+                }
+                onClick={() => removeUserHandler(cardData._id)}
+              >
+                {isRemoving ? 'Loading' : 'Unfollow'}
+              </Button>
+            ) : (
+              <Button
+                addClass={
+                  isAdding
+                    ? `${cl.skeleton} ${cl.cardButtonUnFollow}`
+                    : `${cl.cardButtonUnFollow}`
+                }
+                onClick={() => addUserHandler(cardData._id)}
+              >
+                {isAdding ? 'Loading' : 'Follow'}
+              </Button>
+            )}
+          </div>
         </div>
 
         <ul className={cl.listRecipes}>
@@ -75,20 +78,11 @@ const UserCard = ({ cardData, typeOfList }) => {
           })}
         </ul>
 
+        <ButtonLink
+          icon="arrow_up_right"
+          to={`/user/${cardData._id}`}
+        ></ButtonLink>
       </div>
-      <ul className={cl.listRecipes}>
-        {cardData.recipes.slice(0, 3).map((recipe, index) => {
-          return (
-            <li key={index}>
-              <img src={recipe.thumb} alt={recipe.title} />
-            </li>
-          );
-        })}
-      </ul>
-      <ButtonLink
-        icon="arrow_up_right"
-        to={`/user/${cardData._id}`}
-      ></ButtonLink>
     </li>
   );
 };

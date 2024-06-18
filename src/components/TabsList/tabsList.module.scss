@@ -6,7 +6,6 @@
 
   overflow-x: auto;
   white-space: nowrap;
-  padding-left: 20px;
   scrollbar-width: none;
 
   width: 546px;
@@ -15,8 +14,8 @@
 
   @media (768px <= width) {
     gap: 40px;
-    width: 626px;
     margin-bottom: 40px;
+    width: 100%;
   }
 }
 

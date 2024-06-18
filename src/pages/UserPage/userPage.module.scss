@@ -166,7 +166,8 @@
 .tablistBox {
   flex-grow: 1;
   overflow-x: auto;
-  max-width: 100%;
+  overflow-y: hidden;
+  width: 100%;
 }
 
 //.tabContent {}

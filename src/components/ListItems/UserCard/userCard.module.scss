@@ -32,7 +32,12 @@ $desktop: 1440px;
 .cardWrapper {
   display: flex;
   align-items: center;
-  // justify-content: space-between;
+  justify-content: space-between;
+  width: 100%;
+
+  & a {
+    align-self: baseline;
+  }
 }
 
 .cardImage {
@@ -41,7 +46,6 @@ $desktop: 1440px;
   height: 60px;
   border-radius: 50%;
   background-color: grey;
-  margin-right: 16px;
   transition-property: border, scale;
   transition-duration: var(--transition-time);
   transition-timing-function: var(--transition-effect);
@@ -70,7 +74,10 @@ $desktop: 1440px;
     line-height: 1.2;
   }
 }
-
+.userInfoWrapper {
+  display: flex;
+  gap: 16px;
+}
 .cardText {
   font-weight: 400;
   font-size: 14px;
@@ -102,7 +109,6 @@ $desktop: 1440px;
     background-color: var(--primary-text-color);
     border-color: var(--primary-text-color);
   }
-
 
   @media screen and (min-width: $tablet) {
     padding: 10px 24px;
