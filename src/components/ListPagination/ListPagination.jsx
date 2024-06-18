@@ -1,6 +1,6 @@
 import Pagination from '../ui/Pagination/Pagination';
 import { useEffect, useState } from 'react';
-import cl from './ListPagination.module.scss';
+import cl from './listPagination.module.scss';
 import PropTypes from 'prop-types';
 
 const PAGE_RANGE = 1;
