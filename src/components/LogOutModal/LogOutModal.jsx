@@ -7,6 +7,7 @@ import Button from '../ui/Button';
 import SecondTitle from '../ui/SecondTitle';
 import Subtitle from '../ui/Subtitle/Subtitle';
 import cl from './logOutModal.module.scss';
+import { toast } from 'react-toastify';
 
 const LogOutModal = ({ onClose }) => {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ const LogOutModal = ({ onClose }) => {
         navigate('/');
       }
       onClose();
+      toast.info(`Succesfully log out`);
     }
   };
 

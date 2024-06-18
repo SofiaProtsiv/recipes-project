@@ -29,8 +29,8 @@ const Recipes = () => {
   const [currentCategory, setCategory] = useState(DEFAULT_CURRENT_CATEGORY);
   const categories = useSelector(state => state.categoriesSlice.categories);
   //add filters
-  const [ingredients, setIngredient] = useState(null);
-  const [area, setArea] = useState(null);
+  const [ingredients, setIngredient] = useState('');
+  const [area, setArea] = useState('');
   //user
   const [user, setUser] = useState(DEFAULT_USER);
   const isLoggedIn = useSelector(state => state.authSlice.isLoggedIn);
@@ -44,8 +44,8 @@ const Recipes = () => {
         page,
         limit,
         category: currentCategory?._id,
-        area,
-        ingredients,
+        area: area?._id,
+        ingredients: ingredients?._id,
         userId: user?._id,
       },
       { refetchOnMountOrArgChange: true }
@@ -87,29 +87,35 @@ const Recipes = () => {
     [page]
   );
 
-  const handleIngredient = ({ _id: id }) => {
-    if (id === ingredients) {
-      setIngredient(null);
+  const handleIngredient = data => {
+    if (!data) return;
+    const { value, label } = data;
+    if (value === ingredients?._id) {
+      setIngredient('');
     } else {
-      setIngredient(id);
+      setIngredient({ _id: value, name: label });
       setPage(1);
     }
   };
 
-  const handleCategories = ({ _id: id, name }) => {
-    if (id === currentCategory._id) {
+  const handleCategories = data => {
+    if (!data) return;
+    const { value, label } = data;
+    if (value === currentCategory) {
       setCategory(DEFAULT_CURRENT_CATEGORY);
     } else {
-      setCategory({ _id: id, name });
+      setCategory({ _id: value, name: label });
       setPage(1);
     }
   };
 
-  const handleArea = ({ _id: id }) => {
-    if (id === area) {
-      setArea(null);
+  const handleArea = data => {
+    if (!data) return;
+    const { value, label } = data;
+    if (value === area?._id) {
+      setArea('');
     } else {
-      setArea(id);
+      setArea({ _id: value, name: label });
       setPage(1);
     }
   };

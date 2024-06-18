@@ -39,8 +39,8 @@ const TabsList = ({
 TabsList.propTypes = {
   activeTab: PropTypes.string.isRequired,
   setActiveTab: PropTypes.func.isRequired,
+  isCurrentUser: PropTypes.any,
   setCurrentPage: PropTypes.func.isRequired,
-  isCurrentUser: PropTypes.bool,
 };
 
 export default TabsList;
