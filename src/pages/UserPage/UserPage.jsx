@@ -93,13 +93,16 @@ const UserPage = () => {
     });
 
   const { data: followersResp, isLoading: isLoadingFollowers } =
-    useGetFollowersQuery(userId, {
-      skip: activeTab !== 'Followers',
-    });
+    useGetFollowersQuery(
+      { id: userId, page: currentPage, limit: LIMIT_FOLLOW },
+      {
+        skip: activeTab !== 'Followers',
+      }
+    );
 
   const { data: externalUserRecipes, isLoading: isLoadingExternalUserRecipes } =
     useGetUserRecipesQuery(
-      { id: userId, currentPage, LIMIT_RECIPES },
+      { id: userId, page: currentPage, limit: LIMIT_RECIPES },
       { skip: activeTab !== 'Recipes' && activeTab !== 'My recipes' }
     );
 
@@ -124,19 +127,19 @@ const UserPage = () => {
   }, [personalRecipesResp, activeTab]);
 
   useEffect(() => {
-    if (isCurrentUser) {
+    if (!isCurrentUser) {
       setOtherUserRecipes(externalUserRecipes);
     }
   }, [externalUserRecipes, isCurrentUser, currentPage]);
 
   useEffect(() => {
-    if (activeTab === 'Following') {
+    if (activeTab === 'Followers') {
       setFollowers(followersResp);
     }
   }, [followersResp, activeTab, currentPage]);
 
   useEffect(() => {
-    if (activeTab === 'Followers') {
+    if (activeTab === 'Following') {
       setFollowings(followingResp);
     }
   }, [followingResp, activeTab, currentPage]);
@@ -218,10 +221,10 @@ const UserPage = () => {
         );
       } else if (activeTab === 'Following') {
         if (isLoadingFollowing) return <div>Loading...</div>;
-        return followings?.total > 0 || followings.length > 0 ? (
+        return followings?.total > 0 ? (
           <>
             <ListItems
-              data={followings}
+              data={followings.data}
               isLoading={isLoadingFollowing}
               typeOfCard="UserCard"
               typeOfList="Following"
@@ -229,7 +232,7 @@ const UserPage = () => {
             <ListPagination
               handlePage={handlePage}
               page={currentPage}
-              total={followings.total || followings.length}
+              total={followings?.total}
               limit={LIMIT_FOLLOW}
             />
           </>
@@ -268,10 +271,10 @@ const UserPage = () => {
 
     if (activeTab === 'Followers') {
       if (isLoadingFollowers) return <div>Loading...</div>;
-      return followers?.total > 0 || followers?.length > 0 ? (
+      return followers?.total > 0 ? (
         <>
           <ListItems
-            data={followers}
+            data={followers.data}
             isLoading={isLoadingFollowers}
             typeOfCard="UserCard"
             typeOfList="Followers"
@@ -279,7 +282,7 @@ const UserPage = () => {
           <ListPagination
             handlePage={handlePage}
             page={currentPage}
-            total={followers.total || followers.length}
+            total={followers.total}
             limit={LIMIT_RECIPES}
           />
         </>

@@ -107,7 +107,7 @@ const Recipes = () => {
       return;
     }
     const { value, label } = data;
-    if (value === currentCategory) {
+    if (value === currentCategory._id) {
       setCategory(DEFAULT_CURRENT_CATEGORY);
     } else {
       setCategory({ _id: value, name: label });

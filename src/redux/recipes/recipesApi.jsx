@@ -83,11 +83,13 @@ export const recipesApi = createApi({
     }),
 
     getUserRecipes: builder.query({
-      query: ({ page = 1, limit = 10, id }) => ({
-        url: `/recipes/user/${id}`,
-        method: 'GET',
-        params: { page, limit, id },
-      }),
+      query: ({ page = 1, limit = 10, id }) => {
+        return {
+          url: `/recipes/user/${id}`,
+          method: 'GET',
+          params: { page, limit },
+        };
+      },
       providesTags: ['Recipe'],
     }),
 
