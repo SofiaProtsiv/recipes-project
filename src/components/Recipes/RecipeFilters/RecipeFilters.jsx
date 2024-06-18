@@ -1,7 +1,7 @@
 import cl from './recipeFilters.module.scss';
 import Select from 'react-select';
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react'; // Added useRef
 import { ingredientsApi } from '../../../redux/ingredients/ingredientsApi';
 import { areasApi } from '../../../redux/areas/areasApi';
 import { categoriesApi } from '../../../redux/categories/categoriesApi';
@@ -24,6 +24,8 @@ const RecipeFilters = ({
   const [selectedIngredient, setSelectedIngredient] = useState(null);
   const [selectedArea, setSelectedArea] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
+
+  const selectRef = useRef(null); // Ref for Select component
 
   const {
     data: ingredientsResp,
@@ -81,6 +83,25 @@ const RecipeFilters = ({
     handleCategories(selectedOption);
   };
 
+  const clearSelect = item => {
+    switch (item) {
+      case DEFAULT_INGREDIENTS:
+        handleIngredientChange(null);
+        break;
+      case DEFAULT_AREA:
+        handleAreaChange(null);
+        break;
+      case DEFAULT_CATEGORY:
+        handleCategoryChange(null);
+        break;
+      default:
+        return null;
+    }
+
+    selectRef.current.select.clearValue();
+    selectRef.current.select.blur();
+  };
+
   const renderSelect = item => {
     let options, onChange, value, isLoading, isSuccess;
 
@@ -125,6 +146,7 @@ const RecipeFilters = ({
           <SkeletonSelect />
         ) : isSuccess ? (
           <Select
+            ref={selectRef} // Assign the ref here
             options={options}
             onChange={onChange}
             value={value}
@@ -133,9 +155,11 @@ const RecipeFilters = ({
             isSearchable
             className="react-select-container"
             classNamePrefix="react-select"
-            omponents={{
+            components={{
               ClearIndicator: () => (
-                <div onClick={e => console.log(e.target)}>Clear</div>
+                <div className={cl.clear} onClick={() => clearSelect(item)}>
+                  Clear
+                </div>
               ),
             }}
           />

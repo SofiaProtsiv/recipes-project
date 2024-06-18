@@ -88,7 +88,10 @@ const Recipes = () => {
   );
 
   const handleIngredient = data => {
-    if (!data) return;
+    if (!data) {
+      setIngredient('');
+      return;
+    }
     const { value, label } = data;
     if (value === ingredients?._id) {
       setIngredient('');
@@ -99,7 +102,10 @@ const Recipes = () => {
   };
 
   const handleCategories = data => {
-    if (!data) return;
+    if (!data) {
+      setCategory(DEFAULT_CURRENT_CATEGORY);
+      return;
+    }
     const { value, label } = data;
     if (value === currentCategory) {
       setCategory(DEFAULT_CURRENT_CATEGORY);
@@ -110,7 +116,10 @@ const Recipes = () => {
   };
 
   const handleArea = data => {
-    if (!data) return;
+    if (!data) {
+      setArea('');
+      return;
+    }
     const { value, label } = data;
     if (value === area?._id) {
       setArea('');
