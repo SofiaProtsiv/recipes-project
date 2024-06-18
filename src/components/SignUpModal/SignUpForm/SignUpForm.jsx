@@ -13,6 +13,7 @@ import SubmitButton from '../../ui/SubmitButton';
 
 import ErrorFormMessage from '../../ui/ErrorFormMessage';
 import cl from './signUpForm.module.scss';
+import { toast } from 'react-toastify';
 
 const schema = yup.object().shape({
   name: yup
@@ -45,6 +46,7 @@ const SignUpForm = () => {
     try {
       const result = await register(data).unwrap();
       dispatch(registerUser({ data: result }));
+      toast.success(`Succesfully register`);
     } catch (error) {
       setModalError(error.data.message);
     }

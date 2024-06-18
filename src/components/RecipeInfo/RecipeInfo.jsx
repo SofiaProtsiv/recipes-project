@@ -60,6 +60,10 @@ const RecipeInfo = () => {
 
   const navigate = useNavigate();
   const handleOwnerClick = ownerId => {
+    if (!isLoggedIn) {
+      setShowModal(true);
+      return;
+    }
     navigate(`/user/${ownerId}`);
   };
 
