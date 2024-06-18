@@ -1,52 +1,33 @@
-import cl from './recipePagination.module.scss';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import Pagination from '../../ui/Pagination/Pagination';
 
-const RecipePagination = ({ handlePage, page, totalPages }) => {
-  const renderPages = () => {
-    const pages = [];
-    const pageRange = 1;
+const PAGE_RANGE = 1;
 
-    if (totalPages > 1) {
-      let startPage = Math.max(1, page - pageRange);
-      let endPage = Math.min(totalPages, page + pageRange);
+const RecipePagination = ({ handlePage, page, total, limit }) => {
+  const [totalPages, setTotalPages] = useState(0);
 
-      if (page <= pageRange) {
-        endPage = Math.min(totalPages, 3);
-      } else if (page + pageRange > totalPages) {
-        startPage = Math.max(1, totalPages - 2);
-      }
+  useEffect(() => {
+    setTotalPages(Math.ceil(total / limit));
+  }, [total, limit]);
 
-      for (let i = startPage; i <= endPage; i++) {
-        const pageClass =
-          i === page
-            ? `${cl['wrapper-page']} ${cl['current-page']}`
-            : `${cl['wrapper-page']}`;
-        pages.push(
-          <div key={i} className={pageClass}>
-            <a
-              className={`${cl['pageLink']}`}
-              data-page={i}
-              href="#"
-              onClick={e => {
-                e.preventDefault();
-                handlePage(i);
-              }}
-            >
-              {i}
-            </a>
-          </div>
-        );
-      }
-    }
-    return pages;
-  };
-
-  return <div className={cl.paginationWrapper}>{renderPages()}</div>;
+  return (
+    totalPages > 1 && (
+      <Pagination
+        handlePage={handlePage}
+        page={page}
+        totalPages={totalPages}
+        pageRande={PAGE_RANGE}
+      />
+    )
+  );
 };
 
 RecipePagination.propTypes = {
   handlePage: PropTypes.func,
   page: PropTypes.number,
-  totalPages: PropTypes.number,
+  total: PropTypes.number,
+  limit: PropTypes.number,
 };
+
 export default RecipePagination;

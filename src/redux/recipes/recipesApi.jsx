@@ -83,11 +83,13 @@ export const recipesApi = createApi({
     }),
 
     getUserRecipes: builder.query({
-      query: ({ page = 1, limit = 10, id }) => ({
-        url: `/recipes/user/${id}`,
-        method: 'GET',
-        params: { page, limit, id },
-      }),
+      query: ({ page = 1, limit = 10, id }) => {
+        return {
+          url: `/recipes/user/${id}`,
+          method: 'GET',
+          params: { page, limit },
+        };
+      },
       providesTags: ['Recipe'],
     }),
 
@@ -125,9 +127,15 @@ export const recipesApi = createApi({
       },
       invalidatesTags: ['Recipe'],
     }),
-
-    getOwnRecipes: builder.query({
-      query: () => '/recipes/personal/data',
+    getOwnRecipes: builder.mutation({
+      query: ({ page = 1, limit = 9 }) => {
+        const filter = { page, limit };
+        return {
+          url: '/recipes/personal/data',
+          method: 'GET',
+          params: filter,
+        };
+      },
       providesTags: ['Recipe'],
     }),
 
@@ -147,6 +155,6 @@ export const {
   useGetRecipeByIdQuery,
   useGetUserRecipesQuery,
   useAddRecipeMutation,
-  useGetOwnRecipesQuery,
+  useGetOwnRecipesMutation,
   useRemoveRecipeMutation,
 } = recipesApi;

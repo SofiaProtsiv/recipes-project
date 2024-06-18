@@ -12,26 +12,37 @@ import {
   useGetUserByIdQuery,
   useUpdateAvatarMutation,
   useAddUserToFollowingListMutation,
+  useRemoveUserFromFollowingListMutation,
 } from '../../redux/auth/AuthApi.jsx';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { updateUserAvatar } from '../../redux/auth/AuthSlice.jsx';
 import cl from './userPage.module.scss';
 import Icon from '../../components/ui/Icon/index.js';
 import Container from '../../components/ui/Container/index.js';
 import ListItems from '../../components/ListItems/index.js';
-import { useGetOwnRecipesQuery } from '../../redux/recipes/recipesApi.jsx';
-import { useGetUserRecipesQuery } from '../../redux/recipes/recipesApi.jsx';
-import { useRemoveUserFromFollowingListMutation } from '../../redux/auth/AuthApi.jsx';
+import {
+  useGetUserRecipesQuery,
+  useGetOwnRecipesMutation,
+} from '../../redux/recipes/recipesApi.jsx';
 import { Navigate, useParams } from 'react-router-dom';
 import useScrollToTop from '../../utils/scrollToTop';
 import ErrorFormMessage from '../../components/ui/ErrorFormMessage';
 import Modal from '../../components/ui/Modal';
+import ListPagination from '../../components/ListPagination';
+import { toast } from 'react-toastify';
+
+const LIMIT_RECIPES = 9;
+const LIMIT_FOLLOW = 5;
 
 const UserPage = () => {
   useScrollToTop();
-
+  const [currentPage, setCurrentPage] = useState(1);
   const { userId } = useParams();
-
+  const [favoriteRecipes, setFavoriteRecipes] = useState(null);
+  const [ownRecipes, setOwnRecipes] = useState(null);
+  const [otherUserRecipes, setOtherUserRecipes] = useState(null);
+  const [followers, setFollowers] = useState(null);
+  const [followings, setFollowings] = useState(null);
   const fileInputRef = useRef(null);
 
   const dispatch = useDispatch();
@@ -62,6 +73,38 @@ const UserPage = () => {
     isLoading: isLoadingUser,
     isSuccess: isSuccessUser,
   } = useGetUserByIdQuery(userId);
+  const { data: personalRecipesResp, isLoading: isLoadingPersonalRecipes } =
+    useGetOwnRecipesMutation(
+      { page: currentPage, limit: LIMIT_RECIPES },
+      { skip: !isCurrentUser }
+    );
+
+  const { data: favoriteRecipesResp, isLoading: isLoadingFavoriteRecipes } =
+    useGetFavoriteRecipesListQuery(
+      { page: currentPage, limit: LIMIT_RECIPES, id: userId },
+      {
+        skip: !isCurrentUser || activeTab !== 'My favorites',
+      }
+    );
+
+  const { data: followingResp, isLoading: isLoadingFollowing } =
+    useGetFollowingsQuery(userId, {
+      skip: !isCurrentUser && activeTab !== 'Following',
+    });
+
+  const { data: followersResp, isLoading: isLoadingFollowers } =
+    useGetFollowersQuery(
+      { id: userId, page: currentPage, limit: LIMIT_FOLLOW },
+      {
+        skip: activeTab !== 'Followers',
+      }
+    );
+
+  const { data: externalUserRecipes, isLoading: isLoadingExternalUserRecipes } =
+    useGetUserRecipesQuery(
+      { id: userId, page: currentPage, limit: LIMIT_RECIPES },
+      { skip: activeTab !== 'Recipes' && activeTab !== 'My recipes' }
+    );
 
   useEffect(() => {
     setIsCurrentUser(currentUser?._id === userId);
@@ -71,35 +114,35 @@ const UserPage = () => {
     setActiveTab(isCurrentUser ? 'My recipes' : 'Recipes');
   }, [isCurrentUser]);
 
-  const page = 1;
-  const limit = 10;
+  useEffect(() => {
+    if (activeTab === 'My favorites') {
+      setFavoriteRecipes(favoriteRecipesResp);
+    }
+  }, [favoriteRecipesResp, activeTab, currentPage]);
 
-  const {
-    data: personalRecipes,
-    isLoading: isLoadingPersonalRecipes,
-    refetch: refetchPersonalRecipes,
-  } = useGetOwnRecipesQuery();
+  useEffect(() => {
+    if (activeTab === 'My recipes') {
+      setOwnRecipes(personalRecipesResp);
+    }
+  }, [personalRecipesResp, activeTab]);
 
-  const { data: favoriteRecipes, isLoading: isLoadingFavoriteRecipes } =
-    useGetFavoriteRecipesListQuery(userId, {
-      skip: !isCurrentUser || activeTab !== 'My favorites',
-    });
+  useEffect(() => {
+    if (!isCurrentUser) {
+      setOtherUserRecipes(externalUserRecipes);
+    }
+  }, [externalUserRecipes, isCurrentUser, currentPage]);
 
-  const { data: following, isLoading: isLoadingFollowing } =
-    useGetFollowingsQuery(userId, {
-      skip: !isCurrentUser && activeTab !== 'Following',
-    });
+  useEffect(() => {
+    if (activeTab === 'Followers') {
+      setFollowers(followersResp);
+    }
+  }, [followersResp, activeTab, currentPage]);
 
-  const { data: followers, isLoading: isLoadingFollowers } =
-    useGetFollowersQuery(userId, {
-      skip: activeTab !== 'Followers',
-    });
-
-  const { data: externalUserRecipes, isLoading: isLoadingExternalUserRecipes } =
-    useGetUserRecipesQuery(
-      { id: userId, page, limit },
-      { skip: activeTab !== 'Recipes' && activeTab !== 'My recipes' }
-    );
+  useEffect(() => {
+    if (activeTab === 'Following') {
+      setFollowings(followingResp);
+    }
+  }, [followingResp, activeTab, currentPage]);
 
   const handleFileChange = async event => {
     const file = event.target.files[0];
@@ -111,22 +154,45 @@ const UserPage = () => {
         const result = await updateAvatar({ formData, token }).unwrap();
         dispatch(updateUserAvatar({ data: result }));
       } catch (error) {
-        console.error('Failed to update avatar:', error);
+        toast('Failed to update avatar:', error);
       }
     }
   };
+
+  const handlePage = useCallback(
+    clickedPage => {
+      if (clickedPage !== currentPage) {
+        setCurrentPage(clickedPage);
+        window.scrollTo({
+          top: 100,
+          left: 0,
+          behavior: 'smooth',
+        });
+      }
+    },
+
+    [currentPage]
+  );
 
   const renderContent = () => {
     if (isCurrentUser) {
       if (activeTab === 'My recipes') {
         if (isLoadingPersonalRecipes) return <div>Loading...</div>;
-        return personalRecipes?.recipes?.length ? (
-          <ListItems
-            data={personalRecipes.recipes}
-            isLoading={isLoadingPersonalRecipes}
-            typeOfCard="RecipeCard"
-            typeOfList="MyRecipes"
-          />
+        return ownRecipes?.total > 0 ? (
+          <>
+            <ListItems
+              data={ownRecipes.recipes}
+              isLoading={isLoadingPersonalRecipes}
+              typeOfCard="RecipeCard"
+              typeOfList="MyRecipes"
+            />
+            <ListPagination
+              handlePage={handlePage}
+              page={currentPage}
+              total={ownRecipes.total}
+              limit={LIMIT_RECIPES}
+            />
+          </>
         ) : (
           <p>
             Nothing has been added to your recipes list yet. Please browse our
@@ -135,25 +201,41 @@ const UserPage = () => {
         );
       } else if (activeTab === 'My favorites') {
         if (isLoadingFavoriteRecipes) return <div>Loading...</div>;
-        return favoriteRecipes?.recipes?.length ? (
-          <ListItems
-            data={favoriteRecipes.recipes}
-            isLoading={isLoadingFavoriteRecipes}
-            typeOfCard="RecipeCard"
-            typeOfList="MyFavoritesRecipes"
-          />
+        return favoriteRecipes?.total > 0 ? (
+          <>
+            <ListItems
+              data={favoriteRecipes.recipes}
+              isLoading={isLoadingFavoriteRecipes}
+              typeOfCard="RecipeCard"
+              typeOfList="MyFavoritesRecipes"
+            />
+            <ListPagination
+              handlePage={handlePage}
+              page={currentPage}
+              total={favoriteRecipes.total}
+              limit={LIMIT_RECIPES}
+            />
+          </>
         ) : (
           <p>You have no favorite recipes yet. Start exploring and add some!</p>
         );
       } else if (activeTab === 'Following') {
         if (isLoadingFollowing) return <div>Loading...</div>;
-        return following?.data?.length ? (
-          <ListItems
-            data={following.data}
-            isLoading={isLoadingFollowing}
-            typeOfCard="UserCard"
-            typeOfList="Following"
-          />
+        return followings?.total > 0 ? (
+          <>
+            <ListItems
+              data={followings.data}
+              isLoading={isLoadingFollowing}
+              typeOfCard="UserCard"
+              typeOfList="Following"
+            />
+            <ListPagination
+              handlePage={handlePage}
+              page={currentPage}
+              total={followings?.total}
+              limit={LIMIT_FOLLOW}
+            />
+          </>
         ) : (
           <p>
             You&#39;re not following anyone yet. Start following people to see
@@ -166,13 +248,21 @@ const UserPage = () => {
     if (!isCurrentUser) {
       if (activeTab === 'Recipes') {
         if (isLoadingExternalUserRecipes) return <div>Loading...</div>;
-        return externalUserRecipes?.recipes?.length ? (
-          <ListItems
-            data={externalUserRecipes.recipes}
-            isLoading={isLoadingExternalUserRecipes}
-            typeOfCard="RecipeCard"
-            typeOfList="Recipes"
-          />
+        return otherUserRecipes?.total > 0 ? (
+          <>
+            <ListItems
+              data={otherUserRecipes.recipes}
+              isLoading={isLoadingExternalUserRecipes}
+              typeOfCard="RecipeCard"
+              typeOfList="Recipes"
+            />
+            <ListPagination
+              handlePage={handlePage}
+              page={currentPage}
+              total={otherUserRecipes.total}
+              limit={LIMIT_RECIPES}
+            />
+          </>
         ) : (
           <p>User does not have Recipes</p>
         );
@@ -181,13 +271,21 @@ const UserPage = () => {
 
     if (activeTab === 'Followers') {
       if (isLoadingFollowers) return <div>Loading...</div>;
-      return followers?.data?.length ? (
-        <ListItems
-          data={followers.data}
-          isLoading={isLoadingFollowers}
-          typeOfCard="UserCard"
-          typeOfList="Followers"
-        />
+      return followers?.total > 0 ? (
+        <>
+          <ListItems
+            data={followers.data}
+            isLoading={isLoadingFollowers}
+            typeOfCard="UserCard"
+            typeOfList="Followers"
+          />
+          <ListPagination
+            handlePage={handlePage}
+            page={currentPage}
+            total={followers.total}
+            limit={LIMIT_RECIPES}
+          />
+        </>
       ) : (
         <p>
           There are currently no followers on your account. Please engage our
@@ -199,12 +297,6 @@ const UserPage = () => {
 
     return <></>;
   };
-
-  useEffect(() => {
-    if (activeTab === 'My recipes') {
-      refetchPersonalRecipes();
-    }
-  }, [activeTab, refetchPersonalRecipes]);
 
   const handleClick = () => {
     fileInputRef.current.click();
@@ -337,6 +429,7 @@ const UserPage = () => {
                 isCurrentUser={isCurrentUser}
                 activeTab={activeTab}
                 setActiveTab={setActiveTab}
+                setCurrentPage={setCurrentPage}
               />
 
               <div className={cl.tabContent}>{renderContent()}</div>

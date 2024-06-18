@@ -46,6 +46,7 @@ const ListItems = ({
     </ul>
   );
 };
+
 ListItems.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object),
   isLoading: PropTypes.bool,
