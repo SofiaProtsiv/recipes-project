@@ -24,7 +24,6 @@ const Recipes = () => {
   const limit = getLimitForViewport();
   const [totalElements, setTotalElements] = useState(0);
   const [page, setPage] = useState(1);
-  const totalPages = Math.ceil(totalElements / limit);
   //categories
   const { name: category } = useParams();
   const [currentCategory, setCategory] = useState(DEFAULT_CURRENT_CATEGORY);
@@ -154,7 +153,8 @@ const Recipes = () => {
             <RecipePagination
               handlePage={handlePage}
               page={page}
-              totalPages={totalPages}
+              total={totalElements}
+              limit={limit}
             />
           </div>
         )}

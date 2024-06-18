@@ -8,15 +8,26 @@ const TabsForCurrentUser = [
   'Following',
 ];
 const TabsForUsers = ['Recipes', 'Followers'];
-const TabsList = ({ activeTab, setActiveTab, isCurrentUser }) => {
+const TabsList = ({
+  activeTab,
+  setActiveTab,
+  setCurrentPage,
+  isCurrentUser,
+}) => {
   const RenderTabs = isCurrentUser ? TabsForCurrentUser : TabsForUsers;
+
+  const handleClick = e => {
+    const tab = e.target.textContent;
+    setActiveTab(tab);
+    setCurrentPage(1);
+  };
   return (
     <ul className={cl.tabsList}>
       {RenderTabs.map(tab => (
         <li
           key={tab}
           className={activeTab === tab ? cl.active : ''}
-          onClick={() => setActiveTab(tab)}
+          onClick={handleClick}
         >
           {tab}
         </li>
@@ -28,7 +39,8 @@ const TabsList = ({ activeTab, setActiveTab, isCurrentUser }) => {
 TabsList.propTypes = {
   activeTab: PropTypes.string.isRequired,
   setActiveTab: PropTypes.func.isRequired,
-  isCurrentUser: PropTypes.boolean,
+  setCurrentPage: PropTypes.func.isRequired,
+  isCurrentUser: PropTypes.bool,
 };
 
 export default TabsList;

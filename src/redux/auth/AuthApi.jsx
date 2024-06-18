@@ -111,8 +111,10 @@ export const authApi = createApi({
     }),
 
     getFavoriteRecipesList: builder.query({
-      query: () => ({
-        url: `/users/recipes/favorite`,
+      query: ({ page = 1, limit = 10, id }) => ({
+        url: '/users/recipes/favorite',
+        method: 'GET',
+        params: { page, limit, id },
       }),
       providesTags: ['User'],
     }),
@@ -133,7 +135,6 @@ export const {
   useAddRecipeToFavoritesListMutation,
   useRemoveRecipeFromFavoritesListMutation,
   useGetFavoriteRecipesListQuery,
-  useGetPersonalRecipesQuery,
 } = authApi;
 
 export default authApi;
