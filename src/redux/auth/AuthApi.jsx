@@ -86,7 +86,7 @@ export const authApi = createApi({
     }),
     addUserToFollowingList: builder.mutation({
       query: id => ({
-        url: `/users/followings/${id}`,
+        url: `/users/followings`,
         method: 'PATCH',
       }),
       invalidatesTags: ['User'],
