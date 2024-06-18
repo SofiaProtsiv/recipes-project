@@ -14,9 +14,9 @@ const LogOutModal = ({ onClose }) => {
   const location = useLocation();
   const [logOut] = useLogOutMutation();
 
-  const handleLogOut = async () => {
+  const handleLogOut = () => {
     try {
-      await logOut().unwrap();
+      logOut().unwrap();
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
