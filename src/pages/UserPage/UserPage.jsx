@@ -147,9 +147,9 @@ const UserPage = () => {
         );
       } else if (activeTab === 'Following') {
         if (isLoadingFollowing) return <div>Loading...</div>;
-        return following?.length ? (
+        return following?.data?.length ? (
           <ListItems
-            data={following}
+            data={following.data}
             isLoading={isLoadingFollowing}
             typeOfCard="UserCard"
             typeOfList="Following"
@@ -181,9 +181,9 @@ const UserPage = () => {
 
     if (activeTab === 'Followers') {
       if (isLoadingFollowers) return <div>Loading...</div>;
-      return followers?.length ? (
+      return followers?.data?.length ? (
         <ListItems
-          data={followers}
+          data={followers.data}
           isLoading={isLoadingFollowers}
           typeOfCard="UserCard"
           typeOfList="Followers"

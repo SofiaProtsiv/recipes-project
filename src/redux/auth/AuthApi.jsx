@@ -76,13 +76,13 @@ export const authApi = createApi({
     }),
     getFollowers: builder.query({
       query: id => ({
-        url: `/users/followers/${id}`,
+        url: `/users/${id}/followers`,
       }),
       providesTags: ['User'],
     }),
     addUserToFollowingList: builder.mutation({
       query: id => ({
-        url: `/users/followings/${id}`,
+        url: `/users/followings`,
         method: 'PATCH',
       }),
       invalidatesTags: ['User'],
