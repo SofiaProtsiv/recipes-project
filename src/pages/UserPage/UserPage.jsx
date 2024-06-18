@@ -112,8 +112,6 @@ const UserPage = () => {
 
   useEffect(() => {
     if (activeTab === 'My favorites') {
-      console.log(currentPage);
-      console.log(favoriteRecipesResp);
       setFavoriteRecipes(favoriteRecipesResp);
     }
   }, [favoriteRecipesResp, activeTab, currentPage]);

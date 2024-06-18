@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 const PAGE_RANGE = 1;
 const ListPagination = ({ handlePage, page, total, limit }) => {
   const [totalPages, setTotalPages] = useState(0);
-  console.log(total, 'limit', limit, 'page', page, 'totpages', totalPages);
 
   useEffect(() => {
     setTotalPages(Math.ceil(total / limit));
