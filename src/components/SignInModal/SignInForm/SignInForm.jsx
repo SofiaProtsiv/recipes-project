@@ -10,6 +10,7 @@ import PasswordInput from '../../ui/PasswordInput';
 import SubmitButton from '../../ui/SubmitButton';
 import ErrorFormMessage from '../../ui/ErrorFormMessage';
 import cl from './signInForm.module.scss';
+import { toast } from 'react-toastify';
 
 const schema = yup.object().shape({
   email: yup.string().email('Invalid email').required('Email is required'),
@@ -38,6 +39,7 @@ const SignInForm = ({ onClose }) => {
     try {
       const result = await logIn(data).unwrap();
       dispatch(logInUser({ data: result }));
+      toast.success(`Succesfully login`);
       onClose();
     } catch (error) {
       setModalError(error?.data?.message || 'An error occurred during login.');

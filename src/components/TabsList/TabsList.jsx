@@ -28,7 +28,7 @@ const TabsList = ({ activeTab, setActiveTab, isCurrentUser }) => {
 TabsList.propTypes = {
   activeTab: PropTypes.string.isRequired,
   setActiveTab: PropTypes.func.isRequired,
-  isCurrentUser: PropTypes.boolean,
+  isCurrentUser: PropTypes.any,
 };
 
 export default TabsList;

@@ -1,9 +1,9 @@
 import cl from './recipeFilters.module.scss';
-import Select from '../../ui/Select';
+import Select from 'react-select';
 import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 import { ingredientsApi } from '../../../redux/ingredients/ingredientsApi';
 import { areasApi } from '../../../redux/areas/areasApi';
-import { useEffect, useState } from 'react';
 import { categoriesApi } from '../../../redux/categories/categoriesApi';
 import SkeletonSelect from '../../ui/Select/SkeletonSelect';
 
@@ -16,26 +16,31 @@ const RecipeFilters = ({
   const DEFAULT_CATEGORY = 'category';
   const DEFAULT_AREA = 'area';
   const DEFAULT_INGREDIENTS = 'ingredients';
+
   const [selectList, setSelectList] = useState([]);
   const [areasList, setAreasList] = useState([]);
   const [ingredientsList, setIngredientsList] = useState([]);
   const [categoriesList, setCategoriesList] = useState([]);
-  const [settedCategory, setCategory] = useState('');
+  const [selectedIngredient, setSelectedIngredient] = useState(null);
+  const [selectedArea, setSelectedArea] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
   const {
     data: ingredientsResp,
-    isFetching: isIngredientsFetching,
+    isLoading: isIngredientsFetching,
     isSuccess: isIngredientsSuccess,
   } = ingredientsApi.useGetIngredientsQuery();
   const {
     data: areasResp,
-    isFetching: isAreasFetching,
+    isLoading: isAreasFetching,
     isSuccess: isAreasSuccess,
   } = areasApi.useGetAreasQuery();
   const {
     data: categoriesResp,
-    isFetching: isCategoriesFetching,
+    isLoading: isCategoriesFetching,
     isSuccess: isCategoriesSuccess,
   } = categoriesApi.useGetCategoriesQuery();
+
   useEffect(() => {
     if (isIngredientsSuccess && ingredientsResp) {
       setIngredientsList(ingredientsResp);
@@ -53,46 +58,61 @@ const RecipeFilters = ({
   useEffect(() => {
     if (isCategoriesSuccess && categoriesResp.length > 0) {
       setCategoriesList(categoriesResp);
-      setCategory(category === 'all' ? DEFAULT_CATEGORY : category);
+      setSelectedCategory(category === 'all' ? DEFAULT_CATEGORY : category);
       setSelectList(prevSelectList => [
-        ...prevSelectList.filter(el => el !== settedCategory),
-        settedCategory,
+        ...prevSelectList.filter(el => el !== selectedCategory),
+        selectedCategory,
       ]);
     }
-  }, [
-    isCategoriesSuccess,
-    category,
-    categoriesResp,
-    settedCategory,
-    handleCategories,
-  ]);
+  }, [isCategoriesSuccess, category, categoriesResp, selectedCategory]);
+
+  const handleIngredientChange = selectedOption => {
+    setSelectedIngredient(selectedOption);
+    handleIngredient(selectedOption);
+  };
+
+  const handleAreaChange = selectedOption => {
+    setSelectedArea(selectedOption);
+    handleArea(selectedOption);
+  };
+
+  const handleCategoryChange = selectedOption => {
+    setSelectedCategory(selectedOption);
+    handleCategories(selectedOption);
+  };
 
   const renderSelect = item => {
-    let options, onChange, className, value, isLoading, isSuccess;
+    let options, onChange, value, isLoading, isSuccess;
 
     switch (item) {
       case DEFAULT_INGREDIENTS:
-        options = ingredientsList;
-        onChange = handleIngredient;
-        className = item;
+        options = ingredientsList.map(ingredient => ({
+          value: ingredient._id,
+          label: ingredient.name,
+        }));
+        onChange = handleIngredientChange;
         isLoading = isIngredientsFetching;
-        value = item;
+        value = selectedIngredient;
         isSuccess = isIngredientsSuccess;
         break;
       case DEFAULT_AREA:
-        options = areasList;
-        onChange = handleArea;
-        className = item;
+        options = areasList.map(area => ({
+          value: area._id,
+          label: area.name,
+        }));
+        onChange = handleAreaChange;
         isLoading = isAreasFetching;
-        value = item;
+        value = selectedArea;
         isSuccess = isAreasSuccess;
         break;
-      case settedCategory:
-        options = categoriesList;
-        onChange = handleCategories;
-        className = item;
+      case DEFAULT_CATEGORY:
+        options = categoriesList.map(category => ({
+          value: category._id,
+          label: category.name,
+        }));
+        onChange = handleCategoryChange;
         isLoading = isCategoriesFetching;
-        value = settedCategory;
+        value = selectedCategory;
         isSuccess = isCategoriesSuccess;
         break;
       default:
@@ -107,8 +127,17 @@ const RecipeFilters = ({
           <Select
             options={options}
             onChange={onChange}
-            className={className}
             value={value}
+            placeholder={`Select ${item}`}
+            isClearable
+            isSearchable
+            className="react-select-container"
+            classNamePrefix="react-select"
+            omponents={{
+              ClearIndicator: () => (
+                <div onClick={e => console.log(e.target)}>Clear</div>
+              ),
+            }}
           />
         ) : null}
       </li>
@@ -116,24 +145,17 @@ const RecipeFilters = ({
   };
 
   return (
-    <>
-      <ul className={cl.recipeFilters}>
-        {isCategoriesFetching || isAreasFetching || isIngredientsFetching ? (
-          <SkeletonSelect />
-        ) : (
-          selectList.map(item => renderSelect(item))
-        )}
-      </ul>
-    </>
+    <ul className={cl.recipeFilters}>
+      {selectList.map(item => renderSelect(item))}
+    </ul>
   );
 };
 
 RecipeFilters.propTypes = {
-  selectList: PropTypes.array,
-  handleIngredient: PropTypes.func,
-  handleArea: PropTypes.func,
-  handleCategories: PropTypes.func,
-  category: PropTypes.string,
+  handleIngredient: PropTypes.func.isRequired,
+  handleArea: PropTypes.func.isRequired,
+  handleCategories: PropTypes.func.isRequired,
+  category: PropTypes.string.isRequired,
 };
 
 export default RecipeFilters;

@@ -7,7 +7,8 @@ $desktop: 1440px;
 .cardContainer {
   display: flex;
   align-items: start;
-
+  width: 100%;
+  justify-content: space-between;
   margin-bottom: 32px;
   @media screen and (min-width: $tablet) {
     margin-bottom: 40px;
