@@ -5,7 +5,12 @@ import { useGetRecipeByIdQuery } from '../../../redux/recipes/recipesApi';
 const RecipePreparation = () => {
   const { recipeId } = useParams();
 
-  const { data: recipe } = useGetRecipeByIdQuery({ id: recipeId });
+  const { data: recipe } = useGetRecipeByIdQuery(
+    { id: recipeId },
+    {
+      skip: !recipeId,
+    }
+  );
   const textParagraph = recipe?.instructions
     ? recipe.instructions.split('\n')
     : [];

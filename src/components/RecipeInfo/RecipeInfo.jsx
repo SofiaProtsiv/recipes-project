@@ -20,18 +20,19 @@ const RecipeInfo = () => {
     {},
     { skip: !isLoggedIn }
   );
-
-  const reqData = {
-    id: recipeId,
-    userId: userData ? userData._id : null,
-  };
-
+  const [reqData, setReqData] = useState({});
   const { data: recipe } = useGetRecipeByIdQuery(reqData);
   const isFavorite = recipe?.isFavorite;
 
   const [favorite, setFavorite] = useState(isFavorite);
   const modalType = 'SignInModal';
   const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    if (userData) {
+      setReqData({ id: recipeId, userId: userData ? userData._id : null });
+    }
+  }, [userData, recipeId]);
   const toggleModal = () => {
     setShowModal(!showModal);
   };

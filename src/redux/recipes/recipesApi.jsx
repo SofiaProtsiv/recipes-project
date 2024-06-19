@@ -127,7 +127,7 @@ export const recipesApi = createApi({
       },
       invalidatesTags: ['Recipe'],
     }),
-    getOwnRecipes: builder.mutation({
+    getOwnRecipes: builder.query({
       query: ({ page = 1, limit = 9 }) => {
         const filter = { page, limit };
         return {
@@ -155,6 +155,6 @@ export const {
   useGetRecipeByIdQuery,
   useGetUserRecipesQuery,
   useAddRecipeMutation,
-  useGetOwnRecipesMutation,
+  useGetOwnRecipesQuery,
   useRemoveRecipeMutation,
 } = recipesApi;
