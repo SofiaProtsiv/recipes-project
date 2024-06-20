@@ -22,7 +22,7 @@ import Container from '../../components/ui/Container/index.js';
 import ListItems from '../../components/ListItems/index.js';
 import {
   useGetUserRecipesQuery,
-  useGetOwnRecipesMutation,
+  useGetOwnRecipesQuery,
 } from '../../redux/recipes/recipesApi.jsx';
 import { Navigate, useParams } from 'react-router-dom';
 import useScrollToTop from '../../utils/scrollToTop';
@@ -73,11 +73,11 @@ const UserPage = () => {
     isLoading: isLoadingUser,
     isSuccess: isSuccessUser,
   } = useGetUserByIdQuery(userId);
-  const { data: personalRecipesResp, isLoading: isLoadingPersonalRecipes } =
-    useGetOwnRecipesMutation(
-      { page: currentPage, limit: LIMIT_RECIPES },
-      { skip: !isCurrentUser }
-    );
+
+  const data = useGetOwnRecipesQuery(
+    { page: currentPage, limit: LIMIT_RECIPES },
+    { skip: !isCurrentUser }
+  );
 
   const { data: favoriteRecipesResp, isLoading: isLoadingFavoriteRecipes } =
     useGetFavoriteRecipesListQuery(
@@ -122,9 +122,9 @@ const UserPage = () => {
 
   useEffect(() => {
     if (activeTab === 'My recipes') {
-      setOwnRecipes(personalRecipesResp);
+      setOwnRecipes(data.data);
     }
-  }, [personalRecipesResp, activeTab]);
+  }, [activeTab, data, currentPage, isCurrentUser]);
 
   useEffect(() => {
     if (!isCurrentUser) {
@@ -177,12 +177,12 @@ const UserPage = () => {
   const renderContent = () => {
     if (isCurrentUser) {
       if (activeTab === 'My recipes') {
-        if (isLoadingPersonalRecipes) return <div>Loading...</div>;
+        if (data.isLoading) return <div>Loading...</div>;
         return ownRecipes?.total > 0 ? (
           <>
             <ListItems
               data={ownRecipes.recipes}
-              isLoading={isLoadingPersonalRecipes}
+              isLoading={data.isLoading}
               typeOfCard="RecipeCard"
               typeOfList="MyRecipes"
             />
@@ -320,7 +320,6 @@ const UserPage = () => {
   };
 
   const error = userError || currentUserError || null;
-
   return (
     <Container data-label="userProfile" addClass={cl.container}>
       {(isLoadingUser || isLoadingCurrentUser) && (
